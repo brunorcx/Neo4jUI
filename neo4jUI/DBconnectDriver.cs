@@ -67,7 +67,7 @@ namespace neo4jUI {
 
         }
 
-        public async Task ProcurarFamilia(string filho, string aniFilho) { //Testar
+        public async Task ProcurarFamilia(string filho, string aniFilho) { //Testar essa função
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
             try {
                 cursor = await session.RunAsync("MATCH(p:Passaro{nome: $filho, anilha:$aniFilho})-[:MAE|PAI]-(p2:Passaro)" +
