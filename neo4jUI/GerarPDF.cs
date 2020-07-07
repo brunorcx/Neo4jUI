@@ -175,6 +175,7 @@ namespace neo4jUI {
             row.Height = 20;
 
             cell = row.Cells[0];
+            cell.Borders.Bottom.Color = Colors.Black;
             cell = row.Cells[2];
             cell.Borders.Right.Color = Colors.DarkRed;
             cell = row.Cells[3];

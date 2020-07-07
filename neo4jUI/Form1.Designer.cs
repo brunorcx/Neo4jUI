@@ -23,6 +23,7 @@
         /// o conteúdo deste método com o editor de código.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonCadastrar = new System.Windows.Forms.Button();
             this.textBoxNomeF = new System.Windows.Forms.TextBox();
             this.labelNome = new System.Windows.Forms.Label();
@@ -311,6 +312,7 @@
             this.Controls.Add(this.labelNome);
             this.Controls.Add(this.textBoxNomeF);
             this.Controls.Add(this.buttonCadastrar);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Avatar";
             this.Load += new System.EventHandler(this.Form1_Load);
