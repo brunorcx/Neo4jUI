@@ -15,10 +15,14 @@ namespace neo4jUI {
 
     public partial class Form1 : Form {
         private DBconnectDriver dbCypher;
+        private bool buttonCadastrarM;
+        private bool buttonPesquisarM;
+        private List<string> listaNomes;
 
         public Form1() {
             InitializeComponent();
             radioButtonPassaro.Checked = true;
+            buttonPesquisar.Location = buttonCadastrar.Location;
         }
 
         private async void Button_Cadastrar(object sender, EventArgs e) {
@@ -47,7 +51,7 @@ namespace neo4jUI {
                     await dbCypher.DefinirPaisAsync(textBoxNomeF.Text, textBoxAniF.Text,
                                                     textBoxNomePai.Text, textBoxAniP.Text,
                                                     textBoxNomeMae.Text, textBoxAniM.Text);
-                    if (dbCypher.resultado.Counters.RelationshipsCreated == 0)
+                    if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
                         MessageBox.Show("Este passarinho já possui pais cadastrados!");
                     else
                         MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
@@ -101,6 +105,109 @@ namespace neo4jUI {
             textBoxNomeMae.Show();
             textBoxAniM.Show();
 
+        }
+
+        private void Cadastro_MouseEnter(object sender, EventArgs e) {
+            buttonCMenu.FlatAppearance.BorderColor = SystemColors.ControlDark;
+        }
+
+        private void Cadastro_MouseLeave(object sender, EventArgs e) {
+            if (!buttonCadastrarM)
+                buttonCMenu.FlatAppearance.BorderColor = SystemColors.ControlLightLight;
+        }
+
+        private void Cadastro_MouseClick(object sender, MouseEventArgs e) {
+            panelSelecionado.Location = new System.Drawing.Point(buttonCMenu.Location.X, panelLinha.Location.Y);
+            buttonCMenu.FlatAppearance.BorderColor = SystemColors.ControlDark;
+            buttonCadastrarM = true;
+            //Mudar selecionado
+            buttonPesquisarM = false;
+            buttonPesquisa.FlatAppearance.BorderColor = SystemColors.ControlLightLight;
+
+            //Mudar título
+            labelTitulo.Text = "Cadastro de Passarinho";
+
+            //Deixar itens visíveis
+            tornarVisivel(true);
+        }
+
+        private void Pesquisa_MouseEnter(object sender, EventArgs e) {
+            buttonPesquisa.FlatAppearance.BorderColor = SystemColors.ControlDark;
+
+        }
+
+        private void Pesquisa_MouseLeave(object sender, EventArgs e) {
+            if (!buttonPesquisarM)
+                buttonPesquisa.FlatAppearance.BorderColor = SystemColors.ControlLightLight;
+        }
+
+        private void Pesquisa_MouseClick(object sender, EventArgs e) {
+            panelSelecionado.Location = new System.Drawing.Point(buttonPesquisa.Location.X, panelLinha.Location.Y);
+            buttonPesquisa.FlatAppearance.BorderColor = SystemColors.ControlDark;
+            buttonPesquisarM = true;
+            //Mudar selecionado
+            buttonCMenu.FlatAppearance.BorderColor = SystemColors.ControlLightLight;
+            buttonCadastrarM = false;
+
+            //Mudar Título
+            labelTitulo.Text = "Pesquisa de Passarinho";
+
+            //Deixar itens escondidos
+            tornarVisivel(false);
+        }
+
+        private void tornarVisivel(bool visivel) {
+            if (visivel) {
+                buttonCadastrar.Show();
+                buttonPesquisar.Hide();
+
+                radioButtonPassaro.Show();
+                radioButtonPais.Show();
+                if (radioButtonPassaro.Checked) {
+                    labelNPai.Hide();
+                    labelAniP.Hide();
+                    textBoxNomePai.Hide();
+                    textBoxAniP.Hide();
+                    labelNMae.Hide();
+                    labelAniM.Hide();
+                    textBoxNomeMae.Hide();
+                    textBoxAniM.Hide();
+                }
+                else {
+                    labelNPai.Show();
+                    labelAniP.Show();
+                    textBoxNomePai.Show();
+                    textBoxAniP.Show();
+                    labelNMae.Show();
+                    labelAniM.Show();
+                    textBoxNomeMae.Show();
+                    textBoxAniM.Show();
+                }
+            }
+            else {
+                buttonCadastrar.Hide();
+                buttonPesquisar.Show();
+
+                labelNPai.Hide();
+                labelAniP.Hide();
+                textBoxNomePai.Hide();
+                textBoxAniP.Hide();
+                labelNMae.Hide();
+                labelAniM.Hide();
+                textBoxNomeMae.Hide();
+                textBoxAniM.Hide();
+                radioButtonPassaro.Hide();
+                radioButtonPais.Hide();
+
+            }
+        }
+
+        private async void Pesquisar_Click(object sender, EventArgs e) {
+            await dbCypher.ProcurarFamilia(textBoxNomeF.Text, textBoxAniF.Text);
+
+            //Imprimir Árvore
+            GerarPDF pdf = new GerarPDF(dbCypher.GetFamilia());
+            pdf.salvarPDF("ArvoreGenealogica");
         }
     }
 }

@@ -13,7 +13,17 @@ namespace neo4jUI {
         private IAsyncSession session;
         private IResultCursor cursor;
         public string greetingPu;
-        public IResultSummary resultado;
+        private IResultSummary resultado;
+        private List<IRecord> records;
+        private List<string> familia = new List<string>();
+
+        public IResultSummary GetResultado() {
+            return this.resultado;
+        }
+
+        public List<string> GetFamilia() {
+            return this.familia;
+        }
 
         public DBconnectDriver(string user, string password) {
             _driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic(user, password));
@@ -58,8 +68,6 @@ namespace neo4jUI {
                                             "MERGE (p)-[:PAI]->(f)<-[:MAE]-(m)", new { filho, aniFilho, pai, aniPai, mae, aniMae });
 
                 resultado = await cursor.ConsumeAsync();
-
-                //var valor = cursor.Current.Values;
             }
             finally {
                 await session.CloseAsync();
@@ -70,17 +78,30 @@ namespace neo4jUI {
         public async Task ProcurarFamilia(string filho, string aniFilho) { //Testar essa função
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
             try {
-                cursor = await session.RunAsync("MATCH(p:Passaro{nome: $filho, anilha:$aniFilho})-[:MAE|PAI]-(p2:Passaro)" +
-                                          "MATCH(p2:Passaro)-[:MAE|PAI]-(p3:Passaro)" +
-                                          "MATCH(p3:Passaro)-[:MAE|PAI]-(p4:Passaro)" +
-                                          "RETURN p,p2,p3,p4", new { filho, aniFilho });
+                cursor = await session.RunAsync("MATCH(p:Passaro{nome: $filho, anilha:$aniFilho})<-[:PAI|MAE*]-(c) " +
+                                                "RETURN p,c,c.anilha AS anilha, c.nome AS nome", new { filho, aniFilho });
 
+                records = await cursor.ToListAsync();
+                familia.Add(aniFilho);
+                familia.Add(filho);
+                familia = Records();
                 resultado = await cursor.ConsumeAsync();
-
             }
             finally {
                 await session.CloseAsync();
             }
+        }
+
+        public List<string> Records() {
+            foreach (var no in records) {
+                var anilha = no["anilha"].ToString();
+                var nome = no["nome"].ToString();
+
+                familia.Add(anilha);
+                familia.Add(nome);
+
+            }
+            return familia;
         }
 
         public async Task PrintGreetingAsync(string message) {
