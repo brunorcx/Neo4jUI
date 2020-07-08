@@ -205,9 +205,13 @@ namespace neo4jUI {
         private async void Pesquisar_Click(object sender, EventArgs e) {
             await dbCypher.ProcurarFamilia(textBoxNomeF.Text, textBoxAniF.Text);
 
-            //Imprimir Árvore
-            GerarPDF pdf = new GerarPDF(dbCypher.GetFamilia());
-            pdf.salvarPDF("ArvoreGenealogica");
+            if (dbCypher.GetRecords().Count == 0)
+                MessageBox.Show("Passarinho não encontrado, por favor cadastre-o primeiro");
+            else {
+                //Imprimir Árvore
+                GerarPDF pdf = new GerarPDF(dbCypher.GetFamilia());
+                pdf.salvarPDF("ArvoreGenealogica");
+            }
         }
     }
 }
@@ -215,5 +219,6 @@ namespace neo4jUI {
 //criar unique CREATE CONSTRAINT ON (p:Passaro) ASSERT p.anilha IS UNIQUE
 //MERGE faz com que cada passáro só tenha um pai e uma mãe
 //Quando já tem um dos pais cadastrados e quer cadastrar o outro acontece duplo relacionamento
-// Achar todos os nós a partir de um nó  MATCH(p:Passaro{ anilha: '1'})-[*]-(connected) RETURN p,connected
-// Ícone retirado do sítio https://publicdomainvectors.org/en/free-clipart/Vector-image-of-goldfinch-bird-on-a-branch/28843.html
+//Achar todos os nós a partir de um nó  MATCH(p:Passaro{ anilha: '1'})-[*]-(connected) RETURN p,connected
+//Ícone retirado do sítio https://publicdomainvectors.org/en/free-clipart/Vector-image-of-goldfinch-bird-on-a-branch/28843.html
+//Dá o aviso errado quando o passarinho não tem pais, mas está cadastrado

@@ -87,6 +87,11 @@ namespace neo4jUI {
             //table.Format.Font.Color = Colors.DarkRed;
             table.Borders.Color = Colors.White;
 
+            //Arrumar tamanho
+            if (listaString.Count < 15)
+                for (int i = listaString.Count - 1; i < 15; i++) {
+                    listaString.Add("xxxxxxxxx");
+                }
             //table.Format.SpaceBefore = "-4cm";
             //Colocar uma border branca e usar row vermelha para completar a linha
 
@@ -99,7 +104,7 @@ namespace neo4jUI {
             cell = row.Cells[2];
             cell.Borders.Right.Color = Colors.White;
             cell = row.Cells[3];
-            cell.AddParagraph(listaString[27]);
+            cell.AddParagraph(listaString[7]);
             //cell.AddImage("../../Resources/imagens/CabecalhoForbras.png");
             //cell.AddParagraph("ENTRADA: " + "\t\tENTREGA: "); //113 caracteres
             //cell.VerticalAlignment = VerticalAlignment.Bottom;
@@ -119,7 +124,8 @@ namespace neo4jUI {
 
             cell = row.Cells[0];
             cell = row.Cells[2];
-            cell.AddParagraph(listaString[25]);
+
+            cell.AddParagraph(listaString[3]);
             cell.Borders.Color = Colors.DarkBlue;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
@@ -135,7 +141,7 @@ namespace neo4jUI {
             cell = row.Cells[2];
             cell.Borders.Right.Color = Colors.DarkRed;
             cell = row.Cells[3];
-            cell.AddParagraph(listaString[29]);
+            cell.AddParagraph(listaString[8]);
             cell.Borders.Color = Colors.DarkRed;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
@@ -145,12 +151,13 @@ namespace neo4jUI {
 
             cell = row.Cells[0];
             cell = row.Cells[1];//Coluna 1
-            cell.AddParagraph(listaString[17]);
+
+            cell.AddParagraph(listaString[1]);
             cell.Borders.Color = Colors.DarkBlue;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
             cell = row.Cells[3];//Coluna 3
-            cell.AddParagraph(listaString[23]);
+            cell.AddParagraph(listaString[9]);
             cell.Borders.Color = Colors.DarkBlue;
             cell.Borders.Right.Color = Colors.White;
             cell.VerticalAlignment = VerticalAlignment.Center;
@@ -163,7 +170,7 @@ namespace neo4jUI {
             cell = row.Cells[1];
             cell.Borders.Right.Color = Colors.DarkRed;
             cell = row.Cells[2];
-            cell.AddParagraph(listaString[19]);
+            cell.AddParagraph(listaString[4]);
             cell.Borders.Color = Colors.DarkRed;
             cell.Borders.Right.Color = Colors.DarkBlue;
             cell.VerticalAlignment = VerticalAlignment.Center;
@@ -179,7 +186,7 @@ namespace neo4jUI {
             cell = row.Cells[2];
             cell.Borders.Right.Color = Colors.DarkRed;
             cell = row.Cells[3];
-            cell.AddParagraph(listaString[21]);
+            cell.AddParagraph(listaString[10]);
             cell.Borders.Color = Colors.DarkRed;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
@@ -188,12 +195,12 @@ namespace neo4jUI {
             row.Height = 20;
 
             cell = row.Cells[0];
-            cell.AddParagraph(listaString[1]);
+            cell.AddParagraph(listaString[0]);
             cell.Borders.Color = Colors.Black;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
             cell = row.Cells[3];
-            cell.AddParagraph(listaString[7]);
+            cell.AddParagraph(listaString[11]);
             cell.Borders.Color = Colors.DarkBlue;
             cell.Borders.Right.Color = Colors.White;
             cell.VerticalAlignment = VerticalAlignment.Center;
@@ -220,7 +227,7 @@ namespace neo4jUI {
             cell = row.Cells[2];
             cell.Borders.Right.Color = Colors.DarkRed;
             cell = row.Cells[3];
-            cell.AddParagraph(listaString[9]);
+            cell.AddParagraph(listaString[12]);
             cell.Borders.Color = Colors.DarkRed;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
@@ -230,7 +237,7 @@ namespace neo4jUI {
 
             cell = row.Cells[0];
             cell = row.Cells[1];//Coluna
-            cell.AddParagraph(listaString[3]);
+            cell.AddParagraph(listaString[2]);
             cell.Borders.Color = Colors.DarkRed;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
@@ -248,7 +255,7 @@ namespace neo4jUI {
             cell = row.Cells[1];
             cell.Borders.Right.Color = Colors.DarkRed;
             cell = row.Cells[2];
-            cell.AddParagraph(listaString[11]);
+            cell.AddParagraph(listaString[6]);
             cell.Borders.Color = Colors.DarkRed;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;
@@ -262,7 +269,7 @@ namespace neo4jUI {
             cell = row.Cells[2];
             cell.Borders.Right.Color = Colors.DarkRed;
             cell = row.Cells[3];
-            cell.AddParagraph(listaString[15]);
+            cell.AddParagraph(listaString[14]);
             cell.Borders.Color = Colors.DarkRed;
             cell.VerticalAlignment = VerticalAlignment.Center;
             cell.Format.Alignment = ParagraphAlignment.Center;

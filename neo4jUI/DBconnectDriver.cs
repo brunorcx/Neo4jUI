@@ -15,7 +15,7 @@ namespace neo4jUI {
         public string greetingPu;
         private IResultSummary resultado;
         private List<IRecord> records;
-        private List<string> familia = new List<string>();
+        private List<string> familia;
 
         public IResultSummary GetResultado() {
             return this.resultado;
@@ -23,6 +23,10 @@ namespace neo4jUI {
 
         public List<string> GetFamilia() {
             return this.familia;
+        }
+
+        public List<IRecord> GetRecords() {
+            return this.records;
         }
 
         public DBconnectDriver(string user, string password) {
@@ -78,12 +82,23 @@ namespace neo4jUI {
         public async Task ProcurarFamilia(string filho, string aniFilho) { //Testar essa função
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
             try {
-                cursor = await session.RunAsync("MATCH(p:Passaro{nome: $filho, anilha:$aniFilho})<-[:PAI|MAE*]-(c) " +
-                                                "RETURN p,c,c.anilha AS anilha, c.nome AS nome", new { filho, aniFilho });
+                string query = "match (m1:Passaro)-[:MAE]->(f:Passaro{nome:$filho, anilha:$aniFilho})<-[:PAI]-(p1:Passaro)" +
+                    "optional match(m2:Passaro)-[:MAE]->(p1) < -[:PAI] - (p2: Passaro)" +
+                    "optional match(m3:Passaro)-[:MAE]->(m1) < -[:PAI] - (p3: Passaro)" +
+                    "optional match(m4:Passaro)-[:MAE]->(p2) < -[:PAI] - (p4: Passaro)" +
+                    "optional match(m5:Passaro)-[:MAE]->(m2) < -[:PAI] - (p5: Passaro)" +
+                    "optional match(m6:Passaro)-[:MAE]->(p3) < -[:PAI] - (p6: Passaro)" +
+                    "optional match(m7:Passaro)-[:MAE]->(m3) < -[:PAI] - (p7: Passaro)" +
+                    "return [f.nome, p1.nome, m1.nome, p2.nome, m2.nome, p3.nome, m3.nome, " +
+                    "p4.nome, m4.nome, p5.nome, m5.nome, p6.nome, m6.nome, p7.nome, m7.nome] AS familia";
+
+                cursor = await session.RunAsync(query, new { filho, aniFilho });
 
                 records = await cursor.ToListAsync();
-                familia.Add(aniFilho);
-                familia.Add(filho);
+
+                familia = new List<string>();
+                //familia.Add(aniFilho);
+                //familia.Add(filho);
                 familia = Records();
                 resultado = await cursor.ConsumeAsync();
             }
@@ -94,11 +109,19 @@ namespace neo4jUI {
 
         public List<string> Records() {
             foreach (var no in records) {
-                var anilha = no["anilha"].ToString();
-                var nome = no["nome"].ToString();
+                var nomes = no["familia"].As<IList<string>>();
+                foreach (var nome in nomes) {
+                    if (nome == null)
+                        familia.Add("xxxxxxxxxxx");
+                    else
+                        familia.Add(nome);
+                }
 
-                familia.Add(anilha);
-                familia.Add(nome);
+                //var anilha = no["anilha"].ToString();
+                //var nome = no["nome"].ToString();
+
+                //familia.Add(anilha);
+                //familia.Add(nome);
 
             }
             return familia;
@@ -129,3 +152,17 @@ namespace neo4jUI {
 }
 
 //Melhorar a segurança https://neo4j.com/docs/operations-manual/4.1/security/ssl-framework/
+/*
+match (m1:Passaro)-[:MAE]->(f:Passaro{anilha:'20'})<-[:PAI]-(p1:Passaro)
+
+optional match (m2:Passaro)-[:MAE]->(p1)<-[:PAI]-(p2:Passaro)
+optional match (m3:Passaro)-[:MAE]->(m1)<-[:PAI]-(p3:Passaro)
+
+optional match (m4:Passaro)-[:MAE]->(p2)<-[:PAI]-(p4:Passaro)
+optional match (m5:Passaro)-[:MAE]->(m2)<-[:PAI]-(p5:Passaro)
+optional match (m6:Passaro)-[:MAE]->(p3)<-[:PAI]-(p6:Passaro)
+optional match (m7:Passaro)-[:MAE]->(m3)<-[:PAI]-(p7:Passaro)
+
+return [f.nome,p1.nome,m1.nome,p2.nome,m2.nome,p3.nome,m3.nome,p4.nome,m4.nome,p5.nome,m5.nome,p6.nome,m6.nome,p7.nome,m7.nome] AS familia
+
+*/
