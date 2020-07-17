@@ -17,50 +17,13 @@ namespace neo4jUI {
         private DBconnectDriver dbCypher;
         private bool buttonCadastrarM;
         private bool buttonPesquisarM;
-        private List<string> listaNomes;
+        private List<IList<string>> listaNomesPai;
+        private List<IList<string>> listaNomesMae;
 
         public Form1() {
             InitializeComponent();
             radioButtonPassaro.Checked = true;
             buttonPesquisar.Location = buttonCadastrar.Location;
-        }
-
-        private async void Button_Cadastrar(object sender, EventArgs e) {
-            if (radioButtonPassaro.Checked) {
-                if (textBoxNomeF.Text == String.Empty || textBoxAniF.Text == String.Empty)
-                    MessageBox.Show("Por favor, preencha todos os campos");
-                else {
-                    try {
-                        await dbCypher.InserirNoAsync(textBoxNomeF.Text, textBoxAniF.Text);
-                        MessageBox.Show("Passarinho Cadastrado com sucesso!");
-                    }
-                    catch (Exception) {
-                        MessageBox.Show("Passarinho já foi cadastrado! Verifique o número da anilha");
-                    }
-                }
-
-            }
-            else if (radioButtonPais.Checked) {
-                if (textBoxNomeF.Text == String.Empty || textBoxAniF.Text == String.Empty
-                   || textBoxNomePai.Text == String.Empty || textBoxAniP.Text == String.Empty
-                   || textBoxNomeMae.Text == String.Empty || textBoxAniM.Text == String.Empty) {
-                    MessageBox.Show("Por favor, preencha todos os campos");
-                }
-
-                try {
-                    await dbCypher.DefinirPaisAsync(textBoxNomeF.Text, textBoxAniF.Text,
-                                                    textBoxNomePai.Text, textBoxAniP.Text,
-                                                    textBoxNomeMae.Text, textBoxAniM.Text);
-                    if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
-                        MessageBox.Show("Este passarinho já possui pais cadastrados!");
-                    else
-                        MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
-
-                }
-                catch (Exception) {
-                    MessageBox.Show("Pais do passarinho não foram encontrados, por favor cadastre-os primeiro!");
-                }
-            }
         }
 
         private async void Form1_Load(object sender, EventArgs e) {
@@ -74,6 +37,64 @@ namespace neo4jUI {
 
         }
 
+        private async void Button_Cadastrar(object sender, EventArgs e) {
+            if (radioButtonPassaro.Checked) {
+                if (textBoxNomeF.Text == String.Empty)
+                    MessageBox.Show("Por favor, preencha todos os campos");
+                else {
+                    try {
+                        await dbCypher.InserirNoAsync(textBoxNomeF.Text, textBoxAniF.Text);
+                        MessageBox.Show("Passarinho Cadastrado com sucesso!");
+                    }
+                    catch (Exception) {
+                        MessageBox.Show("Passarinho já foi cadastrado! Verifique o número da anilha");
+                    }
+                }
+
+            }
+            else if (radioButtonPais.Checked) {
+                if (textBoxNomeF.Text == String.Empty
+                   || comboBoxPai.Text == String.Empty
+                   || textBoxNomeMae.Text == String.Empty) {
+                    MessageBox.Show("Por favor, preencha todos os campos");
+                }
+                else {
+                    if (textBoxAniF.Text == String.Empty) {
+                        var lista = dbCypher.ProcurarPais(textBoxNomeF.Text, textBoxAniF.Text);
+
+                    }
+                    else {
+                        try {
+                            await dbCypher.DefinirPaisAsync(textBoxNomeF.Text, textBoxAniF.Text,
+                                                            comboBoxPai.Text, textBoxAniP.Text,
+                                                            textBoxNomeMae.Text, textBoxAniM.Text);
+                            if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
+                                MessageBox.Show("Este passarinho já possui pais cadastrados!");
+                            else
+                                MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
+
+                        }
+                        catch (Exception) {
+                            MessageBox.Show("Pais do passarinho não foram encontrados, por favor cadastre-os primeiro!");
+                        }
+                    }
+                }
+            }
+        }
+
+        private async void ComboBoxPai_KeyUpAsync(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniF.Text);
+                listaNomesPai = dbCypher.ListaPais(lista);
+                comboBoxPai.DataSource = listaNomesPai[0];
+            }
+        }
+
+        private void ComboBoxPai_SelectedIndexChanged(object sender, EventArgs e) {
+            labelMaeVermelho.Text = listaNomesPai[1][comboBoxPai.SelectedIndex];
+            labelPaiAzul.Text = listaNomesPai[2][comboBoxPai.SelectedIndex];
+        }
+
         private void radioButtonPassaro_CheckedChanged(object sender, EventArgs e) {
             labelNome.Show();
             labelAniF.Show();
@@ -82,7 +103,7 @@ namespace neo4jUI {
 
             labelNPai.Hide();
             labelAniP.Hide();
-            textBoxNomePai.Hide();
+            comboBoxPai.Hide();
             textBoxAniP.Hide();
             labelNMae.Hide();
             labelAniM.Hide();
@@ -98,7 +119,7 @@ namespace neo4jUI {
             textBoxAniF.Show();
             labelNPai.Show();
             labelAniP.Show();
-            textBoxNomePai.Show();
+            comboBoxPai.Show();
             textBoxAniP.Show();
             labelNMae.Show();
             labelAniM.Show();
@@ -166,7 +187,7 @@ namespace neo4jUI {
                 if (radioButtonPassaro.Checked) {
                     labelNPai.Hide();
                     labelAniP.Hide();
-                    textBoxNomePai.Hide();
+                    comboBoxPai.Hide();
                     textBoxAniP.Hide();
                     labelNMae.Hide();
                     labelAniM.Hide();
@@ -176,7 +197,7 @@ namespace neo4jUI {
                 else {
                     labelNPai.Show();
                     labelAniP.Show();
-                    textBoxNomePai.Show();
+                    comboBoxPai.Show();
                     textBoxAniP.Show();
                     labelNMae.Show();
                     labelAniM.Show();
@@ -190,7 +211,7 @@ namespace neo4jUI {
 
                 labelNPai.Hide();
                 labelAniP.Hide();
-                textBoxNomePai.Hide();
+                comboBoxPai.Hide();
                 textBoxAniP.Hide();
                 labelNMae.Hide();
                 labelAniM.Hide();
@@ -213,6 +234,7 @@ namespace neo4jUI {
                 pdf.salvarPDF("ArvoreGenealogica");
             }
         }
+
     }
 }
 
