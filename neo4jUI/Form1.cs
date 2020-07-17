@@ -55,19 +55,20 @@ namespace neo4jUI {
             else if (radioButtonPais.Checked) {
                 if (textBoxNomeF.Text == String.Empty
                    || comboBoxPai.Text == String.Empty
-                   || textBoxNomeMae.Text == String.Empty) {
+                   || comboBoxMae.Text == String.Empty) {
                     MessageBox.Show("Por favor, preencha todos os campos");
                 }
                 else {
                     if (textBoxAniF.Text == String.Empty) {
-                        var lista = dbCypher.ProcurarPais(textBoxNomeF.Text, textBoxAniF.Text);
-
+                        var lista = await dbCypher.ProcurarPais(textBoxNomeF.Text, textBoxAniF.Text);
+                        listaNomesPai = dbCypher.ListaPais(lista);
+                        //var id = listaNomesPai[3]
                     }
                     else {
                         try {
                             await dbCypher.DefinirPaisAsync(textBoxNomeF.Text, textBoxAniF.Text,
                                                             comboBoxPai.Text, textBoxAniP.Text,
-                                                            textBoxNomeMae.Text, textBoxAniM.Text);
+                                                            comboBoxMae.Text, textBoxAniM.Text);
                             if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
                                 MessageBox.Show("Este passarinho já possui pais cadastrados!");
                             else
@@ -84,15 +85,28 @@ namespace neo4jUI {
 
         private async void ComboBoxPai_KeyUpAsync(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
-                var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniF.Text);
+                var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniP.Text);
                 listaNomesPai = dbCypher.ListaPais(lista);
                 comboBoxPai.DataSource = listaNomesPai[0];
             }
         }
 
         private void ComboBoxPai_SelectedIndexChanged(object sender, EventArgs e) {
-            labelMaeVermelho.Text = listaNomesPai[1][comboBoxPai.SelectedIndex];
-            labelPaiAzul.Text = listaNomesPai[2][comboBoxPai.SelectedIndex];
+            labelMaeP.Text = listaNomesPai[1][comboBoxPai.SelectedIndex];
+            labelPaiP.Text = listaNomesPai[2][comboBoxPai.SelectedIndex];
+        }
+
+        private async void ComboBoxMae_KeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                var lista = await dbCypher.ProcurarPais(comboBoxMae.Text, textBoxAniM.Text);
+                listaNomesMae = dbCypher.ListaPais(lista);
+                comboBoxMae.DataSource = listaNomesMae[0];
+            }
+        }
+
+        private void ComboBoxMae_SelectedIndexChanged(object sender, EventArgs e) {
+            labelMaeM.Text = listaNomesMae[1][comboBoxMae.SelectedIndex];
+            labelPaiM.Text = listaNomesMae[2][comboBoxMae.SelectedIndex];
         }
 
         private void radioButtonPassaro_CheckedChanged(object sender, EventArgs e) {
@@ -107,8 +121,12 @@ namespace neo4jUI {
             textBoxAniP.Hide();
             labelNMae.Hide();
             labelAniM.Hide();
-            textBoxNomeMae.Hide();
+            comboBoxMae.Hide();
             textBoxAniM.Hide();
+            labelPaiP.Hide();
+            labelMaeP.Hide();
+            labelPaiM.Hide();
+            labelMaeM.Hide();
 
         }
 
@@ -123,8 +141,12 @@ namespace neo4jUI {
             textBoxAniP.Show();
             labelNMae.Show();
             labelAniM.Show();
-            textBoxNomeMae.Show();
+            comboBoxMae.Show();
             textBoxAniM.Show();
+            labelPaiP.Show();
+            labelMaeP.Show();
+            labelPaiM.Show();
+            labelMaeM.Show();
 
         }
 
@@ -191,7 +213,7 @@ namespace neo4jUI {
                     textBoxAniP.Hide();
                     labelNMae.Hide();
                     labelAniM.Hide();
-                    textBoxNomeMae.Hide();
+                    comboBoxMae.Hide();
                     textBoxAniM.Hide();
                 }
                 else {
@@ -201,7 +223,7 @@ namespace neo4jUI {
                     textBoxAniP.Show();
                     labelNMae.Show();
                     labelAniM.Show();
-                    textBoxNomeMae.Show();
+                    comboBoxMae.Show();
                     textBoxAniM.Show();
                 }
             }
@@ -215,7 +237,7 @@ namespace neo4jUI {
                 textBoxAniP.Hide();
                 labelNMae.Hide();
                 labelAniM.Hide();
-                textBoxNomeMae.Hide();
+                comboBoxMae.Hide();
                 textBoxAniM.Hide();
                 radioButtonPassaro.Hide();
                 radioButtonPais.Hide();

@@ -29,7 +29,6 @@
             this.labelNome = new System.Windows.Forms.Label();
             this.labelNPai = new System.Windows.Forms.Label();
             this.labelNMae = new System.Windows.Forms.Label();
-            this.textBoxNomeMae = new System.Windows.Forms.TextBox();
             this.labelAniF = new System.Windows.Forms.Label();
             this.textBoxAniF = new System.Windows.Forms.TextBox();
             this.labelAniP = new System.Windows.Forms.Label();
@@ -46,8 +45,12 @@
             this.buttonPesquisar = new System.Windows.Forms.Button();
             this.comboBoxPai = new System.Windows.Forms.ComboBox();
             this.radioButtonArvore = new System.Windows.Forms.RadioButton();
-            this.labelPaiAzul = new System.Windows.Forms.Label();
-            this.labelMaeVermelho = new System.Windows.Forms.Label();
+            this.labelPaiP = new System.Windows.Forms.Label();
+            this.labelMaeP = new System.Windows.Forms.Label();
+            this.comboBoxMae = new System.Windows.Forms.ComboBox();
+            this.labelPaiM = new System.Windows.Forms.Label();
+            this.labelMaeM = new System.Windows.Forms.Label();
+            this.labelFilho = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonCadastrar
@@ -103,16 +106,6 @@
             this.labelNMae.Size = new System.Drawing.Size(108, 20);
             this.labelNMae.TabIndex = 10;
             this.labelNMae.Text = "Nome da Mãe";
-            // 
-            // textBoxNomeMae
-            // 
-            this.textBoxNomeMae.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBoxNomeMae.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNomeMae.Location = new System.Drawing.Point(39, 403);
-            this.textBoxNomeMae.MaxLength = 50;
-            this.textBoxNomeMae.Name = "textBoxNomeMae";
-            this.textBoxNomeMae.Size = new System.Drawing.Size(244, 29);
-            this.textBoxNomeMae.TabIndex = 9;
             // 
             // labelAniF
             // 
@@ -280,7 +273,6 @@
             // 
             // comboBoxPai
             // 
-            this.comboBoxPai.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.comboBoxPai.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.comboBoxPai.BackColor = System.Drawing.SystemColors.Menu;
             this.comboBoxPai.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -305,27 +297,74 @@
             this.radioButtonArvore.Text = "Árvore Completa";
             this.radioButtonArvore.UseVisualStyleBackColor = false;
             // 
-            // labelPaiAzul
+            // labelPaiP
             // 
-            this.labelPaiAzul.AutoSize = true;
-            this.labelPaiAzul.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPaiAzul.ForeColor = System.Drawing.Color.DarkBlue;
-            this.labelPaiAzul.Location = new System.Drawing.Point(289, 324);
-            this.labelPaiAzul.Name = "labelPaiAzul";
-            this.labelPaiAzul.Size = new System.Drawing.Size(22, 13);
-            this.labelPaiAzul.TabIndex = 27;
-            this.labelPaiAzul.Text = "Pai";
+            this.labelPaiP.AutoSize = true;
+            this.labelPaiP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPaiP.ForeColor = System.Drawing.Color.DarkBlue;
+            this.labelPaiP.Location = new System.Drawing.Point(289, 324);
+            this.labelPaiP.Name = "labelPaiP";
+            this.labelPaiP.Size = new System.Drawing.Size(22, 13);
+            this.labelPaiP.TabIndex = 27;
+            this.labelPaiP.Text = "Pai";
             // 
-            // labelMaeVermelho
+            // labelMaeP
             // 
-            this.labelMaeVermelho.AutoSize = true;
-            this.labelMaeVermelho.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMaeVermelho.ForeColor = System.Drawing.Color.DarkRed;
-            this.labelMaeVermelho.Location = new System.Drawing.Point(289, 340);
-            this.labelMaeVermelho.Name = "labelMaeVermelho";
-            this.labelMaeVermelho.Size = new System.Drawing.Size(28, 13);
-            this.labelMaeVermelho.TabIndex = 28;
-            this.labelMaeVermelho.Text = "Mãe";
+            this.labelMaeP.AutoSize = true;
+            this.labelMaeP.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMaeP.ForeColor = System.Drawing.Color.DarkRed;
+            this.labelMaeP.Location = new System.Drawing.Point(289, 340);
+            this.labelMaeP.Name = "labelMaeP";
+            this.labelMaeP.Size = new System.Drawing.Size(28, 13);
+            this.labelMaeP.TabIndex = 28;
+            this.labelMaeP.Text = "Mãe";
+            // 
+            // comboBoxMae
+            // 
+            this.comboBoxMae.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.comboBoxMae.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.comboBoxMae.BackColor = System.Drawing.SystemColors.Menu;
+            this.comboBoxMae.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxMae.FormattingEnabled = true;
+            this.comboBoxMae.Location = new System.Drawing.Point(39, 403);
+            this.comboBoxMae.Name = "comboBoxMae";
+            this.comboBoxMae.Size = new System.Drawing.Size(244, 32);
+            this.comboBoxMae.TabIndex = 29;
+            this.comboBoxMae.SelectedIndexChanged += new System.EventHandler(this.ComboBoxMae_SelectedIndexChanged);
+            this.comboBoxMae.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ComboBoxMae_KeyUp);
+            // 
+            // labelPaiM
+            // 
+            this.labelPaiM.AutoSize = true;
+            this.labelPaiM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelPaiM.ForeColor = System.Drawing.Color.DarkBlue;
+            this.labelPaiM.Location = new System.Drawing.Point(289, 403);
+            this.labelPaiM.Name = "labelPaiM";
+            this.labelPaiM.Size = new System.Drawing.Size(22, 13);
+            this.labelPaiM.TabIndex = 30;
+            this.labelPaiM.Text = "Pai";
+            // 
+            // labelMaeM
+            // 
+            this.labelMaeM.AutoSize = true;
+            this.labelMaeM.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMaeM.ForeColor = System.Drawing.Color.DarkRed;
+            this.labelMaeM.Location = new System.Drawing.Point(289, 422);
+            this.labelMaeM.Name = "labelMaeM";
+            this.labelMaeM.Size = new System.Drawing.Size(28, 13);
+            this.labelMaeM.TabIndex = 31;
+            this.labelMaeM.Text = "Mãe";
+            // 
+            // labelFilho
+            // 
+            this.labelFilho.AutoSize = true;
+            this.labelFilho.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFilho.ForeColor = System.Drawing.Color.Black;
+            this.labelFilho.Location = new System.Drawing.Point(289, 254);
+            this.labelFilho.Name = "labelFilho";
+            this.labelFilho.Size = new System.Drawing.Size(29, 13);
+            this.labelFilho.TabIndex = 32;
+            this.labelFilho.Text = "Filho";
             // 
             // Form1
             // 
@@ -333,8 +372,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(800, 561);
-            this.Controls.Add(this.labelMaeVermelho);
-            this.Controls.Add(this.labelPaiAzul);
+            this.Controls.Add(this.labelFilho);
+            this.Controls.Add(this.labelMaeM);
+            this.Controls.Add(this.labelPaiM);
+            this.Controls.Add(this.comboBoxMae);
+            this.Controls.Add(this.labelMaeP);
+            this.Controls.Add(this.labelPaiP);
             this.Controls.Add(this.radioButtonArvore);
             this.Controls.Add(this.comboBoxPai);
             this.Controls.Add(this.buttonPesquisar);
@@ -352,7 +395,6 @@
             this.Controls.Add(this.labelAniF);
             this.Controls.Add(this.textBoxAniF);
             this.Controls.Add(this.labelNMae);
-            this.Controls.Add(this.textBoxNomeMae);
             this.Controls.Add(this.labelNPai);
             this.Controls.Add(this.labelNome);
             this.Controls.Add(this.textBoxNomeF);
@@ -372,7 +414,6 @@
         private System.Windows.Forms.Label labelNome;
         private System.Windows.Forms.Label labelNPai;
         private System.Windows.Forms.Label labelNMae;
-        private System.Windows.Forms.TextBox textBoxNomeMae;
         private System.Windows.Forms.Label labelAniF;
         private System.Windows.Forms.TextBox textBoxAniF;
         private System.Windows.Forms.Label labelAniP;
@@ -389,8 +430,12 @@
         private System.Windows.Forms.Button buttonPesquisar;
         private System.Windows.Forms.ComboBox comboBoxPai;
         private System.Windows.Forms.RadioButton radioButtonArvore;
-        private System.Windows.Forms.Label labelPaiAzul;
-        private System.Windows.Forms.Label labelMaeVermelho;
+        private System.Windows.Forms.Label labelPaiP;
+        private System.Windows.Forms.Label labelMaeP;
+        private System.Windows.Forms.ComboBox comboBoxMae;
+        private System.Windows.Forms.Label labelPaiM;
+        private System.Windows.Forms.Label labelMaeM;
+        private System.Windows.Forms.Label labelFilho;
     }
 }
 

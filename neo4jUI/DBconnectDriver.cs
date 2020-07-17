@@ -110,7 +110,6 @@ namespace neo4jUI {
             }
         }
 
-        //COMEÇO
         public async Task<List<IRecord>> ProcurarPais(string nome, string anilha) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
@@ -119,7 +118,7 @@ namespace neo4jUI {
                     cursor = await session.RunAsync("MATCH (f:Passaro{nome:$nome})" +
                                                 "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
                                                 "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
-                                                "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais", new { nome });
+                                                "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais, [ID(f)] AS Ids", new { nome });
                 else
                     cursor = await session.RunAsync("MATCH (p:Passaro {nome: $nome, anilha:$anilha})" +
                                                 "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
@@ -138,7 +137,23 @@ namespace neo4jUI {
 
         }
 
-        //TODO: CONTINUAR ideia achar passaro e pais e selecionar qual o passáro a partir do nome
+        //TODO: Arrumar saída de Ids e filhos para atualizar a labelFilho dentro de incluir-filhos
+        //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
+        public async Task ProcurarFilhos(string nome) {
+            session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
+
+            try {
+                cursor = await session.RunAsync("MATCH (p:Passaro {nome: $nome})" +
+                                            "OPTIONAL MATCH (p)-[:PAI|MAE]->(f:Passaro)" +
+                                            "RETURN ID(p) as Ids,f AS Filhos", new { nome });
+
+                resultado = await cursor.ConsumeAsync();
+            }
+            finally {
+                await session.CloseAsync();
+            }
+
+        }
 
         public List<string> Records() {
             foreach (var no in records) {
@@ -165,9 +180,9 @@ namespace neo4jUI {
             IList<string> filhos = new List<string>();
             IList<string> maes = new List<string>();
             IList<string> pais = new List<string>();
+            IList<string> ids = new List<string>();
 
             foreach (var no in lista) {//Roda todos os nos de nomes->pais nessa ordem
-                //TODO: Arrumar a listaEncontrados, não está colocando os valores nos lugares certos
                 foreach (var valor in no["Nomes"].As<IList<string>>()) {
                     filhos.Add(valor);
                 }
@@ -177,12 +192,16 @@ namespace neo4jUI {
                 foreach (var valor in no["Pais"].As<IList<string>>()) {
                     pais.Add(valor);
                 }
+                foreach (var valor in no["Ids"].As<IList<string>>()) {
+                    ids.Add(valor);
+                }
 
                 //listaEncontrados.Add(no["Nomes"].As<IList<string>>());
             }
             listaEncontrados.Add(filhos);
             listaEncontrados.Add(maes);
             listaEncontrados.Add(pais);
+            listaEncontrados.Add(ids);
             return listaEncontrados;
         }
 
