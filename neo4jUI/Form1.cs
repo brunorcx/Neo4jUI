@@ -19,6 +19,7 @@ namespace neo4jUI {
         private bool buttonPesquisarM;
         private List<IList<string>> listaNomesPai;
         private List<IList<string>> listaNomesMae;
+        private List<IList<string>> listaNomesFilho;
 
         public Form1() {
             InitializeComponent();
@@ -39,11 +40,11 @@ namespace neo4jUI {
 
         private async void Button_Cadastrar(object sender, EventArgs e) {
             if (radioButtonPassaro.Checked) {
-                if (textBoxNomeF.Text == String.Empty)
+                if (comboBoxNomeF.Text == String.Empty)
                     MessageBox.Show("Por favor, preencha todos os campos");
                 else {
                     try {
-                        await dbCypher.InserirNoAsync(textBoxNomeF.Text, textBoxAniF.Text);
+                        await dbCypher.InserirNoAsync(comboBoxNomeF.Text, textBoxAniF.Text);
                         MessageBox.Show("Passarinho Cadastrado com sucesso!");
                     }
                     catch (Exception) {
@@ -53,31 +54,38 @@ namespace neo4jUI {
 
             }
             else if (radioButtonPais.Checked) {
-                if (textBoxNomeF.Text == String.Empty
+                if (comboBoxNomeF.Text == String.Empty
                    || comboBoxPai.Text == String.Empty
                    || comboBoxMae.Text == String.Empty) {
                     MessageBox.Show("Por favor, preencha todos os campos");
                 }
-                else {
-                    if (textBoxAniF.Text == String.Empty) {
-                        var lista = await dbCypher.ProcurarPais(textBoxNomeF.Text, textBoxAniF.Text);
-                        listaNomesPai = dbCypher.ListaPais(lista);
-                        //var id = listaNomesPai[3]
-                    }
+                else {// Definir Pais
+                    var lista = await dbCypher.ProcurarPais(comboBoxNomeF.Text, textBoxAniF.Text);
+                    listaNomesFilho = dbCypher.ListaPais(lista);
+                    if (listaNomesFilho[1][comboBoxNomeF.SelectedIndex] != null // Se tem Mãe
+                        && listaNomesFilho[2][comboBoxNomeF.SelectedIndex] != null)//Se tem Pai
+                        MessageBox.Show("Este passarinho já possui pais cadastrados!");
                     else {
                         try {
-                            await dbCypher.DefinirPaisAsync(textBoxNomeF.Text, textBoxAniF.Text,
+                            bool[] comAnilha = new bool[3] { true, true, true };
+                            if (textBoxAniF.Text == String.Empty) {
+                                textBoxAniF.Text = listaNomesFilho[1][comboBoxNomeF.SelectedIndex];
+                                comAnilha[0] = false;
+                            }
+
+                            await dbCypher.DefinirPaisAsync(comboBoxNomeF.Text, textBoxAniF.Text,
                                                             comboBoxPai.Text, textBoxAniP.Text,
-                                                            comboBoxMae.Text, textBoxAniM.Text);
-                            if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
-                                MessageBox.Show("Este passarinho já possui pais cadastrados!");
-                            else
-                                MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
+                                                            comboBoxMae.Text, textBoxAniM.Text, comAnilha);
+                            /* if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
+                                 MessageBox.Show("Este passarinho já possui pais cadastrados!");
+                             else */
+                            MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
 
                         }
                         catch (Exception) {
                             MessageBox.Show("Pais do passarinho não foram encontrados, por favor cadastre-os primeiro!");
                         }
+
                     }
                 }
             }
@@ -109,10 +117,22 @@ namespace neo4jUI {
             labelPaiM.Text = listaNomesMae[2][comboBoxMae.SelectedIndex];
         }
 
+        private async void ComboBoxNomeF_KeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Enter) {
+                var lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
+                listaNomesFilho = dbCypher.ListaFilhos(lista);
+                comboBoxNomeF.DataSource = listaNomesFilho[0];
+            }
+        }
+
+        private void ComboBoxNomeF_SelectedIndexChanged(object sender, EventArgs e) {
+            labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
+        }
+
         private void radioButtonPassaro_CheckedChanged(object sender, EventArgs e) {
             labelNome.Show();
             labelAniF.Show();
-            textBoxNomeF.Show();
+            comboBoxNomeF.Show();
             textBoxAniF.Show();
 
             labelNPai.Hide();
@@ -133,7 +153,7 @@ namespace neo4jUI {
         private void radioButtonPais_CheckedChanged(object sender, EventArgs e) {
             labelNome.Show();
             labelAniF.Show();
-            textBoxNomeF.Show();
+            comboBoxNomeF.Show();
             textBoxAniF.Show();
             labelNPai.Show();
             labelAniP.Show();
@@ -246,7 +266,7 @@ namespace neo4jUI {
         }
 
         private async void Pesquisar_Click(object sender, EventArgs e) {
-            await dbCypher.ProcurarFamilia(textBoxNomeF.Text, textBoxAniF.Text);
+            await dbCypher.ProcurarFamilia(comboBoxNomeF.Text, textBoxAniF.Text);
 
             if (dbCypher.GetRecords().Count == 0)
                 MessageBox.Show("Passarinho não encontrado, por favor cadastre-o primeiro");

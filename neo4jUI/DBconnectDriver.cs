@@ -64,16 +64,19 @@ namespace neo4jUI {
             }
         }
 
-        public async Task DefinirPaisAsync(string filho, string aniFilho, string pai, string aniPai, string mae, string aniMae) {
+        public async Task DefinirPaisAsync(string filho, string aniFilho, string pai, string aniPai, string mae, string aniMae, bool[] comAnilha) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
             try {
-                cursor = await session.RunAsync("MATCH (f:Passaro {nome: $filho, anilha:$aniFilho})" +
-                                            "MATCH (p:Passaro {nome: $pai, anilha:$aniPai})" +
-                                            "MATCH (m:Passaro {nome: $mae, anilha:$aniMae})" +
-                                            "WHERE NOT (:Passaro)-[:PAI]->(f)<-[:MAE]-(:Passaro)" +
-                                            "MERGE (p)-[:PAI]->(f)<-[:MAE]-(m)", new { filho, aniFilho, pai, aniPai, mae, aniMae });
-
+                if (!comAnilha.All(anilhas => anilhas == true)) {//Expressão Lambda (entrada) => (corpo/condição)
+                }
+                else {
+                    cursor = await session.RunAsync("MATCH (f:Passaro {nome: $filho, anilha:$aniFilho})" +
+                                                "MATCH (p:Passaro {nome: $pai, anilha:$aniPai})" +
+                                                "MATCH (m:Passaro {nome: $mae, anilha:$aniMae})" +
+                                                "WHERE NOT (:Passaro)-[:PAI]->(f)<-[:MAE]-(:Passaro)" +
+                                                "MERGE (p)-[:PAI]->(f)<-[:MAE]-(m)", new { filho, aniFilho, pai, aniPai, mae, aniMae });
+                }
                 resultado = await cursor.ConsumeAsync();
             }
             finally {
@@ -137,17 +140,19 @@ namespace neo4jUI {
 
         }
 
-        //TODO: Arrumar saída de Ids e filhos para atualizar a labelFilho dentro de incluir-filhos
+        //TODO: Substituindo textboxAnilhas para IDS
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
-        public async Task ProcurarFilhos(string nome) {
+        public async Task<List<IRecord>> ProcurarFilhos(string nome) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
             try {
                 cursor = await session.RunAsync("MATCH (p:Passaro {nome: $nome})" +
                                             "OPTIONAL MATCH (p)-[:PAI|MAE]->(f:Passaro)" +
-                                            "RETURN ID(p) as Ids,f AS Filhos", new { nome });
+                                            "RETURN [p.nome] AS Nomes, [ID(p)] AS Ids,[f.nome] AS Filhos", new { nome });
 
+                var lista = await cursor.ToListAsync();
                 resultado = await cursor.ConsumeAsync();
+                return lista;
             }
             finally {
                 await session.CloseAsync();
@@ -202,6 +207,30 @@ namespace neo4jUI {
             listaEncontrados.Add(maes);
             listaEncontrados.Add(pais);
             listaEncontrados.Add(ids);
+            return listaEncontrados;
+        }
+
+        public List<IList<string>> ListaFilhos(List<IRecord> lista) {
+            List<IList<string>> listaEncontrados = new List<IList<string>>();
+            IList<string> nomes = new List<string>();
+            IList<string> ids = new List<string>();
+            IList<string> filhos = new List<string>();
+
+            foreach (var no in lista) {//Roda todos os nos de nomes->filhos nessa ordem
+                foreach (var valor in no["Nomes"].As<IList<string>>()) {
+                    nomes.Add(valor);
+                }
+                foreach (var valor in no["Ids"].As<IList<string>>()) {
+                    ids.Add(valor);
+                }
+                foreach (var valor in no["Filhos"].As<IList<string>>()) {
+                    filhos.Add(valor);
+                }
+
+            }
+            listaEncontrados.Add(nomes);
+            listaEncontrados.Add(ids);
+            listaEncontrados.Add(filhos);
             return listaEncontrados;
         }
 

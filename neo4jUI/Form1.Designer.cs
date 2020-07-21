@@ -25,7 +25,6 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.buttonCadastrar = new System.Windows.Forms.Button();
-            this.textBoxNomeF = new System.Windows.Forms.TextBox();
             this.labelNome = new System.Windows.Forms.Label();
             this.labelNPai = new System.Windows.Forms.Label();
             this.labelNMae = new System.Windows.Forms.Label();
@@ -51,6 +50,7 @@
             this.labelPaiM = new System.Windows.Forms.Label();
             this.labelMaeM = new System.Windows.Forms.Label();
             this.labelFilho = new System.Windows.Forms.Label();
+            this.comboBoxNomeF = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // buttonCadastrar
@@ -66,16 +66,6 @@
             this.buttonCadastrar.Text = "Cadastrar";
             this.buttonCadastrar.UseVisualStyleBackColor = false;
             this.buttonCadastrar.Click += new System.EventHandler(this.Button_Cadastrar);
-            // 
-            // textBoxNomeF
-            // 
-            this.textBoxNomeF.BackColor = System.Drawing.SystemColors.Menu;
-            this.textBoxNomeF.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxNomeF.Location = new System.Drawing.Point(39, 243);
-            this.textBoxNomeF.MaxLength = 50;
-            this.textBoxNomeF.Name = "textBoxNomeF";
-            this.textBoxNomeF.Size = new System.Drawing.Size(244, 29);
-            this.textBoxNomeF.TabIndex = 2;
             // 
             // labelNome
             // 
@@ -366,12 +356,26 @@
             this.labelFilho.TabIndex = 32;
             this.labelFilho.Text = "Filho";
             // 
+            // comboBoxNomeF
+            // 
+            this.comboBoxNomeF.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.comboBoxNomeF.BackColor = System.Drawing.SystemColors.Menu;
+            this.comboBoxNomeF.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxNomeF.FormattingEnabled = true;
+            this.comboBoxNomeF.Location = new System.Drawing.Point(39, 243);
+            this.comboBoxNomeF.Name = "comboBoxNomeF";
+            this.comboBoxNomeF.Size = new System.Drawing.Size(244, 32);
+            this.comboBoxNomeF.TabIndex = 33;
+            this.comboBoxNomeF.SelectedIndexChanged += new System.EventHandler(this.ComboBoxNomeF_SelectedIndexChanged);
+            this.comboBoxNomeF.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ComboBoxNomeF_KeyUp);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(800, 561);
+            this.Controls.Add(this.comboBoxNomeF);
             this.Controls.Add(this.labelFilho);
             this.Controls.Add(this.labelMaeM);
             this.Controls.Add(this.labelPaiM);
@@ -397,7 +401,6 @@
             this.Controls.Add(this.labelNMae);
             this.Controls.Add(this.labelNPai);
             this.Controls.Add(this.labelNome);
-            this.Controls.Add(this.textBoxNomeF);
             this.Controls.Add(this.buttonCadastrar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -410,7 +413,6 @@
 
         #endregion
         private System.Windows.Forms.Button buttonCadastrar;
-        private System.Windows.Forms.TextBox textBoxNomeF;
         private System.Windows.Forms.Label labelNome;
         private System.Windows.Forms.Label labelNPai;
         private System.Windows.Forms.Label labelNMae;
@@ -436,6 +438,7 @@
         private System.Windows.Forms.Label labelPaiM;
         private System.Windows.Forms.Label labelMaeM;
         private System.Windows.Forms.Label labelFilho;
+        private System.Windows.Forms.ComboBox comboBoxNomeF;
     }
 }
 
