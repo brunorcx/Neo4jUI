@@ -49,6 +49,7 @@ namespace neo4jUI {
                     }
                     catch (Exception) {
                         MessageBox.Show("Passarinho já foi cadastrado! Verifique o número da anilha");
+                        throw;
                     }
                 }
 
@@ -69,8 +70,17 @@ namespace neo4jUI {
                         try {
                             bool[] comAnilha = new bool[3] { true, true, true };
                             if (textBoxAniF.Text == String.Empty) {
-                                textBoxAniF.Text = listaNomesFilho[1][comboBoxNomeF.SelectedIndex];
+                                textBoxAniF.Text = listaNomesFilho[3][comboBoxNomeF.SelectedIndex];//Fórmula para encontrar os pais de cada filho selecionado
                                 comAnilha[0] = false;
+                            }
+                            if (textBoxAniP.Text == String.Empty) {
+                                textBoxAniP.Text = listaNomesPai[3][comboBoxPai.SelectedIndex];
+                                comAnilha[1] = false;
+
+                            }
+                            if (textBoxAniM.Text == String.Empty) {
+                                textBoxAniM.Text = listaNomesMae[3][comboBoxMae.SelectedIndex];
+                                comAnilha[2] = false;
                             }
 
                             await dbCypher.DefinirPaisAsync(comboBoxNomeF.Text, textBoxAniF.Text,
@@ -100,8 +110,10 @@ namespace neo4jUI {
         }
 
         private void ComboBoxPai_SelectedIndexChanged(object sender, EventArgs e) {
-            labelMaeP.Text = listaNomesPai[1][comboBoxPai.SelectedIndex];
-            labelPaiP.Text = listaNomesPai[2][comboBoxPai.SelectedIndex];
+            if (comboBoxPai.Focused) {
+                labelMaeP.Text = listaNomesPai[1][comboBoxPai.SelectedIndex];
+                labelPaiP.Text = listaNomesPai[2][comboBoxPai.SelectedIndex];
+            }
         }
 
         private async void ComboBoxMae_KeyUp(object sender, KeyEventArgs e) {
@@ -113,8 +125,10 @@ namespace neo4jUI {
         }
 
         private void ComboBoxMae_SelectedIndexChanged(object sender, EventArgs e) {
-            labelMaeM.Text = listaNomesMae[1][comboBoxMae.SelectedIndex];
-            labelPaiM.Text = listaNomesMae[2][comboBoxMae.SelectedIndex];
+            if (comboBoxMae.Focused) {
+                labelMaeM.Text = listaNomesMae[1][comboBoxMae.SelectedIndex];
+                labelPaiM.Text = listaNomesMae[2][comboBoxMae.SelectedIndex];
+            }
         }
 
         private async void ComboBoxNomeF_KeyUp(object sender, KeyEventArgs e) {
@@ -126,7 +140,8 @@ namespace neo4jUI {
         }
 
         private void ComboBoxNomeF_SelectedIndexChanged(object sender, EventArgs e) {
-            labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
+            if (comboBoxNomeF.Focused)
+                labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
         }
 
         private void radioButtonPassaro_CheckedChanged(object sender, EventArgs e) {

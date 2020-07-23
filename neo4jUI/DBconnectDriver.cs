@@ -51,8 +51,9 @@ namespace neo4jUI {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
             try {
-                if (anilha == string.Empty)
-                    cursor = await session.RunAsync("CREATE (p:Passaro{nome:$nome}", new { nome });
+                if (anilha == string.Empty) {
+                    cursor = await session.RunAsync("CREATE (p:Passaro{nome:$nome})", new { nome });//MERGE Impede cadastro de mesmo nome
+                }
                 else
                     cursor = await session.RunAsync("CREATE (p:Passaro{nome:$nome, anilha:$anilha})", new { nome, anilha });
 
@@ -69,6 +70,25 @@ namespace neo4jUI {
 
             try {
                 if (!comAnilha.All(anilhas => anilhas == true)) {//Expressão Lambda (entrada) => (corpo/condição)
+                    string matchf = " MATCH(f: Passaro { nome: $filho, anilha:$aniFilho})";
+                    string matchp = " MATCH(p: Passaro { nome: $pai, anilha:$aniPai})";
+                    string matchm = " MATCH(m:Passaro  { nome: $mae, anilha:$aniMae})";
+                    string where = " WHERE NOT (:Passaro)-[:PAI]->(f)<-[:MAE]-(:Passaro)";
+                    string merge = " MERGE (p)-[:PAI]->(f)<-[:MAE]-(m)";
+
+                    if (!comAnilha[0]) {
+                        matchf = "MATCH (f:Passaro {nome: $filho})";
+                        where += " and ID(f) = toInteger($aniFilho)";
+                    }
+                    if (!comAnilha[1]) {
+                        matchp = "MATCH (p:Passaro {nome: $pai})";
+                        where += " and ID(p) = toInteger($aniPai)";
+                    }
+                    if (!comAnilha[2]) {
+                        matchm = "MATCH (m:Passaro {nome: $mae})";
+                        where += " and ID(m) = toInteger($aniMae)";
+                    }
+                    cursor = await session.RunAsync(matchf + matchp + matchm + where + merge, new { filho, aniFilho, pai, aniPai, mae, aniMae });
                 }
                 else {
                     cursor = await session.RunAsync("MATCH (f:Passaro {nome: $filho, anilha:$aniFilho})" +
@@ -117,11 +137,12 @@ namespace neo4jUI {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
             try {
-                if (anilha == String.Empty)
+                if (anilha == String.Empty) {
                     cursor = await session.RunAsync("MATCH (f:Passaro{nome:$nome})" +
                                                 "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
                                                 "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
                                                 "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais, [ID(f)] AS Ids", new { nome });
+                }
                 else
                     cursor = await session.RunAsync("MATCH (p:Passaro {nome: $nome, anilha:$anilha})" +
                                                 "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
@@ -140,7 +161,7 @@ namespace neo4jUI {
 
         }
 
-        //TODO: Substituindo textboxAnilhas para IDS
+        //TODO: Modoificar Método DefinirPais para dar match com o ID
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
