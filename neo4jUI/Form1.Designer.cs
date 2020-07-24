@@ -62,7 +62,7 @@
             this.buttonCadastrar.Location = new System.Drawing.Point(39, 493);
             this.buttonCadastrar.Name = "buttonCadastrar";
             this.buttonCadastrar.Size = new System.Drawing.Size(139, 38);
-            this.buttonCadastrar.TabIndex = 1;
+            this.buttonCadastrar.TabIndex = 7;
             this.buttonCadastrar.Text = "Cadastrar";
             this.buttonCadastrar.UseVisualStyleBackColor = false;
             this.buttonCadastrar.Click += new System.EventHandler(this.Button_Cadastrar);
@@ -115,7 +115,7 @@
             this.textBoxAniF.MaxLength = 50;
             this.textBoxAniF.Name = "textBoxAniF";
             this.textBoxAniF.Size = new System.Drawing.Size(244, 29);
-            this.textBoxAniF.TabIndex = 11;
+            this.textBoxAniF.TabIndex = 2;
             // 
             // labelAniP
             // 
@@ -135,7 +135,7 @@
             this.textBoxAniP.MaxLength = 50;
             this.textBoxAniP.Name = "textBoxAniP";
             this.textBoxAniP.Size = new System.Drawing.Size(244, 29);
-            this.textBoxAniP.TabIndex = 13;
+            this.textBoxAniP.TabIndex = 4;
             // 
             // labelAniM
             // 
@@ -155,7 +155,7 @@
             this.textBoxAniM.MaxLength = 50;
             this.textBoxAniM.Name = "textBoxAniM";
             this.textBoxAniM.Size = new System.Drawing.Size(244, 29);
-            this.textBoxAniM.TabIndex = 15;
+            this.textBoxAniM.TabIndex = 6;
             // 
             // labelTitulo
             // 
@@ -206,7 +206,7 @@
             this.buttonCMenu.Location = new System.Drawing.Point(39, 53);
             this.buttonCMenu.Name = "buttonCMenu";
             this.buttonCMenu.Size = new System.Drawing.Size(85, 26);
-            this.buttonCMenu.TabIndex = 20;
+            this.buttonCMenu.TabIndex = 9;
             this.buttonCMenu.Text = "Cadastro";
             this.buttonCMenu.UseVisualStyleBackColor = false;
             this.buttonCMenu.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Cadastro_MouseClick);
@@ -239,7 +239,7 @@
             this.buttonPesquisa.Location = new System.Drawing.Point(130, 53);
             this.buttonPesquisa.Name = "buttonPesquisa";
             this.buttonPesquisa.Size = new System.Drawing.Size(85, 26);
-            this.buttonPesquisa.TabIndex = 23;
+            this.buttonPesquisa.TabIndex = 10;
             this.buttonPesquisa.Text = "Pesquisar";
             this.buttonPesquisa.UseVisualStyleBackColor = false;
             this.buttonPesquisa.Click += new System.EventHandler(this.Pesquisa_MouseClick);
@@ -255,7 +255,7 @@
             this.buttonPesquisar.Location = new System.Drawing.Point(184, 493);
             this.buttonPesquisar.Name = "buttonPesquisar";
             this.buttonPesquisar.Size = new System.Drawing.Size(139, 38);
-            this.buttonPesquisar.TabIndex = 24;
+            this.buttonPesquisar.TabIndex = 8;
             this.buttonPesquisar.Text = "Pesquisar";
             this.buttonPesquisar.UseVisualStyleBackColor = false;
             this.buttonPesquisar.Visible = false;
@@ -270,9 +270,10 @@
             this.comboBoxPai.Location = new System.Drawing.Point(39, 324);
             this.comboBoxPai.Name = "comboBoxPai";
             this.comboBoxPai.Size = new System.Drawing.Size(244, 32);
-            this.comboBoxPai.TabIndex = 25;
-            this.comboBoxPai.SelectedIndexChanged += new System.EventHandler(this.ComboBoxPai_SelectedIndexChanged);
+            this.comboBoxPai.TabIndex = 3;
+            this.comboBoxPai.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxPai_SelectionChangeCommitted);
             this.comboBoxPai.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ComboBoxPai_KeyUpAsync);
+            this.comboBoxPai.Leave += new System.EventHandler(this.ComboBoxPai_Leave);
             // 
             // radioButtonArvore
             // 
@@ -319,9 +320,10 @@
             this.comboBoxMae.Location = new System.Drawing.Point(39, 403);
             this.comboBoxMae.Name = "comboBoxMae";
             this.comboBoxMae.Size = new System.Drawing.Size(244, 32);
-            this.comboBoxMae.TabIndex = 29;
-            this.comboBoxMae.SelectedIndexChanged += new System.EventHandler(this.ComboBoxMae_SelectedIndexChanged);
+            this.comboBoxMae.TabIndex = 5;
+            this.comboBoxMae.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxMae_SelectionChangeCommitted);
             this.comboBoxMae.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ComboBoxMae_KeyUp);
+            this.comboBoxMae.Leave += new System.EventHandler(this.ComboBoxMae_Leave);
             // 
             // labelPaiM
             // 
@@ -365,9 +367,10 @@
             this.comboBoxNomeF.Location = new System.Drawing.Point(39, 243);
             this.comboBoxNomeF.Name = "comboBoxNomeF";
             this.comboBoxNomeF.Size = new System.Drawing.Size(244, 32);
-            this.comboBoxNomeF.TabIndex = 33;
-            this.comboBoxNomeF.SelectedIndexChanged += new System.EventHandler(this.ComboBoxNomeF_SelectedIndexChanged);
+            this.comboBoxNomeF.TabIndex = 1;
+            this.comboBoxNomeF.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxNomeF_SelectionChangeCommitted);
             this.comboBoxNomeF.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ComboBoxNomeF_KeyUp);
+            this.comboBoxNomeF.Leave += new System.EventHandler(this.ComboBoxNomeF_Leave);
             // 
             // Form1
             // 

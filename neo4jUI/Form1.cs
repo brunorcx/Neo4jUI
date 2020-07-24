@@ -20,6 +20,13 @@ namespace neo4jUI {
         private List<IList<string>> listaNomesPai;
         private List<IList<string>> listaNomesMae;
         private List<IList<string>> listaNomesFilho;
+        private List<IList<string>> listaPaisFilho;
+        private int paiIndex = -1;
+        private int maeIndex = -1;
+        private int filhoIndex = -1;
+        private string paiAnterior;
+        private string maeAnterior;
+        private string filhoAnterior;
 
         public Form1() {
             InitializeComponent();
@@ -62,24 +69,24 @@ namespace neo4jUI {
                 }
                 else {// Definir Pais
                     var lista = await dbCypher.ProcurarPais(comboBoxNomeF.Text, textBoxAniF.Text);
-                    listaNomesFilho = dbCypher.ListaPais(lista);
-                    if (listaNomesFilho[1][comboBoxNomeF.SelectedIndex] != null // Se tem Mãe
-                        && listaNomesFilho[2][comboBoxNomeF.SelectedIndex] != null)//Se tem Pai
+                    listaPaisFilho = dbCypher.ListaPais(lista);
+                    if (listaPaisFilho[1][filhoIndex] != null // Se tem Mãe
+                        && listaPaisFilho[2][filhoIndex] != null)//Se tem Pai
                         MessageBox.Show("Este passarinho já possui pais cadastrados!");
                     else {
                         try {
                             bool[] comAnilha = new bool[3] { true, true, true };
                             if (textBoxAniF.Text == String.Empty) {
-                                textBoxAniF.Text = listaNomesFilho[3][comboBoxNomeF.SelectedIndex];//Fórmula para encontrar os pais de cada filho selecionado
+                                textBoxAniF.Text = listaNomesFilho[1][filhoIndex];
                                 comAnilha[0] = false;
                             }
                             if (textBoxAniP.Text == String.Empty) {
-                                textBoxAniP.Text = listaNomesPai[3][comboBoxPai.SelectedIndex];
+                                textBoxAniP.Text = listaNomesPai[3][paiIndex];
                                 comAnilha[1] = false;
 
                             }
                             if (textBoxAniM.Text == String.Empty) {
-                                textBoxAniM.Text = listaNomesMae[3][comboBoxMae.SelectedIndex];
+                                textBoxAniM.Text = listaNomesMae[3][maeIndex];
                                 comAnilha[2] = false;
                             }
 
@@ -102,46 +109,120 @@ namespace neo4jUI {
         }
 
         private async void ComboBoxPai_KeyUpAsync(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter) {
+            if (e.KeyCode == Keys.Enter && comboBoxPai.Text != String.Empty) {
                 var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniP.Text);
                 listaNomesPai = dbCypher.ListaPais(lista);
                 comboBoxPai.DataSource = listaNomesPai[0];
+                if (lista.Count != 0) {
+                    comboBoxPai.SelectedIndex = 0;
+                    ComboBoxPai_SelectionChangeCommitted(sender, e);
+                }
+
             }
         }
 
-        private void ComboBoxPai_SelectedIndexChanged(object sender, EventArgs e) {
+        private async void ComboBoxPai_Leave(object sender, EventArgs e) {
+            if (comboBoxPai.Text != paiAnterior)
+                paiIndex = -1;
+
+            if (comboBoxPai.Text != String.Empty)
+                if (paiIndex < 0) {
+                    var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniP.Text);
+                    listaNomesPai = dbCypher.ListaPais(lista);
+                    comboBoxPai.DataSource = listaNomesPai[0];
+                    if (lista.Count != 0) {
+                        paiIndex = 0;
+                        labelMaeP.Text = listaNomesPai[1][comboBoxPai.SelectedIndex];
+                        labelPaiP.Text = listaNomesPai[2][comboBoxPai.SelectedIndex];
+                    }
+                }
+
+            paiAnterior = comboBoxPai.Text;
+        }
+
+        private void ComboBoxPai_SelectionChangeCommitted(object sender, EventArgs e) {
             if (comboBoxPai.Focused) {
                 labelMaeP.Text = listaNomesPai[1][comboBoxPai.SelectedIndex];
                 labelPaiP.Text = listaNomesPai[2][comboBoxPai.SelectedIndex];
+                paiIndex = comboBoxPai.SelectedIndex;
             }
         }
 
         private async void ComboBoxMae_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter) {
+            if (e.KeyCode == Keys.Enter && comboBoxMae.Text != String.Empty) {
                 var lista = await dbCypher.ProcurarPais(comboBoxMae.Text, textBoxAniM.Text);
                 listaNomesMae = dbCypher.ListaPais(lista);
                 comboBoxMae.DataSource = listaNomesMae[0];
+                if (lista.Count != 0) {
+                    comboBoxMae.SelectedIndex = 0;
+                    ComboBoxMae_SelectionChangeCommitted(sender, e);
+                }
+
             }
         }
 
-        private void ComboBoxMae_SelectedIndexChanged(object sender, EventArgs e) {
+        private async void ComboBoxMae_Leave(object sender, EventArgs e) {
+            if (comboBoxMae.Text != maeAnterior)
+                maeIndex = -1;
+
+            if (comboBoxMae.Text != String.Empty)
+                if (maeIndex < 0) {
+                    var lista = await dbCypher.ProcurarPais(comboBoxMae.Text, textBoxAniM.Text);
+                    listaNomesMae = dbCypher.ListaPais(lista);
+                    comboBoxMae.DataSource = listaNomesMae[0];
+                    if (lista.Count != 0) {
+                        maeIndex = 0;
+                        labelMaeM.Text = listaNomesMae[1][comboBoxMae.SelectedIndex];
+                        labelPaiM.Text = listaNomesMae[2][comboBoxMae.SelectedIndex];
+                    }
+                }
+
+            maeAnterior = comboBoxMae.Text;
+        }
+
+        private void ComboBoxMae_SelectionChangeCommitted(object sender, EventArgs e) {
             if (comboBoxMae.Focused) {
                 labelMaeM.Text = listaNomesMae[1][comboBoxMae.SelectedIndex];
                 labelPaiM.Text = listaNomesMae[2][comboBoxMae.SelectedIndex];
+                maeIndex = comboBoxMae.SelectedIndex;
             }
         }
 
         private async void ComboBoxNomeF_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter) {
+            if (e.KeyCode == Keys.Enter && comboBoxNomeF.Text != String.Empty) {
                 var lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
                 listaNomesFilho = dbCypher.ListaFilhos(lista);
                 comboBoxNomeF.DataSource = listaNomesFilho[0];
+                if (lista.Count != 0) {
+                    comboBoxNomeF.SelectedIndex = 0;
+                    ComboBoxNomeF_SelectionChangeCommitted(sender, e);
+                }
             }
         }
 
-        private void ComboBoxNomeF_SelectedIndexChanged(object sender, EventArgs e) {
-            if (comboBoxNomeF.Focused)
+        private async void ComboBoxNomeF_Leave(object sender, EventArgs e) {
+            if (comboBoxNomeF.Text != filhoAnterior)
+                filhoIndex = -1;
+
+            if (comboBoxNomeF.Text != String.Empty)
+                if (filhoIndex < 0) {
+                    var lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
+                    listaNomesFilho = dbCypher.ListaFilhos(lista);
+                    comboBoxNomeF.DataSource = listaNomesFilho[0];
+                    if (lista.Count != 0) {
+                        filhoIndex = 0;
+                        labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
+                    }
+                }
+
+            filhoAnterior = comboBoxNomeF.Text;
+        }
+
+        private void ComboBoxNomeF_SelectionChangeCommitted(object sender, EventArgs e) {
+            if (comboBoxNomeF.Focused) {
                 labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
+                filhoIndex = comboBoxNomeF.SelectedIndex;
+            }
         }
 
         private void radioButtonPassaro_CheckedChanged(object sender, EventArgs e) {
@@ -301,3 +382,4 @@ namespace neo4jUI {
 //Achar todos os nós a partir de um nó  MATCH(p:Passaro{ anilha: '1'})-[*]-(connected) RETURN p,connected
 //Ícone retirado do sítio https://publicdomainvectors.org/en/free-clipart/Vector-image-of-goldfinch-bird-on-a-branch/28843.html
 //Dá o aviso errado quando o passarinho não tem pais, mas está cadastrado
+//https://stackoverflow.com/questions/32956142/how-to-deploy-application-with-sql-server-database-on-clients
