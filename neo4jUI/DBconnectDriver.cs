@@ -133,15 +133,23 @@ namespace neo4jUI {
             }
         }
 
-        public async Task<List<IRecord>> ProcurarPais(string nome, string anilha) {
+        public async Task<List<IRecord>> ProcurarPais(string nome, string anilha, bool comAnilha) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
             try {
-                if (anilha == String.Empty) {
-                    cursor = await session.RunAsync("MATCH (f:Passaro{nome:$nome})" +
-                                                "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
-                                                "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
-                                                "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais, [ID(f)] AS Ids", new { nome });
+                if (!comAnilha) {
+                    if (anilha != String.Empty) {
+                        cursor = await session.RunAsync("MATCH (f:Passaro{nome:$nome})" +
+                                              "WHERE ID(f) = toInteger($anilha) " +
+                                              "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
+                                              "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
+                                              "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais, [ID(f)] AS Ids", new { nome, anilha });
+                    }
+                    else
+                        cursor = await session.RunAsync("MATCH (f:Passaro{nome:$nome})" +
+                                                    "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
+                                                    "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
+                                                    "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais, [ID(f)] AS Ids", new { nome });
                 }
                 else
                     cursor = await session.RunAsync("MATCH (p:Passaro {nome: $nome, anilha:$anilha})" +

@@ -68,10 +68,17 @@ namespace neo4jUI {
                     MessageBox.Show("Por favor, preencha todos os campos");
                 }
                 else {// Definir Pais
-                    var lista = await dbCypher.ProcurarPais(comboBoxNomeF.Text, textBoxAniF.Text);
+                    bool cAnilha = true;
+                    if (textBoxAniF.Text == String.Empty) {
+                        textBoxAniF.Text = listaNomesFilho[1][filhoIndex];
+                        cAnilha = false;
+                    }
+                    var lista = await dbCypher.ProcurarPais(comboBoxNomeF.Text, textBoxAniF.Text, cAnilha);
                     listaPaisFilho = dbCypher.ListaPais(lista);
-                    if (listaPaisFilho[1][filhoIndex] != null // Se tem Mãe
-                        && listaPaisFilho[2][filhoIndex] != null)//Se tem Pai
+                    if (!cAnilha)
+                        textBoxAniF.Text = String.Empty;
+                    if (listaPaisFilho[1][0] != null // Se tem Mãe
+                        && listaPaisFilho[2][0] != null) //Se tem Pai
                         MessageBox.Show("Este passarinho já possui pais cadastrados!");
                     else {
                         try {
@@ -93,11 +100,18 @@ namespace neo4jUI {
                             await dbCypher.DefinirPaisAsync(comboBoxNomeF.Text, textBoxAniF.Text,
                                                             comboBoxPai.Text, textBoxAniP.Text,
                                                             comboBoxMae.Text, textBoxAniM.Text, comAnilha);
+
+                            if (!comAnilha[0])
+                                textBoxAniF.Text = String.Empty;
+                            if (!comAnilha[1])
+                                textBoxAniP.Text = String.Empty;
+                            if (!comAnilha[2])
+                                textBoxAniM.Text = String.Empty;
+
                             /* if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
                                  MessageBox.Show("Este passarinho já possui pais cadastrados!");
                              else */
                             MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
-
                         }
                         catch (Exception) {
                             MessageBox.Show("Pais do passarinho não foram encontrados, por favor cadastre-os primeiro!");
@@ -109,25 +123,35 @@ namespace neo4jUI {
         }
 
         private async void ComboBoxPai_KeyUpAsync(object sender, KeyEventArgs e) {
+            bool comAnilha = true;
+            if (textBoxAniP.Text == String.Empty)
+                comAnilha = false;
+
             if (e.KeyCode == Keys.Enter && comboBoxPai.Text != String.Empty) {
-                var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniP.Text);
+                var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniP.Text, comAnilha);
                 listaNomesPai = dbCypher.ListaPais(lista);
                 comboBoxPai.DataSource = listaNomesPai[0];
                 if (lista.Count != 0) {
                     comboBoxPai.SelectedIndex = 0;
                     ComboBoxPai_SelectionChangeCommitted(sender, e);
                 }
+                paiAnterior = comboBoxPai.Text;
 
             }
         }
 
         private async void ComboBoxPai_Leave(object sender, EventArgs e) {
+            bool comAnilha = true;
+
+            if (textBoxAniP.Text == String.Empty)
+                comAnilha = false;
+
             if (comboBoxPai.Text != paiAnterior)
                 paiIndex = -1;
 
             if (comboBoxPai.Text != String.Empty)
                 if (paiIndex < 0) {
-                    var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniP.Text);
+                    var lista = await dbCypher.ProcurarPais(comboBoxPai.Text, textBoxAniP.Text, comAnilha);
                     listaNomesPai = dbCypher.ListaPais(lista);
                     comboBoxPai.DataSource = listaNomesPai[0];
                     if (lista.Count != 0) {
@@ -149,25 +173,34 @@ namespace neo4jUI {
         }
 
         private async void ComboBoxMae_KeyUp(object sender, KeyEventArgs e) {
+            bool comAnilha = true;
+
+            if (textBoxAniM.Text == String.Empty)
+                comAnilha = false;
+
             if (e.KeyCode == Keys.Enter && comboBoxMae.Text != String.Empty) {
-                var lista = await dbCypher.ProcurarPais(comboBoxMae.Text, textBoxAniM.Text);
+                var lista = await dbCypher.ProcurarPais(comboBoxMae.Text, textBoxAniM.Text, comAnilha);
                 listaNomesMae = dbCypher.ListaPais(lista);
                 comboBoxMae.DataSource = listaNomesMae[0];
                 if (lista.Count != 0) {
                     comboBoxMae.SelectedIndex = 0;
                     ComboBoxMae_SelectionChangeCommitted(sender, e);
                 }
-
+                maeAnterior = comboBoxMae.Text;
             }
         }
 
         private async void ComboBoxMae_Leave(object sender, EventArgs e) {
+            bool comAnilha = true;
+            if (textBoxAniM.Text == String.Empty)
+                comAnilha = false;
+
             if (comboBoxMae.Text != maeAnterior)
                 maeIndex = -1;
 
             if (comboBoxMae.Text != String.Empty)
                 if (maeIndex < 0) {
-                    var lista = await dbCypher.ProcurarPais(comboBoxMae.Text, textBoxAniM.Text);
+                    var lista = await dbCypher.ProcurarPais(comboBoxMae.Text, textBoxAniM.Text, comAnilha);
                     listaNomesMae = dbCypher.ListaPais(lista);
                     comboBoxMae.DataSource = listaNomesMae[0];
                     if (lista.Count != 0) {
@@ -197,6 +230,7 @@ namespace neo4jUI {
                     comboBoxNomeF.SelectedIndex = 0;
                     ComboBoxNomeF_SelectionChangeCommitted(sender, e);
                 }
+                filhoAnterior = comboBoxNomeF.Text;
             }
         }
 
