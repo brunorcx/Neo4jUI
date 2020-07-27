@@ -238,9 +238,10 @@ namespace neo4jUI {
             if (comboBoxNomeF.Text != filhoAnterior)
                 filhoIndex = -1;
 
-            if (comboBoxNomeF.Text != String.Empty)
+            if (comboBoxNomeF.Text != String.Empty) {
+                List<IRecord> lista;
                 if (filhoIndex < 0) {
-                    var lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
+                    lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
                     listaNomesFilho = dbCypher.ListaFilhos(lista);
                     comboBoxNomeF.DataSource = listaNomesFilho[0];
                     if (lista.Count != 0) {
@@ -248,6 +249,7 @@ namespace neo4jUI {
                         labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
                     }
                 }
+            }
 
             filhoAnterior = comboBoxNomeF.Text;
         }
@@ -347,15 +349,19 @@ namespace neo4jUI {
 
             //Deixar itens escondidos
             tornarVisivel(false);
+
+            //Resetar texto
+            comboBoxNomeF.Text = String.Empty;
         }
 
         private void tornarVisivel(bool visivel) {
-            if (visivel) {
+            if (visivel) { //Cadastro
                 buttonCadastrar.Show();
                 buttonPesquisar.Hide();
 
                 radioButtonPassaro.Show();
                 radioButtonPais.Show();
+                radioButtonArvore.Show();
                 if (radioButtonPassaro.Checked) {
                     labelNPai.Hide();
                     labelAniP.Hide();
@@ -366,7 +372,7 @@ namespace neo4jUI {
                     comboBoxMae.Hide();
                     textBoxAniM.Hide();
                 }
-                else {
+                else {//radioButtonPais
                     labelNPai.Show();
                     labelAniP.Show();
                     comboBoxPai.Show();
@@ -375,9 +381,13 @@ namespace neo4jUI {
                     labelAniM.Show();
                     comboBoxMae.Show();
                     textBoxAniM.Show();
+                    labelPaiP.Show();
+                    labelMaeP.Show();
+                    labelPaiM.Show();
+                    labelMaeM.Show();
                 }
-            }
-            else {
+            } //Fim visível
+            else { //Pesquisa
                 buttonCadastrar.Hide();
                 buttonPesquisar.Show();
 
@@ -389,21 +399,38 @@ namespace neo4jUI {
                 labelAniM.Hide();
                 comboBoxMae.Hide();
                 textBoxAniM.Hide();
+                labelPaiP.Hide();
+                labelMaeP.Hide();
+                labelPaiM.Hide();
+                labelMaeM.Hide();
                 radioButtonPassaro.Hide();
                 radioButtonPais.Hide();
+                radioButtonArvore.Hide();
 
             }
         }
 
         private async void Pesquisar_Click(object sender, EventArgs e) {
-            await dbCypher.ProcurarFamilia(comboBoxNomeF.Text, textBoxAniF.Text);
-
-            if (dbCypher.GetRecords().Count == 0)
-                MessageBox.Show("Passarinho não encontrado, por favor cadastre-o primeiro");
+            if (comboBoxNomeF.Text == String.Empty) {
+                MessageBox.Show("Por favor, preencha o campo nome do passarinho!");
+            }
             else {
-                //Imprimir Árvore
-                GerarPDF pdf = new GerarPDF(dbCypher.GetFamilia());
-                pdf.salvarPDF("ArvoreGenealogica");
+                bool comAnilha = true;
+                if (textBoxAniF.Text == String.Empty) {
+                    textBoxAniF.Text = listaNomesFilho[1][filhoIndex];
+                    comAnilha = false;
+                }
+                await dbCypher.ProcurarFamilia(comboBoxNomeF.Text, textBoxAniF.Text, comAnilha);
+                if (!comAnilha)
+                    textBoxAniF.Text = String.Empty;
+
+                if (dbCypher.GetRecords().Count == 0)
+                    MessageBox.Show("Passarinho não encontrado, por favor cadastre-o primeiro");
+                else {
+                    //Imprimir Árvore
+                    GerarPDF pdf = new GerarPDF(dbCypher.GetFamilia());
+                    pdf.salvarPDF("ArvoreGenealogica");
+                }
             }
         }
 
@@ -415,5 +442,23 @@ namespace neo4jUI {
 //Quando já tem um dos pais cadastrados e quer cadastrar o outro acontece duplo relacionamento
 //Achar todos os nós a partir de um nó  MATCH(p:Passaro{ anilha: '1'})-[*]-(connected) RETURN p,connected
 //Ícone retirado do sítio https://publicdomainvectors.org/en/free-clipart/Vector-image-of-goldfinch-bird-on-a-branch/28843.html
-//Dá o aviso errado quando o passarinho não tem pais, mas está cadastrado
 //https://stackoverflow.com/questions/32956142/how-to-deploy-application-with-sql-server-database-on-clients
+/* Adicionar textBox dinamicamente
+private int m_CurrTexboxYPos = 10;
+private List<TextBox> m_TextBoxList = new List<TextBox>();
+
+private void CreateCheckBox()
+{
+    m_CurrTexboxYPos += 25;
+    TextBox textbox = new TextBox();
+    textbox.Location = new System.Drawing.Point(0, m_CurrTexboxYPos);
+    textbox.Size = new System.Drawing.Size(100,20);
+    Controls.Add(textbox);
+    m_TextBoxList.Add(textbox);
+}
+*/
+/* Depois de criar todos os combobox mudar o EventHandler para apenas um método
+ this.comboBoxPai.SelectionChangeCommitted += new System.EventHandler(this.ComboBoxPai_SelectionChangeCommitted);
+ this.comboBoxPai.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ComboBoxPai_KeyUpAsync);
+ this.comboBoxPai.Leave += new System.EventHandler(this.ComboBoxPai_Leave);
+*/

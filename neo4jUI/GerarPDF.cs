@@ -73,7 +73,7 @@ namespace neo4jUI {
             table.AddColumn(Unit.FromCentimeter(3));//Segunda coluna
             table.AddColumn(Unit.FromCentimeter(3));//Terceira coluna
             table.AddColumn(Unit.FromCentimeter(3));//Quarta coluna
-            //table.AddColumn(Unit.FromCentimeter(2));//Quinta coluna
+            table.AddColumn(Unit.FromCentimeter(3));//Quinta coluna
             //table.AddColumn(Unit.FromCentimeter(2));//Sexta coluna
             //table.AddColumn(Unit.FromCentimeter(2));//Sétima coluna
             //table.AddColumn(Unit.FromCentimeter(2));//Oitava coluna
@@ -83,200 +83,113 @@ namespace neo4jUI {
             //Arrastar tabela
             table.Rows.LeftIndent = "-2cm";
             table.Rows.Height = 22;
+            //Arrumar formatação
             table.Format.Font.Size = 14;
-            //table.Format.Font.Color = Colors.DarkRed;
+            table.Format.Font.Color = Colors.White;
             table.Borders.Color = Colors.White;
+            table.Format.Alignment = ParagraphAlignment.Center;
+            table.Rows.VerticalAlignment = VerticalAlignment.Center;
 
-            //Arrumar tamanho
-            if (listaString.Count < 15)
-                for (int i = listaString.Count - 1; i < 15; i++) {
-                    listaString.Add("xxxxxxxxx");
-                }
             //table.Format.SpaceBefore = "-4cm";
             //Colocar uma border branca e usar row vermelha para completar a linha
 
-            //Linha 0
+            //Adicionar 31 linhas
+            for (int i = 0; i < 31; i++) {
+                table.AddRow();
+            }
+            //Preencher células
+            table.Rows[15][0].AddParagraph(listaString[0]);//A
+            table.Rows[15][0].Shading.Color = Colors.Black;//A
 
-            Row row = table.AddRow();
-            row.Height = 20;
+            table.Rows[7][1].AddParagraph(listaString[1]);//B
+            table.Rows[7][1].Shading.Color = Colors.DarkBlue;//B
 
-            Cell cell = row.Cells[0];
-            cell = row.Cells[2];
-            cell.Borders.Right.Color = Colors.White;
-            cell = row.Cells[3];
-            cell.AddParagraph(listaString[7]);
-            //cell.AddImage("../../Resources/imagens/CabecalhoForbras.png");
-            //cell.AddParagraph("ENTRADA: " + "\t\tENTREGA: "); //113 caracteres
-            //cell.VerticalAlignment = VerticalAlignment.Bottom;
-            //cell = row.Cells[1];
-            cell.Borders.Right.Color = Colors.White;
-            cell.Borders.Top.Color = Colors.White;
-            cell.Borders.Color = Colors.DarkBlue;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            //cell.AddParagraph("PEDIDO");
-            //cell.AddParagraph("\n000100");
-            //row.Cells[0].MergeRight = 1;
+            table.Rows[23][1].AddParagraph(listaString[2]);//C
+            table.Rows[23][1].Shading.Color = Colors.DarkRed;//C
 
-            //Linha 1
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[3][2].AddParagraph(listaString[3]);//D
+            table.Rows[3][2].Shading.Color = Colors.DarkBlue;//D
 
-            cell = row.Cells[0];
-            cell = row.Cells[2];
+            table.Rows[11][2].AddParagraph(listaString[4]);//E
+            table.Rows[11][2].Shading.Color = Colors.DarkRed;//E
 
-            cell.AddParagraph(listaString[3]);
-            cell.Borders.Color = Colors.DarkBlue;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell = row.Cells[3];
-            cell.Borders.Right.Color = Colors.DarkBlue;
-            //Linha 2
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[19][2].AddParagraph(listaString[5]);//F
+            table.Rows[19][2].Shading.Color = Colors.DarkBlue;//F
 
-            cell = row.Cells[0];
-            cell = row.Cells[1];
-            cell.Borders.Right.Color = Colors.DarkBlue;
-            cell = row.Cells[2];
-            cell.Borders.Right.Color = Colors.DarkRed;
-            cell = row.Cells[3];
-            cell.AddParagraph(listaString[8]);
-            cell.Borders.Color = Colors.DarkRed;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            //Linha 3
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[27][2].AddParagraph(listaString[6]);//G
+            table.Rows[27][2].Shading.Color = Colors.DarkRed;//G
 
-            cell = row.Cells[0];
-            cell = row.Cells[1];//Coluna 1
+            table.Rows[1][3].AddParagraph(listaString[7]);//H
+            table.Rows[1][3].Shading.Color = Colors.DarkBlue;//H
 
-            cell.AddParagraph(listaString[1]);
-            cell.Borders.Color = Colors.DarkBlue;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell = row.Cells[3];//Coluna 3
-            cell.AddParagraph(listaString[9]);
-            cell.Borders.Color = Colors.DarkBlue;
-            cell.Borders.Right.Color = Colors.White;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            //Linha 4
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[5][3].AddParagraph(listaString[8]);//I
+            table.Rows[5][3].Shading.Color = Colors.DarkRed;//I
 
-            cell = row.Cells[0];
-            cell = row.Cells[1];
-            cell.Borders.Right.Color = Colors.DarkRed;
-            cell = row.Cells[2];
-            cell.AddParagraph(listaString[4]);
-            cell.Borders.Color = Colors.DarkRed;
-            cell.Borders.Right.Color = Colors.DarkBlue;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell = row.Cells[3];
-            cell.Borders.Right.Color = Colors.DarkBlue;
-            //Linha 5
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[9][3].AddParagraph(listaString[9]);//J
+            table.Rows[9][3].Shading.Color = Colors.DarkBlue;//J
 
-            cell = row.Cells[0];
-            cell.Borders.Bottom.Color = Colors.Black;
-            cell = row.Cells[2];
-            cell.Borders.Right.Color = Colors.DarkRed;
-            cell = row.Cells[3];
-            cell.AddParagraph(listaString[10]);
-            cell.Borders.Color = Colors.DarkRed;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            //Linha 6
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[13][3].AddParagraph(listaString[10]);//K
+            table.Rows[13][3].Shading.Color = Colors.DarkRed;//K
 
-            cell = row.Cells[0];
-            cell.AddParagraph(listaString[0]);
-            cell.Borders.Color = Colors.Black;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell = row.Cells[3];
-            cell.AddParagraph(listaString[11]);
-            cell.Borders.Color = Colors.DarkBlue;
-            cell.Borders.Right.Color = Colors.White;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            //Linha 7
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[17][3].AddParagraph(listaString[11]);//L
+            table.Rows[17][3].Shading.Color = Colors.DarkBlue;//L
 
-            cell = row.Cells[0];
-            cell = row.Cells[2];
-            cell.AddParagraph(listaString[5]);
-            cell.Borders.Color = Colors.DarkBlue;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell = row.Cells[3];
-            cell.Borders.Right.Color = Colors.DarkBlue;
-            //Linha 8
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[21][3].AddParagraph(listaString[12]);//M
+            table.Rows[21][3].Shading.Color = Colors.DarkRed;//M
 
-            cell = row.Cells[0];
-            cell = row.Cells[1];
-            cell.Borders.Right.Color = Colors.DarkBlue;
-            cell = row.Cells[2];
-            cell.Borders.Right.Color = Colors.DarkRed;
-            cell = row.Cells[3];
-            cell.AddParagraph(listaString[12]);
-            cell.Borders.Color = Colors.DarkRed;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            //Linha 9
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[25][3].AddParagraph(listaString[13]);//N
+            table.Rows[25][3].Shading.Color = Colors.DarkBlue;//N
 
-            cell = row.Cells[0];
-            cell = row.Cells[1];//Coluna
-            cell.AddParagraph(listaString[2]);
-            cell.Borders.Color = Colors.DarkRed;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell = row.Cells[3];
-            cell.AddParagraph(listaString[13]);
-            cell.Borders.Color = Colors.DarkBlue;
-            cell.Borders.Right.Color = Colors.White;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            //Linha 10
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[29][3].AddParagraph(listaString[14]);//O
+            table.Rows[29][3].Shading.Color = Colors.DarkRed;//O
 
-            cell = row.Cells[0];
-            cell = row.Cells[1];
-            cell.Borders.Right.Color = Colors.DarkRed;
-            cell = row.Cells[2];
-            cell.AddParagraph(listaString[6]);
-            cell.Borders.Color = Colors.DarkRed;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            cell = row.Cells[3];
-            cell.Borders.Right.Color = Colors.DarkBlue;
-            //Linha 11
-            row = table.AddRow();
-            row.Height = 20;
+            table.Rows[0][4].AddParagraph(listaString[15]);//P
+            table.Rows[0][4].Shading.Color = Colors.DarkBlue;//P
 
-            cell = row.Cells[0];
-            cell = row.Cells[2];
-            cell.Borders.Right.Color = Colors.DarkRed;
-            cell = row.Cells[3];
-            cell.AddParagraph(listaString[14]);
-            cell.Borders.Color = Colors.DarkRed;
-            cell.VerticalAlignment = VerticalAlignment.Center;
-            cell.Format.Alignment = ParagraphAlignment.Center;
-            //Linha 12
-            row = table.AddRow();
-            row.Height = 20;
-            cell = row.Cells[0];
+            table.Rows[2][4].AddParagraph(listaString[16]);//Q
+            table.Rows[2][4].Shading.Color = Colors.DarkRed;//Q
+
+            table.Rows[4][4].AddParagraph(listaString[17]);//R
+            table.Rows[4][4].Shading.Color = Colors.DarkBlue;//R
+
+            table.Rows[6][4].AddParagraph(listaString[18]);//S
+            table.Rows[6][4].Shading.Color = Colors.DarkRed;//S
+
+            table.Rows[8][4].AddParagraph(listaString[19]);//T
+            table.Rows[8][4].Shading.Color = Colors.DarkBlue;//T
+
+            table.Rows[10][4].AddParagraph(listaString[20]);//U
+            table.Rows[10][4].Shading.Color = Colors.DarkRed;//U
+
+            table.Rows[12][4].AddParagraph(listaString[21]);//W
+            table.Rows[12][4].Shading.Color = Colors.DarkBlue;//W
+
+            table.Rows[14][4].AddParagraph(listaString[22]);//X
+            table.Rows[14][4].Shading.Color = Colors.DarkRed;//X
+
+            table.Rows[16][4].AddParagraph(listaString[23]);//Y
+            table.Rows[16][4].Shading.Color = Colors.DarkBlue;//Y
+
+            table.Rows[18][4].AddParagraph(listaString[24]);//Z
+            table.Rows[18][4].Shading.Color = Colors.DarkRed;//Z
+
+            table.Rows[20][4].AddParagraph(listaString[25]);//A1
+            table.Rows[20][4].Shading.Color = Colors.DarkBlue;//A1
+
+            table.Rows[22][4].AddParagraph(listaString[26]);//B1
+            table.Rows[22][4].Shading.Color = Colors.DarkRed;//B1
+
+            table.Rows[24][4].AddParagraph(listaString[27]);//C1
+            table.Rows[24][4].Shading.Color = Colors.DarkBlue;//C1
+
+            table.Rows[26][4].AddParagraph(listaString[28]);//D1
+            table.Rows[26][4].Shading.Color = Colors.DarkRed;//D1
+
+            table.Rows[28][4].AddParagraph(listaString[29]);//E1
+            table.Rows[28][4].Shading.Color = Colors.DarkBlue;//E1
+
+            table.Rows[30][4].AddParagraph(listaString[30]);//F1
+            table.Rows[30][4].Shading.Color = Colors.DarkRed;//F1
 
             /*
             row = table.AddRow();

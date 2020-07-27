@@ -105,20 +105,43 @@ namespace neo4jUI {
 
         }
 
-        public async Task ProcurarFamilia(string filho, string aniFilho) { //Testar essa função
+        public async Task ProcurarFamilia(string filho, string aniFilho, bool comAnilha) { //Testar essa função
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
             try {
-                string query = "match (m1:Passaro)-[:MAE]->(f:Passaro{nome:$filho, anilha:$aniFilho})<-[:PAI]-(p1:Passaro)" +
-                    "optional match(m2:Passaro)-[:MAE]->(p1) < -[:PAI] - (p2: Passaro)" +
-                    "optional match(m3:Passaro)-[:MAE]->(m1) < -[:PAI] - (p3: Passaro)" +
-                    "optional match(m4:Passaro)-[:MAE]->(p2) < -[:PAI] - (p4: Passaro)" +
-                    "optional match(m5:Passaro)-[:MAE]->(m2) < -[:PAI] - (p5: Passaro)" +
-                    "optional match(m6:Passaro)-[:MAE]->(p3) < -[:PAI] - (p6: Passaro)" +
-                    "optional match(m7:Passaro)-[:MAE]->(m3) < -[:PAI] - (p7: Passaro)" +
-                    "return [f.nome, p1.nome, m1.nome, p2.nome, m2.nome, p3.nome, m3.nome, " +
-                    "p4.nome, m4.nome, p5.nome, m5.nome, p6.nome, m6.nome, p7.nome, m7.nome] AS familia";
+                string optMatch;
+                string matchf;
+                if (comAnilha) {
+                    matchf = "MATCH (f:Passaro{nome:$filho, anilha:$aniFilho})" +
+                             "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
+                             "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)";
+                }
+                else {
+                    matchf = "MATCH (f:Passaro{nome:$filho})" +
+                             "WHERE ID(f) = toInteger($aniFilho)" +
+                             "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
+                             "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)";
+                }
+                optMatch =
+                   "optional match(m2:Passaro)-[:MAE]->(p1) < -[:PAI] - (p2: Passaro)" +
+                   "optional match(m3:Passaro)-[:MAE]->(m1) < -[:PAI] - (p3: Passaro)" +
+                   "optional match(m4:Passaro)-[:MAE]->(p2) < -[:PAI] - (p4: Passaro)" +
+                   "optional match(m5:Passaro)-[:MAE]->(m2) < -[:PAI] - (p5: Passaro)" +
+                   "optional match(m6:Passaro)-[:MAE]->(p3) < -[:PAI] - (p6: Passaro)" +
+                   "optional match(m7:Passaro)-[:MAE]->(m3) < -[:PAI] - (p7: Passaro)" +
+                   "OPTIONAL MATCH(m8:Passaro)-[:MAE]->(p4) < -[:PAI] - (p8: Passaro)" +
+                   "OPTIONAL MATCH(m9:Passaro)-[:MAE]->(m4) < -[:PAI] - (p9: Passaro)" +
+                   "OPTIONAL MATCH(m10:Passaro)-[:MAE]->(p5) < -[:PAI] - (p10: Passaro)" +
+                   "OPTIONAL MATCH(m11:Passaro)-[:MAE]->(m5) < -[:PAI] - (p11: Passaro)" +
+                   "OPTIONAL MATCH(m12:Passaro)-[:MAE]->(p6) < -[:PAI] - (p12: Passaro)" +
+                   "OPTIONAL MATCH(m13:Passaro)-[:MAE]->(m6) < -[:PAI] - (p13: Passaro)" +
+                   "OPTIONAL MATCH(m14:Passaro)-[:MAE]->(p7) < -[:PAI] - (p14: Passaro)" +
+                   "OPTIONAL MATCH(m15:Passaro)-[:MAE]->(m7) < -[:PAI] - (p15: Passaro)" +
+                   "return [f.nome, p1.nome, m1.nome, p2.nome, m2.nome, p3.nome, m3.nome, " +
+                   "p4.nome, m4.nome, p5.nome, m5.nome, p6.nome, m6.nome, p7.nome, m7.nome," +
+                   "p8.nome, m8.nome, p9.nome, m9.nome, p10.nome, m10.nome, p11.nome, m11.nome," +
+                   "p12.nome, m12.nome, p13.nome, m13.nome, p14.nome, m14.nome, p15.nome, m15.nome] AS familia";
 
-                cursor = await session.RunAsync(query, new { filho, aniFilho });
+                cursor = await session.RunAsync(matchf + optMatch, new { filho, aniFilho });
 
                 records = await cursor.ToListAsync();
 
@@ -169,8 +192,9 @@ namespace neo4jUI {
 
         }
 
-        //TODO: Testar cadastrar ListaNomeFilhos é diferente, confirmar ID selecionado
+        //TODO: Atualizar PDF para novo nível de pais
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
+        //TODO: Criar catch para quando não conseguir se conectar com o banco
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
