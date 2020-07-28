@@ -29,11 +29,11 @@ namespace neo4jUI {
             Section section = document.AddSection();
             section.PageSetup.TopMargin = "0.5cm"; // Diminuir a margem do topo da página
             section.PageSetup.BottomMargin = "-0.5cm";
-            //Inserir tabela
+            //Inserir Tabela
             SimpleTable(document);
+
             // Add a paragraph to the section
             Paragraph paragraph = section.AddParagraph();
-
             paragraph.Format.Font.Color = MigraDoc.DocumentObjectModel.Color.FromCmyk(100, 30, 20, 50);
 
             // Add some text to the paragraph
@@ -68,24 +68,25 @@ namespace neo4jUI {
             Table table = new Table();
             table.Borders.Width = 0.75;
             //table.Borders.Color = Colors.DarkRed;
-            Column column = table.AddColumn(Unit.FromCentimeter(3));//Primeira coluna
+            Column column = table.AddColumn(Unit.FromCentimeter(1));//Primeira coluna
             //column.Format.Alignment = ParagraphAlignment.Center;
-            table.AddColumn(Unit.FromCentimeter(3));//Segunda coluna
-            table.AddColumn(Unit.FromCentimeter(3));//Terceira coluna
-            table.AddColumn(Unit.FromCentimeter(3));//Quarta coluna
-            table.AddColumn(Unit.FromCentimeter(3));//Quinta coluna
-            //table.AddColumn(Unit.FromCentimeter(2));//Sexta coluna
-            //table.AddColumn(Unit.FromCentimeter(2));//Sétima coluna
-            //table.AddColumn(Unit.FromCentimeter(2));//Oitava coluna
-            //table.AddColumn(Unit.FromCentimeter(2));//Nona coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Segunda coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Terceira coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Quarta coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Quinta coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Sexta coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Sétima coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Oitava coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Nona coluna
             //table.AddColumn(Unit.FromCentimeter(2));//Decima coluna
 
             //Arrastar tabela
-            table.Rows.LeftIndent = "-2cm";
-            table.Rows.Height = 22;
+            table.Rows.LeftIndent = "-2.5cm";
+            table.Rows.Height = "0.1cm";
             //Arrumar formatação
-            table.Format.Font.Size = 14;
+            table.Format.Font.Size = 9;
             table.Format.Font.Color = Colors.White;
+            table.Format.Font.Bold = true;
             table.Borders.Color = Colors.White;
             table.Format.Alignment = ParagraphAlignment.Center;
             table.Rows.VerticalAlignment = VerticalAlignment.Center;
@@ -97,7 +98,76 @@ namespace neo4jUI {
             for (int i = 0; i < 31; i++) {
                 table.AddRow();
             }
+            table.Columns[7].LeftPadding = -1; //Corrigir espaçamento, tabela dentro de P
+
             //Preencher células
+            table.Rows[8][0].AddParagraph(listaString[0]);//A
+            table.Rows[8][0].Shading.Color = Colors.Black;//A
+            table.Rows[8][0].MergeRight = 1;//A
+
+            table.Rows[4][1].AddParagraph(listaString[1]);//B
+            table.Rows[4][1].Shading.Color = Colors.DarkBlue;//B
+            table.Rows[4][1].MergeRight = 1;//B
+
+            table.Rows[12][1].AddParagraph(listaString[2]);//C
+            table.Rows[12][1].Shading.Color = Colors.DarkRed;//C
+            table.Rows[12][1].MergeRight = 1;//C
+
+            table.Rows[2][3].AddParagraph(listaString[3]);//D
+            table.Rows[2][3].Shading.Color = Colors.DarkBlue;//D
+            table.Rows[2][3].MergeRight = 1;//D
+
+            table.Rows[6][3].AddParagraph(listaString[4]);//E
+            table.Rows[6][3].Shading.Color = Colors.DarkRed;//E
+            table.Rows[6][3].MergeRight = 1;//E
+
+            table.Rows[10][3].AddParagraph(listaString[5]);//F
+            table.Rows[10][3].Shading.Color = Colors.DarkBlue;//F
+            table.Rows[10][3].MergeRight = 1;//F
+
+            table.Rows[14][3].AddParagraph(listaString[6]);//G
+            table.Rows[14][3].Shading.Color = Colors.DarkRed;//G
+            table.Rows[14][3].MergeRight = 1;//G
+
+            table.Rows[1][5].AddParagraph(listaString[7]);//H
+            table.Rows[1][5].Shading.Color = Colors.DarkBlue;//H
+            table.Rows[1][5].MergeRight = 1;//H
+
+            table.Rows[3][5].AddParagraph(listaString[8]);//I
+            table.Rows[3][5].Shading.Color = Colors.DarkRed;//I
+            table.Rows[3][5].MergeRight = 1;//I
+
+            table.Rows[5][5].AddParagraph(listaString[9]);//J
+            table.Rows[5][5].Shading.Color = Colors.DarkBlue;//J
+            table.Rows[5][5].MergeRight = 1;//J
+
+            table.Rows[7][5].AddParagraph(listaString[10]);//K
+            table.Rows[7][5].Shading.Color = Colors.DarkRed;//K
+            table.Rows[7][5].MergeRight = 1;//K
+
+            table.Rows[9][5].AddParagraph(listaString[11]);//L
+            table.Rows[9][5].Shading.Color = Colors.DarkBlue;//L
+            table.Rows[9][5].MergeRight = 1;//L
+
+            table.Rows[11][5].AddParagraph(listaString[12]);//M
+            table.Rows[11][5].Shading.Color = Colors.DarkRed;//M
+            table.Rows[11][5].MergeRight = 1;//M
+
+            table.Rows[13][5].AddParagraph(listaString[13]);//N
+            table.Rows[13][5].Shading.Color = Colors.DarkBlue;//N
+            table.Rows[13][5].MergeRight = 1;//N
+
+            table.Rows[15][5].AddParagraph(listaString[14]);//O
+            table.Rows[15][5].Shading.Color = Colors.DarkRed;//O
+            table.Rows[15][5].MergeRight = 1;//O
+
+            table.Rows[0][7].MergeRight = 1;//P
+            table.Rows[0][7].MergeDown = 30;//P
+            table.Rows[0][7].VerticalAlignment = VerticalAlignment.Top;//P
+            table.Rows[0][7].AddTextFrame().Height = "0.2cm";//P
+            table.Rows[0][7].Elements.Add(SegundaTabela());//P
+
+            /*31 Linhas RowHeight=10 /4 Colunas 2cm
             table.Rows[15][0].AddParagraph(listaString[0]);//A
             table.Rows[15][0].Shading.Color = Colors.Black;//A
 
@@ -190,6 +260,7 @@ namespace neo4jUI {
 
             table.Rows[30][4].AddParagraph(listaString[30]);//F1
             table.Rows[30][4].Shading.Color = Colors.DarkRed;//F1
+             */
 
             /*
             row = table.AddRow();
@@ -213,6 +284,67 @@ namespace neo4jUI {
             //Adicionar tabela ao documento
             document.LastSection.Add(table);
 
+        }
+
+        private static Table SegundaTabela() {
+            Table table = new Table();
+            table.Borders.Width = 0.75;
+
+            //table.Borders.Color = Colors.DarkRed;
+            Column column = table.AddColumn(Unit.FromCentimeter(1.87));//Primeira coluna
+
+            //Arrastar tabela
+            //table.Rows.LeftIndent = "-10.5cm";
+            //table.Rows.Height = 10;
+            //Arrumar formatação
+            table.Format.Font.Size = 9;
+            table.Format.Font.Color = Colors.White;
+            table.Format.Font.Bold = true;
+            table.Borders.Color = Colors.White;
+            table.Format.Alignment = ParagraphAlignment.Center;
+            //table.Rows.VerticalAlignment = VerticalAlignment.Center;
+
+            //Adicionar 31 linhas
+            for (int i = 0; i < 16; i++) {
+                if (i % 2 == 0)
+                    table.AddRow().Shading.Color = Colors.DarkBlue;
+                else
+                    table.AddRow().Shading.Color = Colors.DarkRed;
+
+            }
+            table.Rows[0][0].AddParagraph(listaString[15]);//P
+
+            table.Rows[1][0].AddParagraph(listaString[16]);//Q
+
+            table.Rows[2][0].AddParagraph(listaString[17]);//R
+
+            table.Rows[3][0].AddParagraph(listaString[18]);//S
+
+            table.Rows[4][0].AddParagraph(listaString[19]);//T
+
+            table.Rows[5][0].AddParagraph(listaString[20]);//U
+
+            table.Rows[6][0].AddParagraph(listaString[21]);//V
+
+            table.Rows[7][0].AddParagraph(listaString[22]);//W
+
+            table.Rows[8][0].AddParagraph(listaString[23]);//X
+
+            table.Rows[9][0].AddParagraph(listaString[24]);//Y
+
+            table.Rows[10][0].AddParagraph(listaString[25]);//Z
+
+            table.Rows[11][0].AddParagraph(listaString[26]);//A1
+
+            table.Rows[12][0].AddParagraph(listaString[27]);//B1
+
+            table.Rows[13][0].AddParagraph(listaString[28]);//C1
+
+            table.Rows[14][0].AddParagraph(listaString[29]);//D1
+
+            table.Rows[15][0].AddParagraph(listaString[30]);//E1
+
+            return table;
         }
 
         public void salvarPDF(string nomeArquivo) {

@@ -192,7 +192,7 @@ namespace neo4jUI {
 
         }
 
-        //TODO: Atualizar PDF para novo nível de pais
+        //TODO: Ajustar tamanho da árvore no GerarPDF
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
         //TODO: Criar catch para quando não conseguir se conectar com o banco
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {

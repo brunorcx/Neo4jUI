@@ -411,7 +411,7 @@ namespace neo4jUI {
         }
 
         private async void Pesquisar_Click(object sender, EventArgs e) {
-            if (comboBoxNomeF.Text == String.Empty) {
+            if (comboBoxNomeF.Text == String.Empty || listaNomesFilho == null) { //Segunda comparação está errada as vezes não dá tempo do leave retornar e a lista não é atualizada
                 MessageBox.Show("Por favor, preencha o campo nome do passarinho!");
             }
             else {
