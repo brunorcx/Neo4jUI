@@ -1,6 +1,7 @@
 ﻿using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
+using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace neo4jUI {
 
             // Add a section to the document
             Section section = document.AddSection();
-            section.PageSetup.TopMargin = "0.5cm"; // Diminuir a margem do topo da página
+            section.PageSetup.TopMargin = "-0.1cm"; // Diminuir a margem do topo da página
             section.PageSetup.BottomMargin = "-0.5cm";
             //Inserir Tabela
             SimpleTable(document);
@@ -82,16 +83,17 @@ namespace neo4jUI {
 
             //Arrastar tabela
             table.Rows.LeftIndent = "-2.5cm";
-            table.Rows.Height = "0.1cm";
+            table.Rows.Height = "0.3cm";
+
             //Arrumar formatação
-            table.Format.Font.Size = 9;
+            table.Format.Font.Size = 10;
             table.Format.Font.Color = Colors.White;
             table.Format.Font.Bold = true;
             table.Borders.Color = Colors.White;
             table.Format.Alignment = ParagraphAlignment.Center;
             table.Rows.VerticalAlignment = VerticalAlignment.Center;
 
-            //table.Format.SpaceBefore = "-4cm";
+            table.Format.SpaceBefore = "-0.04cm"; //Levantar um pouco as letras na celula
             //Colocar uma border branca e usar row vermelha para completar a linha
 
             //Adicionar 31 linhas
@@ -166,6 +168,43 @@ namespace neo4jUI {
             table.Rows[0][7].VerticalAlignment = VerticalAlignment.Top;//P
             table.Rows[0][7].AddTextFrame().Height = "0.2cm";//P
             table.Rows[0][7].Elements.Add(SegundaTabela());//P
+
+            List<Cell> celulas = new List<Cell> {
+                table.Rows[8][0],//A
+                table.Rows[4][1],//B
+                table.Rows[12][1],//C
+                table.Rows[2][3],//D
+                table.Rows[6][3],//E
+                table.Rows[10][3],//F
+                table.Rows[14][3],//G
+                table.Rows[1][5],//H
+                table.Rows[3][5],//I
+                table.Rows[5][5],//J
+                table.Rows[7][5],//K
+                table.Rows[9][5],//L
+                table.Rows[11][5],//M
+                table.Rows[13][5],//N
+                table.Rows[15][5],//O
+                table.Rows[0][7]//P
+            };
+
+            for (int i = 0; i < celulas.Count; i++) {
+                celulas[i].Format.Font.Size = 10;
+                var tamanho = TamanhoTexto(listaString[i], celulas[i].Format.Font.Size.Value);
+                while (tamanho > 55) {
+                    celulas[i].Format.Font.Size = celulas[i].Format.Font.Size - 0.5;
+                    tamanho = TamanhoTexto(listaString[i], celulas[i].Format.Font.Size);
+                }
+            }
+
+            /*
+             celulas[i].Format.Font.Size = 10;
+                var tamanho = TamanhoTexto(listaString[i], celulas[i].Format.Font.Size.Value);
+                while (tamanho > 55) {
+                    celulas[i].Format.Font.Size = celulas[i].Format.Font.Size - 0.25;
+                    tamanho = TamanhoTexto(listaString[i], celulas[i].Format.Font.Size);
+                }
+             */
 
             /*31 Linhas RowHeight=10 /4 Colunas 2cm
             table.Rows[15][0].AddParagraph(listaString[0]);//A
@@ -295,9 +334,9 @@ namespace neo4jUI {
 
             //Arrastar tabela
             //table.Rows.LeftIndent = "-10.5cm";
-            //table.Rows.Height = 10;
+            table.Rows.Height = 10;
             //Arrumar formatação
-            table.Format.Font.Size = 9;
+            table.Format.Font.Size = 10;
             table.Format.Font.Color = Colors.White;
             table.Format.Font.Bold = true;
             table.Borders.Color = Colors.White;
@@ -345,6 +384,17 @@ namespace neo4jUI {
             table.Rows[15][0].AddParagraph(listaString[30]);//E1
 
             return table;
+        }
+
+        private static double TamanhoTexto(string nome, double fontSize) {
+            var pdfDoc = new PdfSharp.Pdf.PdfDocument();
+            var pdfPage = pdfDoc.AddPage();
+            var pdfGfx = PdfSharp.Drawing.XGraphics.FromPdfPage(pdfPage);
+            var pdfFont = new PdfSharp.Drawing.XFont("Times New Roman", fontSize);
+            var tamanho = pdfGfx.MeasureString(nome, pdfFont).Width;
+            return tamanho;
+
+            //pdfGfx.DrawString("Hello World!", pdfFont, PdfSharp.Drawing.XBrushes.Black, new PdfSharp.Drawing.XPoint(100, 100));
         }
 
         public void salvarPDF(string nomeArquivo) {

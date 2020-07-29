@@ -187,14 +187,14 @@ namespace neo4jUI {
             }
             finally {
                 await session.CloseAsync();
-
             }
 
         }
 
-        //TODO: Ajustar tamanho da árvore no GerarPDF
+        //TODO: Criar frente do cartão
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
         //TODO: Criar catch para quando não conseguir se conectar com o banco
+        //TODO: Clicar em pesquisar sem sair nomeFilhoF faz com que listnomesF == null
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 
@@ -219,6 +219,7 @@ namespace neo4jUI {
                 foreach (var nome in nomes) {
                     if (nome == null)
                         familia.Add("xxxxxxxxxxx");
+                    //familia.Add("xxxxxxxxxxx");
                     else
                         familia.Add(nome);
                 }
