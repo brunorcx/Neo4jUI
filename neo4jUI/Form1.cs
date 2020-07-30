@@ -39,10 +39,13 @@ namespace neo4jUI {
             try {
                 await dbCypher.CriarUniqueAsync();
             }
-            catch (Exception) {
+            catch (Exception erro) {
                 //Duplicado a criação do constraint para unique da anilhaC
+                string falhouConexão = "Failed to connect to server 'bolt://localhost:7687/' via IP addresses'[127.0.0.1, ::1]' at port '7687'.";
+                if (erro.InnerException != null)
+                    if (erro.InnerException.Message == falhouConexão)
+                        MessageBox.Show("Não foi possível conectar-se ao banco. Por favor, reinicie a aplicação");
             }
-
         }
 
         private async void Button_Cadastrar(object sender, EventArgs e) {

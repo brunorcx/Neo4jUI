@@ -83,9 +83,11 @@ namespace neo4jUI {
 
             //Arrastar tabela
             table.Rows.LeftIndent = "-2.5cm";
-            table.Rows.Height = "0.3cm";
+            table.Rows.HeightRule = RowHeightRule.Exactly;
+            table.Rows.Height = "0.4cm";
 
             //Arrumar formatação
+
             table.Format.Font.Size = 10;
             table.Format.Font.Color = Colors.White;
             table.Format.Font.Bold = true;
@@ -101,6 +103,8 @@ namespace neo4jUI {
                 table.AddRow();
             }
             table.Columns[7].LeftPadding = -1; //Corrigir espaçamento, tabela dentro de P
+
+            //listaString[25] = "xxxxxxxxxxxWW";
 
             //Preencher células
             table.Rows[8][0].AddParagraph(listaString[0]);//A
@@ -334,7 +338,8 @@ namespace neo4jUI {
 
             //Arrastar tabela
             //table.Rows.LeftIndent = "-10.5cm";
-            table.Rows.Height = 10;
+            table.Rows.HeightRule = RowHeightRule.Exactly;
+            table.Rows.Height = "0.4cm";
             //Arrumar formatação
             table.Format.Font.Size = 10;
             table.Format.Font.Color = Colors.White;
@@ -382,6 +387,33 @@ namespace neo4jUI {
             table.Rows[14][0].AddParagraph(listaString[29]);//D1
 
             table.Rows[15][0].AddParagraph(listaString[30]);//E1
+
+            List<Cell> celulas = new List<Cell> {
+                table.Rows[0][0],//P
+                table.Rows[1][0],//Q
+                table.Rows[2][0],//R
+                table.Rows[3][0],//S
+                table.Rows[4][0],//T
+                table.Rows[5][0],//U
+                table.Rows[6][0],//V
+                table.Rows[7][0],//W
+                table.Rows[8][0],//X
+                table.Rows[9][0],//Y
+                table.Rows[10][0],//Z
+                table.Rows[11][0],//A1
+                table.Rows[12][0],//B1
+                table.Rows[13][0],//C1
+                table.Rows[14][0],//D1
+                table.Rows[15][0]//E1
+        };
+            for (int i = 0; i < celulas.Count; i++) {
+                celulas[i].Format.Font.Size = 10;
+                var tamanho = TamanhoTexto(listaString[i + 15], celulas[i].Format.Font.Size.Value);
+                while (tamanho > 51) {
+                    celulas[i].Format.Font.Size = celulas[i].Format.Font.Size - 0.5;
+                    tamanho = TamanhoTexto(listaString[i + 15], celulas[i].Format.Font.Size);
+                }
+            }
 
             return table;
         }

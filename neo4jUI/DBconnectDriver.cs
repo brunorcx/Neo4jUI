@@ -193,7 +193,6 @@ namespace neo4jUI {
 
         //TODO: Criar frente do cartão
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
-        //TODO: Criar catch para quando não conseguir se conectar com o banco
         //TODO: Clicar em pesquisar sem sair nomeFilhoF faz com que listnomesF == null
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
