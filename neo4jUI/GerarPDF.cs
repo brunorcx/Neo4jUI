@@ -6,6 +6,9 @@ using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,11 +81,12 @@ namespace neo4jUI {
             table.AddColumn(Unit.FromCentimeter(1));//Sexta coluna
             table.AddColumn(Unit.FromCentimeter(1));//Sétima coluna
             table.AddColumn(Unit.FromCentimeter(1));//Oitava coluna
-            table.AddColumn(Unit.FromCentimeter(1));//Nona coluna
-            //table.AddColumn(Unit.FromCentimeter(2));//Decima coluna
+            table.AddColumn(Unit.FromCentimeter(1.5));//Nona coluna
+            table.AddColumn(Unit.FromCentimeter(8.5));//Decima coluna
+            table.AddColumn(Unit.FromCentimeter(1));//Decima primeira coluna
 
             //Arrastar tabela
-            table.Rows.LeftIndent = "-2.5cm";
+            table.Rows.LeftIndent = "-1.3cm";
             table.Rows.HeightRule = RowHeightRule.Exactly;
             table.Rows.Height = "0.4cm";
 
@@ -173,6 +177,18 @@ namespace neo4jUI {
             table.Rows[0][7].AddTextFrame().Height = "0.2cm";//P
             table.Rows[0][7].Elements.Add(SegundaTabela());//P
 
+            table.Rows[0][9].MergeDown = 16;//Frente documento
+            table.Rows[0][9].VerticalAlignment = VerticalAlignment.Top;
+            table.Rows[0][9].AddTextFrame().Height = "0.224cm";
+            Image imagem = Image.FromFile("C:\\Darkb\\Aplicativos\\Scripts\\OHR.TahoeBeach_ROW2080292337_1920x1200.jpg");
+            if (imagem.Width != 316 && imagem.Height != 257) {
+                imagem = ResizeImage(imagem, 316, 257);
+                imagem.Save("C:\\Darkb\\Aplicativos\\Scripts\\xxx.png");
+            }
+            table.Rows[0][9].AddImage("C:\\Darkb\\Aplicativos\\Scripts\\xxx.png").WrapFormat.Style = MigraDoc.DocumentObjectModel.Shapes.WrapStyle.Through;
+
+            table.Rows[0][9].Elements.Add(TerceiraTabela());
+
             List<Cell> celulas = new List<Cell> {
                 table.Rows[8][0],//A
                 table.Rows[4][1],//B
@@ -200,110 +216,6 @@ namespace neo4jUI {
                     tamanho = TamanhoTexto(listaString[i], celulas[i].Format.Font.Size);
                 }
             }
-
-            /*
-             celulas[i].Format.Font.Size = 10;
-                var tamanho = TamanhoTexto(listaString[i], celulas[i].Format.Font.Size.Value);
-                while (tamanho > 55) {
-                    celulas[i].Format.Font.Size = celulas[i].Format.Font.Size - 0.25;
-                    tamanho = TamanhoTexto(listaString[i], celulas[i].Format.Font.Size);
-                }
-             */
-
-            /*31 Linhas RowHeight=10 /4 Colunas 2cm
-            table.Rows[15][0].AddParagraph(listaString[0]);//A
-            table.Rows[15][0].Shading.Color = Colors.Black;//A
-
-            table.Rows[7][1].AddParagraph(listaString[1]);//B
-            table.Rows[7][1].Shading.Color = Colors.DarkBlue;//B
-
-            table.Rows[23][1].AddParagraph(listaString[2]);//C
-            table.Rows[23][1].Shading.Color = Colors.DarkRed;//C
-
-            table.Rows[3][2].AddParagraph(listaString[3]);//D
-            table.Rows[3][2].Shading.Color = Colors.DarkBlue;//D
-
-            table.Rows[11][2].AddParagraph(listaString[4]);//E
-            table.Rows[11][2].Shading.Color = Colors.DarkRed;//E
-
-            table.Rows[19][2].AddParagraph(listaString[5]);//F
-            table.Rows[19][2].Shading.Color = Colors.DarkBlue;//F
-
-            table.Rows[27][2].AddParagraph(listaString[6]);//G
-            table.Rows[27][2].Shading.Color = Colors.DarkRed;//G
-
-            table.Rows[1][3].AddParagraph(listaString[7]);//H
-            table.Rows[1][3].Shading.Color = Colors.DarkBlue;//H
-
-            table.Rows[5][3].AddParagraph(listaString[8]);//I
-            table.Rows[5][3].Shading.Color = Colors.DarkRed;//I
-
-            table.Rows[9][3].AddParagraph(listaString[9]);//J
-            table.Rows[9][3].Shading.Color = Colors.DarkBlue;//J
-
-            table.Rows[13][3].AddParagraph(listaString[10]);//K
-            table.Rows[13][3].Shading.Color = Colors.DarkRed;//K
-
-            table.Rows[17][3].AddParagraph(listaString[11]);//L
-            table.Rows[17][3].Shading.Color = Colors.DarkBlue;//L
-
-            table.Rows[21][3].AddParagraph(listaString[12]);//M
-            table.Rows[21][3].Shading.Color = Colors.DarkRed;//M
-
-            table.Rows[25][3].AddParagraph(listaString[13]);//N
-            table.Rows[25][3].Shading.Color = Colors.DarkBlue;//N
-
-            table.Rows[29][3].AddParagraph(listaString[14]);//O
-            table.Rows[29][3].Shading.Color = Colors.DarkRed;//O
-
-            table.Rows[0][4].AddParagraph(listaString[15]);//P
-            table.Rows[0][4].Shading.Color = Colors.DarkBlue;//P
-
-            table.Rows[2][4].AddParagraph(listaString[16]);//Q
-            table.Rows[2][4].Shading.Color = Colors.DarkRed;//Q
-
-            table.Rows[4][4].AddParagraph(listaString[17]);//R
-            table.Rows[4][4].Shading.Color = Colors.DarkBlue;//R
-
-            table.Rows[6][4].AddParagraph(listaString[18]);//S
-            table.Rows[6][4].Shading.Color = Colors.DarkRed;//S
-
-            table.Rows[8][4].AddParagraph(listaString[19]);//T
-            table.Rows[8][4].Shading.Color = Colors.DarkBlue;//T
-
-            table.Rows[10][4].AddParagraph(listaString[20]);//U
-            table.Rows[10][4].Shading.Color = Colors.DarkRed;//U
-
-            table.Rows[12][4].AddParagraph(listaString[21]);//W
-            table.Rows[12][4].Shading.Color = Colors.DarkBlue;//W
-
-            table.Rows[14][4].AddParagraph(listaString[22]);//X
-            table.Rows[14][4].Shading.Color = Colors.DarkRed;//X
-
-            table.Rows[16][4].AddParagraph(listaString[23]);//Y
-            table.Rows[16][4].Shading.Color = Colors.DarkBlue;//Y
-
-            table.Rows[18][4].AddParagraph(listaString[24]);//Z
-            table.Rows[18][4].Shading.Color = Colors.DarkRed;//Z
-
-            table.Rows[20][4].AddParagraph(listaString[25]);//A1
-            table.Rows[20][4].Shading.Color = Colors.DarkBlue;//A1
-
-            table.Rows[22][4].AddParagraph(listaString[26]);//B1
-            table.Rows[22][4].Shading.Color = Colors.DarkRed;//B1
-
-            table.Rows[24][4].AddParagraph(listaString[27]);//C1
-            table.Rows[24][4].Shading.Color = Colors.DarkBlue;//C1
-
-            table.Rows[26][4].AddParagraph(listaString[28]);//D1
-            table.Rows[26][4].Shading.Color = Colors.DarkRed;//D1
-
-            table.Rows[28][4].AddParagraph(listaString[29]);//E1
-            table.Rows[28][4].Shading.Color = Colors.DarkBlue;//E1
-
-            table.Rows[30][4].AddParagraph(listaString[30]);//F1
-            table.Rows[30][4].Shading.Color = Colors.DarkRed;//F1
-             */
 
             /*
             row = table.AddRow();
@@ -348,7 +260,7 @@ namespace neo4jUI {
             table.Format.Alignment = ParagraphAlignment.Center;
             //table.Rows.VerticalAlignment = VerticalAlignment.Center;
 
-            //Adicionar 31 linhas
+            //Adicionar 16 linhas
             for (int i = 0; i < 16; i++) {
                 if (i % 2 == 0)
                     table.AddRow().Shading.Color = Colors.DarkBlue;
@@ -418,6 +330,56 @@ namespace neo4jUI {
             return table;
         }
 
+        private static Table TerceiraTabela() {
+            Table table = new Table();
+            table.Borders.Width = 0.75;
+            table.Borders.Visible = false;
+
+            //Adicionar colunas total = 8,38 cm
+            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 0 Espaço
+            table.AddColumn(Unit.FromCentimeter(2.5));//Coluna 1
+            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 2 Espaço
+            table.AddColumn(Unit.FromCentimeter(2.5));//Coluna 3
+            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 4 Espaço
+            table.AddColumn(Unit.FromCentimeter(2.5));//Coluna 5
+            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 6 Espaço
+
+            table.Rows.HeightRule = RowHeightRule.Exactly;
+            table.Rows.Height = "0.4cm";
+            //Arrumar formatação
+            table.Format.Font.Size = 10;
+            table.Format.Font.Color = Colors.White;
+            table.Format.Font.Bold = true;
+            table.Borders.Color = Colors.White;
+            table.Format.Alignment = ParagraphAlignment.Center;
+            //table.Rows.VerticalAlignment = VerticalAlignment.Center;
+            for (int i = 0; i < 16; i++) {
+                table.AddRow();
+                //table.AddRow().Shading.Color = Colors.DarkBlue;
+            }
+
+            List<Cell> celulas = new List<Cell> {
+                table.Rows[1][3],
+                table.Rows[4][3],
+                table.Rows[4][5],
+                table.Rows[11][1],
+                table.Rows[11][3],
+                table.Rows[11][5],
+                table.Rows[14][1],
+                table.Rows[14][3]
+            };
+            table.Rows[1][3].MergeRight = 2;
+            foreach (var cel in celulas) {
+                cel.Borders.Visible = true;
+                cel.Borders.Color = Colors.Black;
+                cel.Shading.Color = Colors.White;
+                cel.MergeDown = 1;
+            }
+
+            return table;
+
+        }
+
         private static double TamanhoTexto(string nome, double fontSize) {
             var pdfDoc = new PdfSharp.Pdf.PdfDocument();
             var pdfPage = pdfDoc.AddPage();
@@ -427,6 +389,28 @@ namespace neo4jUI {
             return tamanho;
 
             //pdfGfx.DrawString("Hello World!", pdfFont, PdfSharp.Drawing.XBrushes.Black, new PdfSharp.Drawing.XPoint(100, 100));
+        }
+
+        public static Bitmap ResizeImage(Image image, int width, int height) {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage)) {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes()) {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
 
         public void salvarPDF(string nomeArquivo) {
@@ -470,3 +454,6 @@ namespace neo4jUI {
 
     }
 }
+
+//Função de resizeImage https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp
+//Adicionar imagem dinamicamente http://pdfsharp.net/wiki/MigraDoc_FilelessImages.ashx
