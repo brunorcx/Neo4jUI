@@ -63,6 +63,7 @@ namespace neo4jUI {
             style.Font.Bold = true;
             style.Font.Color = Colors.DarkBlue;
             style.ParagraphFormat.PageBreakBefore = true;
+
             //style.ParagraphFormat.SpaceAfter = 6;
         }
 
@@ -81,8 +82,8 @@ namespace neo4jUI {
             table.AddColumn(Unit.FromCentimeter(1));//Sexta coluna
             table.AddColumn(Unit.FromCentimeter(1));//Sétima coluna
             table.AddColumn(Unit.FromCentimeter(1));//Oitava coluna
-            table.AddColumn(Unit.FromCentimeter(1.5));//Nona coluna
-            table.AddColumn(Unit.FromCentimeter(8.5));//Decima coluna
+            table.AddColumn(Unit.FromCentimeter(1.8));//Nona coluna
+            table.AddColumn(Unit.FromCentimeter(9.4));//Decima coluna
             table.AddColumn(Unit.FromCentimeter(1));//Decima primeira coluna
 
             //Arrastar tabela
@@ -181,11 +182,11 @@ namespace neo4jUI {
             table.Rows[0][9].VerticalAlignment = VerticalAlignment.Top;
             table.Rows[0][9].AddTextFrame().Height = "0.224cm";
             Image imagem = Image.FromFile("C:\\Darkb\\Aplicativos\\Scripts\\OHR.TahoeBeach_ROW2080292337_1920x1200.jpg");
-            if (imagem.Width != 316 && imagem.Height != 257) {
-                imagem = ResizeImage(imagem, 316, 257);
-                imagem.Save("C:\\Darkb\\Aplicativos\\Scripts\\xxx.png");
+            if (imagem.Width != 350 && imagem.Height != 257) {
+                imagem = ResizeImage(imagem, 350, 257);
+                imagem.Save("C:\\Darkb\\Aplicativos\\Scripts\\xxx.jpg");
             }
-            table.Rows[0][9].AddImage("C:\\Darkb\\Aplicativos\\Scripts\\xxx.png").WrapFormat.Style = MigraDoc.DocumentObjectModel.Shapes.WrapStyle.Through;
+            table.Rows[0][9].AddImage("C:\\Darkb\\Aplicativos\\Scripts\\xxx.jpg").WrapFormat.Style = MigraDoc.DocumentObjectModel.Shapes.WrapStyle.Through;
 
             table.Rows[0][9].Elements.Add(TerceiraTabela());
 
@@ -337,11 +338,11 @@ namespace neo4jUI {
 
             //Adicionar colunas total = 8,38 cm
             table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 0 Espaço
-            table.AddColumn(Unit.FromCentimeter(2.5));//Coluna 1
+            table.AddColumn(Unit.FromCentimeter(2.8));//Coluna 1
             table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 2 Espaço
-            table.AddColumn(Unit.FromCentimeter(2.5));//Coluna 3
+            table.AddColumn(Unit.FromCentimeter(2.8));//Coluna 3
             table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 4 Espaço
-            table.AddColumn(Unit.FromCentimeter(2.5));//Coluna 5
+            table.AddColumn(Unit.FromCentimeter(2.8));//Coluna 5
             table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 6 Espaço
 
             table.Rows.HeightRule = RowHeightRule.Exactly;
@@ -358,17 +359,45 @@ namespace neo4jUI {
                 //table.AddRow().Shading.Color = Colors.DarkBlue;
             }
 
+            //Criar lista de células principais
             List<Cell> celulas = new List<Cell> {
                 table.Rows[1][3],
-                table.Rows[4][3],
-                table.Rows[4][5],
-                table.Rows[11][1],
-                table.Rows[11][3],
-                table.Rows[11][5],
+                table.Rows[5][3],
+                table.Rows[5][5],
+                table.Rows[10][1],
+                table.Rows[10][3],
+                table.Rows[10][5],
                 table.Rows[14][1],
                 table.Rows[14][3]
             };
-            table.Rows[1][3].MergeRight = 2;
+
+            //Adiciona labels
+            table.Rows[0][3].MergeRight = 2;//Nome passarinho
+            table.Rows[0][3].AddParagraph("Nome do Pássaro");//Nome passarinho
+            table.Rows[4][3].AddParagraph("Nascimento");
+            table.Rows[4][5].AddParagraph("Anilha");
+            table.Rows[9][1].AddParagraph("Sexo");
+            table.Rows[9][3].AddParagraph("Nome Popular");
+            table.Rows[9][5].AddParagraph("Nome Científico");
+            table.Rows[13][1].AddParagraph("Pai");
+            table.Rows[13][3].AddParagraph("Mãe");
+
+            //Tratar tamanho
+            table.Rows[1][3].MergeRight = 2;//Nome passarinho
+            table.Rows[0][0].MergeDown = 7;//Logo
+            table.Rows[0][0].MergeRight = 1;//Logo
+            //Inserir Logo
+            Image imagem = Image.FromFile("C:\\Darkb\\Aplicativos\\Scripts\\LogoSemBackground.png");
+
+            if (imagem.Width != 112 && imagem.Height != 120) {
+                //imagem = ResizeImage(imagem, 112, 120);
+                imagem = ResizeImageKeepAspectRatio(imagem, 112, 120);
+                imagem.Save("C:\\Darkb\\Aplicativos\\Scripts\\LogoAtual.jpg");
+            }
+            table.Rows[0][0].AddParagraph().AddImage("C:\\Darkb\\Aplicativos\\Scripts\\LogoAtual.jpg");
+            table.Rows[0][0].Format.Alignment = ParagraphAlignment.Center;
+            table.Rows[0][0].VerticalAlignment = VerticalAlignment.Center;
+
             foreach (var cel in celulas) {
                 cel.Borders.Visible = true;
                 cel.Borders.Color = Colors.Black;
@@ -395,7 +424,7 @@ namespace neo4jUI {
             var destRect = new Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);
 
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            destImage.SetResolution(image.HorizontalResolution, (image.VerticalResolution));
 
             using (var graphics = Graphics.FromImage(destImage)) {
                 graphics.CompositingMode = CompositingMode.SourceCopy;
@@ -411,6 +440,78 @@ namespace neo4jUI {
             }
 
             return destImage;
+        }
+
+        /// <summary>
+        /// Resize an image keeping its aspect ratio (cropping may occur).
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        private static Image ResizeImageKeepAspectRatio(Image source, int width, int height) {
+            Image result = null;
+            try {
+                if (source.Width != width || source.Height != height) {
+                    // Resize image
+                    float sourceRatio = (float)source.Width / source.Height;
+
+                    using (var target = new Bitmap(width, height)) {
+                        using (var g = System.Drawing.Graphics.FromImage(target)) {
+                            g.CompositingQuality = CompositingQuality.HighQuality;
+                            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            g.SmoothingMode = SmoothingMode.HighQuality;
+
+                            // Scaling
+                            float scaling;
+                            float scalingY = (float)source.Height / height;
+                            float scalingX = (float)source.Width / width;
+                            if (scalingX < scalingY) scaling = scalingX; else scaling = scalingY;
+
+                            int newWidth = (int)(source.Width / scaling);
+                            int newHeight = (int)(source.Height / scaling);
+
+                            // Correct float to int rounding
+                            if (newWidth < width) newWidth = width;
+                            if (newHeight < height) newHeight = height;
+
+                            // See if image needs to be cropped
+                            int shiftX = 0;
+                            int shiftY = 0;
+
+                            if (newWidth > width) {
+                                shiftX = (newWidth - width) / 2;
+                            }
+                            if (newHeight > height) {
+                                shiftY = (newHeight - height) / 2;
+                            }
+
+                            // Draw image
+                            g.DrawImage(source, -shiftX, -shiftY, newWidth, newHeight);
+                        }
+
+                        result = (Image)target.Clone();
+                    }
+                }
+                else {
+                    // Image size matched the given size
+                    result = (Image)source.Clone();
+                }
+            }
+            catch (Exception) {
+                result = null;
+            }
+            return result;
+        }
+
+        private static void DesenharRetangulo() {
+            Image bmp = new Bitmap(200, 200);
+            using (Graphics g = Graphics.FromImage(bmp)) {
+                g.FillRectangle(new SolidBrush(System.Drawing.Color.Red), new Rectangle(55, 2, 100, 20));
+            }
+
+            bmp.Save("C:\\Darkb\\Aplicativos\\Scripts\\retangulo.jpg");
+
         }
 
         public void salvarPDF(string nomeArquivo) {
@@ -457,3 +558,4 @@ namespace neo4jUI {
 
 //Função de resizeImage https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp
 //Adicionar imagem dinamicamente http://pdfsharp.net/wiki/MigraDoc_FilelessImages.ashx
+//Fuinão ResizeKeepAspectRatio https://alex.domenici.net/archive/resize-and-crop-an-image-keeping-its-aspect-ratio-with-c-sharp

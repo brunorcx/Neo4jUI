@@ -191,7 +191,7 @@ namespace neo4jUI {
 
         }
 
-        //TODO: Adicionar imagem logo no PDF canto superior esquerdo
+        //TODO: Dividir coluna terceira tabela em três partes para células com texto
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
         //TODO: Clicar em pesquisar sem sair nomeFilhoF faz com que listnomesF == null
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {
