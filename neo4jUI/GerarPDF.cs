@@ -338,12 +338,18 @@ namespace neo4jUI {
 
             //Adicionar colunas total = 8,38 cm
             table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 0 Espaço
-            table.AddColumn(Unit.FromCentimeter(2.8));//Coluna 1
-            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 2 Espaço
-            table.AddColumn(Unit.FromCentimeter(2.8));//Coluna 3
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 1
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 2
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 3
             table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 4 Espaço
-            table.AddColumn(Unit.FromCentimeter(2.8));//Coluna 5
-            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 6 Espaço
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 5
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 6
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 7
+            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 8 Espaço
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 9
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 10
+            table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 11
+            table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 12 Espaço
 
             table.Rows.HeightRule = RowHeightRule.Exactly;
             table.Rows.Height = "0.4cm";
@@ -361,31 +367,26 @@ namespace neo4jUI {
 
             //Criar lista de células principais
             List<Cell> celulas = new List<Cell> {
-                table.Rows[1][3],
-                table.Rows[5][3],
+                table.Rows[1][5],
                 table.Rows[5][5],
+                table.Rows[5][9],
                 table.Rows[10][1],
-                table.Rows[10][3],
                 table.Rows[10][5],
+                table.Rows[10][9],
                 table.Rows[14][1],
-                table.Rows[14][3]
+                table.Rows[14][7]
             };
+            List<Cell> labelCelulas = new List<Cell> {
+                table.Rows[0][5],
+                table.Rows[4][5],
+                table.Rows[4][9],
+                table.Rows[9][1],
+                table.Rows[9][5],
+                table.Rows[9][9],
+                table.Rows[13][1],
+                table.Rows[13][7]
+        };
 
-            //Adiciona labels
-            table.Rows[0][3].MergeRight = 2;//Nome passarinho
-            table.Rows[0][3].AddParagraph("Nome do Pássaro");//Nome passarinho
-            table.Rows[4][3].AddParagraph("Nascimento");
-            table.Rows[4][5].AddParagraph("Anilha");
-            table.Rows[9][1].AddParagraph("Sexo");
-            table.Rows[9][3].AddParagraph("Nome Popular");
-            table.Rows[9][5].AddParagraph("Nome Científico");
-            table.Rows[13][1].AddParagraph("Pai");
-            table.Rows[13][3].AddParagraph("Mãe");
-
-            //Tratar tamanho
-            table.Rows[1][3].MergeRight = 2;//Nome passarinho
-            table.Rows[0][0].MergeDown = 7;//Logo
-            table.Rows[0][0].MergeRight = 1;//Logo
             //Inserir Logo
             Image imagem = Image.FromFile("C:\\Darkb\\Aplicativos\\Scripts\\LogoSemBackground.png");
 
@@ -403,7 +404,35 @@ namespace neo4jUI {
                 cel.Borders.Color = Colors.Black;
                 cel.Shading.Color = Colors.White;
                 cel.MergeDown = 1;
+                cel.MergeRight = 2;
             }
+
+            foreach (var cel in labelCelulas) {
+                cel.Format.SpaceBefore = "0.1cm";
+                cel.Format.Font.Size = 6.6;
+                cel.Shading.Color = Colors.ForestGreen;
+            }
+
+            //Tratar tamanho
+            table.Rows[1][5].MergeRight = 6;//Nome passarinho
+            table.Rows[0][0].MergeDown = 6;//Logo
+            table.Rows[0][0].MergeRight = 4;//Logo
+            table.Rows[14][1].MergeRight = 4;//Pai
+            table.Rows[14][7].MergeRight = 4;//Mãe
+            table.Rows[0][5].MergeRight = 2;//Label Nome Passarinho
+            table.Rows[4][5].MergeRight = 1;//Label Nascimento
+            table.Rows[9][5].MergeRight = 1;//Label Nome Popular
+            table.Rows[9][9].MergeRight = 1;//Label Nome Científico
+
+            //Adiciona labels
+            table.Rows[0][5].AddParagraph("Nome do Pássaro");
+            table.Rows[4][5].AddParagraph("Nascimento");
+            table.Rows[4][9].AddParagraph("Anilha");
+            table.Rows[9][1].AddParagraph("Sexo");
+            table.Rows[9][5].AddParagraph("Nome Popular");
+            table.Rows[9][9].AddParagraph("Nome Científico");
+            table.Rows[13][1].AddParagraph("Pai");
+            table.Rows[13][7].AddParagraph("Mãe");
 
             return table;
 
