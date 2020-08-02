@@ -47,15 +47,23 @@ namespace neo4jUI {
             }
         }
 
-        public async Task InserirNoAsync(string nome, string anilha) {
+        public async Task InserirNoAsync(string nome, string anilha, string sexo, string nomePopular, string nascimento) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
+
+            string query = String.Empty;
+            if (sexo != string.Empty)
+                query += ",Sexo:" + "$sexo";
+            if (nomePopular != string.Empty)
+                query += ",NomePopular:" + "$nomePopular";
+            if (nascimento != string.Empty)
+                query += ",Nascimento:" + "$nascimento";
 
             try {
                 if (anilha == string.Empty) {
-                    cursor = await session.RunAsync("CREATE (p:Passaro{nome:$nome})", new { nome });//MERGE Impede cadastro de mesmo nome
+                    cursor = await session.RunAsync("CREATE (p:Passaro{nome:$nome" + query + "})", new { nome, sexo, nomePopular, nascimento });//MERGE Impede cadastro de mesmo nome
                 }
                 else
-                    cursor = await session.RunAsync("CREATE (p:Passaro{nome:$nome, anilha:$anilha})", new { nome, anilha });
+                    cursor = await session.RunAsync("CREATE (p:Passaro{nome:$nome, anilha:$anilha" + query + "})", new { nome, anilha, sexo, nomePopular, nascimento });
 
                 await cursor.ConsumeAsync();
 
@@ -191,9 +199,11 @@ namespace neo4jUI {
 
         }
 
-        //TODO: Dividir coluna terceira tabela em três partes para células com texto
+        //TODO: preencher campos na frente do cartão
+        //TODO: Menu para atualizar campos de passarinho
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
         //TODO: Clicar em pesquisar sem sair nomeFilhoF faz com que listnomesF == null
+        //TODO: Criar menu para cadastrar em árvore
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 

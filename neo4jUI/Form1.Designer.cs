@@ -51,6 +51,12 @@
             this.labelMaeM = new System.Windows.Forms.Label();
             this.labelFilho = new System.Windows.Forms.Label();
             this.comboBoxNomeF = new System.Windows.Forms.ComboBox();
+            this.comboBoxSexo = new System.Windows.Forms.ComboBox();
+            this.labelSexo = new System.Windows.Forms.Label();
+            this.comboBoxNomePopular = new System.Windows.Forms.ComboBox();
+            this.labelNomePopular = new System.Windows.Forms.Label();
+            this.dateTimePickerNascimento = new System.Windows.Forms.DateTimePicker();
+            this.labelNascimento = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonCadastrar
@@ -373,12 +379,98 @@
             this.comboBoxNomeF.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ComboBoxNomeF_KeyUp);
             this.comboBoxNomeF.Leave += new System.EventHandler(this.ComboBoxNomeF_Leave);
             // 
+            // comboBoxSexo
+            // 
+            this.comboBoxSexo.AutoCompleteCustomSource.AddRange(new string[] {
+            "Macho",
+            "Fêmea"});
+            this.comboBoxSexo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.comboBoxSexo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.comboBoxSexo.BackColor = System.Drawing.SystemColors.Menu;
+            this.comboBoxSexo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxSexo.FormattingEnabled = true;
+            this.comboBoxSexo.Items.AddRange(new object[] {
+            "Macho",
+            "Fêmea"});
+            this.comboBoxSexo.Location = new System.Drawing.Point(455, 118);
+            this.comboBoxSexo.MaxLength = 10;
+            this.comboBoxSexo.Name = "comboBoxSexo";
+            this.comboBoxSexo.Size = new System.Drawing.Size(244, 32);
+            this.comboBoxSexo.TabIndex = 33;
+            // 
+            // labelSexo
+            // 
+            this.labelSexo.AutoSize = true;
+            this.labelSexo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelSexo.Location = new System.Drawing.Point(451, 95);
+            this.labelSexo.Name = "labelSexo";
+            this.labelSexo.Size = new System.Drawing.Size(45, 20);
+            this.labelSexo.TabIndex = 34;
+            this.labelSexo.Text = "Sexo";
+            // 
+            // comboBoxNomePopular
+            // 
+            this.comboBoxNomePopular.AutoCompleteCustomSource.AddRange(new string[] {
+            "Curió",
+            "Bicudo"});
+            this.comboBoxNomePopular.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.comboBoxNomePopular.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.comboBoxNomePopular.BackColor = System.Drawing.SystemColors.Menu;
+            this.comboBoxNomePopular.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxNomePopular.FormattingEnabled = true;
+            this.comboBoxNomePopular.Items.AddRange(new object[] {
+            "Curió",
+            "Bicudo"});
+            this.comboBoxNomePopular.Location = new System.Drawing.Point(455, 175);
+            this.comboBoxNomePopular.MaxLength = 22;
+            this.comboBoxNomePopular.Name = "comboBoxNomePopular";
+            this.comboBoxNomePopular.Size = new System.Drawing.Size(244, 32);
+            this.comboBoxNomePopular.TabIndex = 35;
+            // 
+            // labelNomePopular
+            // 
+            this.labelNomePopular.AutoSize = true;
+            this.labelNomePopular.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNomePopular.Location = new System.Drawing.Point(451, 152);
+            this.labelNomePopular.Name = "labelNomePopular";
+            this.labelNomePopular.Size = new System.Drawing.Size(109, 20);
+            this.labelNomePopular.TabIndex = 36;
+            this.labelNomePopular.Text = "Nome Popular";
+            // 
+            // dateTimePickerNascimento
+            // 
+            this.dateTimePickerNascimento.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerNascimento.CalendarMonthBackground = System.Drawing.SystemColors.Menu;
+            this.dateTimePickerNascimento.CustomFormat = "dd-MM-yyy";
+            this.dateTimePickerNascimento.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePickerNascimento.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePickerNascimento.Location = new System.Drawing.Point(455, 493);
+            this.dateTimePickerNascimento.Name = "dateTimePickerNascimento";
+            this.dateTimePickerNascimento.Size = new System.Drawing.Size(244, 29);
+            this.dateTimePickerNascimento.TabIndex = 37;
+            // 
+            // labelNascimento
+            // 
+            this.labelNascimento.AutoSize = true;
+            this.labelNascimento.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNascimento.Location = new System.Drawing.Point(451, 470);
+            this.labelNascimento.Name = "labelNascimento";
+            this.labelNascimento.Size = new System.Drawing.Size(154, 20);
+            this.labelNascimento.TabIndex = 38;
+            this.labelNascimento.Text = "Data de Nascimento";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(800, 561);
+            this.Controls.Add(this.labelNascimento);
+            this.Controls.Add(this.dateTimePickerNascimento);
+            this.Controls.Add(this.comboBoxNomePopular);
+            this.Controls.Add(this.labelNomePopular);
+            this.Controls.Add(this.comboBoxSexo);
+            this.Controls.Add(this.labelSexo);
             this.Controls.Add(this.comboBoxNomeF);
             this.Controls.Add(this.labelFilho);
             this.Controls.Add(this.labelMaeM);
@@ -443,6 +535,12 @@
         private System.Windows.Forms.Label labelMaeM;
         private System.Windows.Forms.Label labelFilho;
         private System.Windows.Forms.ComboBox comboBoxNomeF;
+        private System.Windows.Forms.ComboBox comboBoxSexo;
+        private System.Windows.Forms.Label labelSexo;
+        private System.Windows.Forms.ComboBox comboBoxNomePopular;
+        private System.Windows.Forms.Label labelNomePopular;
+        private System.Windows.Forms.DateTimePicker dateTimePickerNascimento;
+        private System.Windows.Forms.Label labelNascimento;
     }
 }
 

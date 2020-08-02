@@ -31,7 +31,18 @@ namespace neo4jUI {
         public Form1() {
             InitializeComponent();
             radioButtonPassaro.Checked = true;
+            //Ajustar posições iniciais
             buttonPesquisar.Location = buttonCadastrar.Location;
+
+            labelSexo.Location = labelNPai.Location;
+            comboBoxSexo.Location = comboBoxPai.Location;
+
+            labelNomePopular.Location = labelAniP.Location;
+            comboBoxNomePopular.Location = textBoxAniP.Location;
+
+            labelNascimento.Location = labelNMae.Location;
+            dateTimePickerNascimento.Location = comboBoxMae.Location;
+
         }
 
         private async void Form1_Load(object sender, EventArgs e) {
@@ -54,12 +65,13 @@ namespace neo4jUI {
                     MessageBox.Show("Por favor, preencha todos os campos");
                 else {
                     try {
-                        await dbCypher.InserirNoAsync(comboBoxNomeF.Text, textBoxAniF.Text);
+                        await dbCypher.InserirNoAsync(comboBoxNomeF.Text, textBoxAniF.Text, comboBoxSexo.Text, comboBoxNomePopular.Text, dateTimePickerNascimento.Value.ToString("yyyy-MM-dd"));
                         MessageBox.Show("Passarinho Cadastrado com sucesso!");
+
                     }
                     catch (Exception) {
                         MessageBox.Show("Passarinho já foi cadastrado! Verifique o número da anilha");
-                        throw;
+                        //throw;
                     }
                 }
 
@@ -270,6 +282,13 @@ namespace neo4jUI {
             comboBoxNomeF.Show();
             textBoxAniF.Show();
 
+            labelSexo.Show();
+            comboBoxSexo.Show();
+            labelNomePopular.Show();
+            comboBoxNomePopular.Show();
+            labelNascimento.Show();
+            dateTimePickerNascimento.Show();
+
             labelNPai.Hide();
             labelAniP.Hide();
             comboBoxPai.Hide();
@@ -302,6 +321,13 @@ namespace neo4jUI {
             labelMaeP.Show();
             labelPaiM.Show();
             labelMaeM.Show();
+
+            labelSexo.Hide();
+            comboBoxSexo.Hide();
+            labelNomePopular.Hide();
+            comboBoxNomePopular.Hide();
+            labelNascimento.Hide();
+            dateTimePickerNascimento.Hide();
 
         }
 
@@ -365,7 +391,7 @@ namespace neo4jUI {
                 radioButtonPassaro.Show();
                 radioButtonPais.Show();
                 radioButtonArvore.Show();
-                if (radioButtonPassaro.Checked) {
+                if (radioButtonPassaro.Checked) {//Menu Cadastro
                     labelNPai.Hide();
                     labelAniP.Hide();
                     comboBoxPai.Hide();
@@ -374,6 +400,14 @@ namespace neo4jUI {
                     labelAniM.Hide();
                     comboBoxMae.Hide();
                     textBoxAniM.Hide();
+
+                    labelSexo.Show();
+                    comboBoxSexo.Show();
+                    labelNomePopular.Show();
+                    comboBoxNomePopular.Show();
+                    labelNascimento.Show();
+                    dateTimePickerNascimento.Show();
+
                 }
                 else {//radioButtonPais
                     labelNPai.Show();
@@ -388,6 +422,13 @@ namespace neo4jUI {
                     labelMaeP.Show();
                     labelPaiM.Show();
                     labelMaeM.Show();
+
+                    labelSexo.Hide();
+                    comboBoxSexo.Hide();
+                    labelNomePopular.Hide();
+                    comboBoxNomePopular.Hide();
+                    labelNascimento.Hide();
+                    dateTimePickerNascimento.Hide();
                 }
             } //Fim visível
             else { //Pesquisa
@@ -409,6 +450,13 @@ namespace neo4jUI {
                 radioButtonPassaro.Hide();
                 radioButtonPais.Hide();
                 radioButtonArvore.Hide();
+
+                labelSexo.Hide();
+                comboBoxSexo.Hide();
+                labelNomePopular.Hide();
+                comboBoxNomePopular.Hide();
+                labelNascimento.Hide();
+                dateTimePickerNascimento.Hide();
 
             }
         }
