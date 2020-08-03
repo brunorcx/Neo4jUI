@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,14 @@ namespace neo4jUI {
 
             labelNascimento.Location = labelNMae.Location;
             dateTimePickerNascimento.Location = comboBoxMae.Location;
+
+            labelFundo.Location = labelNMae.Location;
+            textBoxFundo.Location = comboBoxMae.Location;
+            buttonSFundo.Location = new System.Drawing.Point(buttonSFundo.Location.X, comboBoxMae.Location.Y);
+
+            labelLogo.Location = labelNPai.Location;
+            textBoxLogo.Location = comboBoxPai.Location;
+            buttonSLogo.Location = new System.Drawing.Point(buttonSFundo.Location.X, comboBoxPai.Location.Y);
 
         }
 
@@ -388,6 +397,13 @@ namespace neo4jUI {
                 buttonCadastrar.Show();
                 buttonPesquisar.Hide();
 
+                labelFundo.Hide();
+                textBoxFundo.Hide();
+                labelLogo.Hide();
+                textBoxLogo.Hide();
+                buttonSFundo.Hide();
+                buttonSLogo.Hide();
+
                 radioButtonPassaro.Show();
                 radioButtonPais.Show();
                 radioButtonArvore.Show();
@@ -429,11 +445,19 @@ namespace neo4jUI {
                     comboBoxNomePopular.Hide();
                     labelNascimento.Hide();
                     dateTimePickerNascimento.Hide();
+
                 }
             } //Fim visível
             else { //Pesquisa
                 buttonCadastrar.Hide();
                 buttonPesquisar.Show();
+
+                labelFundo.Show();
+                textBoxFundo.Show();
+                labelLogo.Show();
+                textBoxLogo.Show();
+                buttonSFundo.Show();
+                buttonSLogo.Show();
 
                 labelNPai.Hide();
                 labelAniP.Hide();
@@ -467,8 +491,15 @@ namespace neo4jUI {
             }
             else {
                 bool comAnilha = true;
+
                 if (textBoxAniF.Text == String.Empty) {
-                    textBoxAniF.Text = listaNomesFilho[1][filhoIndex];
+                    try {
+                        textBoxAniF.Text = listaNomesFilho[1][filhoIndex];
+                    }
+                    catch (Exception) {
+                        ComboBoxNomeF_Leave(sender, e);
+                        textBoxAniF.Text = listaNomesFilho[1][filhoIndex];
+                    }
                     comAnilha = false;
                 }
                 await dbCypher.ProcurarFamilia(comboBoxNomeF.Text, textBoxAniF.Text, comAnilha);
@@ -485,6 +516,20 @@ namespace neo4jUI {
             }
         }
 
+        private void ButtonSFundo_Click(object sender, EventArgs e) {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                textBoxFundo.Text = openFileDialog.SafeFileName;
+
+        }
+
+        private void ButtonSLogo_Click(object sender, EventArgs e) {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                textBoxLogo.Text = openFileDialog.SafeFileName;
+        }
     }
 }
 
