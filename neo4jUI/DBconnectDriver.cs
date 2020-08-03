@@ -199,11 +199,13 @@ namespace neo4jUI {
 
         }
 
-        //TODO: preencher campos na frente do cartão
+        //TODO: Pegar caminho inteiro das imagens selecionadas openFileDialog.FileName
+        //TODO: Preencher campos na frente do cartão
         //TODO: Menu para atualizar campos de passarinho
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
         //TODO: Clicar em pesquisar sem sair nomeFilhoF faz com que listnomesF == null
         //TODO: Criar menu para cadastrar em árvore
+        //TODO: Atualizar buttonPesquisa para buttonImpressão
         public async Task<List<IRecord>> ProcurarFilhos(string nome) {
             session = _driver.AsyncSession(o => o.WithDatabase("neo4j"));//Nome da database está nas propriedades como padrão
 

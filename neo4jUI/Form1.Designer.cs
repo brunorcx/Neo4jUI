@@ -216,7 +216,7 @@
             this.buttonCMenu.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonCMenu.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonCMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonCMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F);
             this.buttonCMenu.Location = new System.Drawing.Point(39, 53);
             this.buttonCMenu.Name = "buttonCMenu";
             this.buttonCMenu.Size = new System.Drawing.Size(85, 26);
@@ -250,12 +250,12 @@
             this.buttonPesquisa.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonPesquisa.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.buttonPesquisa.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPesquisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonPesquisa.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.5F);
             this.buttonPesquisa.Location = new System.Drawing.Point(130, 53);
             this.buttonPesquisa.Name = "buttonPesquisa";
             this.buttonPesquisa.Size = new System.Drawing.Size(85, 26);
             this.buttonPesquisa.TabIndex = 10;
-            this.buttonPesquisa.Text = "Pesquisar";
+            this.buttonPesquisa.Text = "Impressão";
             this.buttonPesquisa.UseVisualStyleBackColor = false;
             this.buttonPesquisa.Click += new System.EventHandler(this.Pesquisa_MouseClick);
             this.buttonPesquisa.MouseEnter += new System.EventHandler(this.Pesquisa_MouseEnter);
