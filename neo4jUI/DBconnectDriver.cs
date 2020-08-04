@@ -212,7 +212,9 @@ namespace neo4jUI {
             try {
                 cursor = await session.RunAsync("MATCH (p:Passaro {nome: $nome})" +
                                             "OPTIONAL MATCH (p)-[:PAI|MAE]->(f:Passaro)" +
-                                            "RETURN [p.nome] AS Nomes, [ID(p)] AS Ids,[f.nome] AS Filhos", new { nome });
+                                            "RETURN [p.nome] AS Nomes, [ID(p)] AS Ids,[f.nome] AS Filhos, " +
+                                            "[p.anilha] AS Anilhas, [p.Sexo] AS Sexos, [p.NomePopular] AS NomesPopulares, " +
+                                            "[p.Nascimento] AS Nascimentos ", new { nome });
 
                 var lista = await cursor.ToListAsync();
                 resultado = await cursor.ConsumeAsync();
@@ -230,7 +232,6 @@ namespace neo4jUI {
                 foreach (var nome in nomes) {
                     if (nome == null)
                         familia.Add("xxxxxxxxxxx");
-                    //familia.Add("xxxxxxxxxxx");
                     else
                         familia.Add(nome);
                 }
@@ -280,6 +281,10 @@ namespace neo4jUI {
             IList<string> nomes = new List<string>();
             IList<string> ids = new List<string>();
             IList<string> filhos = new List<string>();
+            IList<string> nascimentos = new List<string>();
+            IList<string> sexos = new List<string>();
+            IList<string> nomesPopulares = new List<string>();
+            IList<string> anilhas = new List<string>();
 
             foreach (var no in lista) {//Roda todos os nos de nomes->filhos nessa ordem
                 foreach (var valor in no["Nomes"].As<IList<string>>()) {
@@ -291,11 +296,27 @@ namespace neo4jUI {
                 foreach (var valor in no["Filhos"].As<IList<string>>()) {
                     filhos.Add(valor);
                 }
+                foreach (var valor in no["Nascimentos"].As<IList<string>>()) {
+                    nascimentos.Add(valor);
+                }
+                foreach (var valor in no["Sexos"].As<IList<string>>()) {
+                    sexos.Add(valor);
+                }
+                foreach (var valor in no["NomesPopulares"].As<IList<string>>()) {
+                    nomesPopulares.Add(valor);
+                }
+                foreach (var valor in no["Anilhas"].As<IList<string>>()) {
+                    anilhas.Add(valor);
+                }
 
             }
             listaEncontrados.Add(nomes);
             listaEncontrados.Add(ids);
             listaEncontrados.Add(filhos);
+            listaEncontrados.Add(nascimentos);
+            listaEncontrados.Add(sexos);
+            listaEncontrados.Add(nomesPopulares);
+            listaEncontrados.Add(anilhas);
             return listaEncontrados;
         }
 

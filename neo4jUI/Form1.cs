@@ -510,7 +510,23 @@ namespace neo4jUI {
                     MessageBox.Show("Passarinho não encontrado, por favor cadastre-o primeiro");
                 else {
                     //Imprimir Árvore
-                    GerarPDF pdf = new GerarPDF(dbCypher.GetFamilia());
+                    var familia = dbCypher.GetFamilia();
+
+                    //Receber data para formatar
+                    DateTime nascimento = Convert.ToDateTime(listaNomesFilho[3][filhoIndex]);
+
+                    //Adicionar items restantes do cartão
+                    List<string> frenteCartao = new List<string> {
+                        nascimento.ToString("dd/MM/yyyy"),                     //31 Nascimento
+                        listaNomesFilho[4][filhoIndex],                        //32 Sexo
+                        listaNomesFilho[5][filhoIndex],                        //33 NomePopular
+                        textBoxLogo.AutoCompleteCustomSource[0],               //34 Logo
+                        textBoxFundo.AutoCompleteCustomSource[0],              //35 Fundo
+                        listaNomesFilho[6][filhoIndex]                         //36 anilha
+                };
+                    familia.AddRange(frenteCartao);
+
+                    GerarPDF pdf = new GerarPDF(familia);
                     pdf.salvarPDF("ArvoreGenealogica");
                 }
             }
@@ -519,16 +535,21 @@ namespace neo4jUI {
         private void ButtonSFundo_Click(object sender, EventArgs e) {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 textBoxFundo.Text = openFileDialog.SafeFileName;
+                textBoxFundo.AutoCompleteCustomSource.Add(openFileDialog.FileName);
+            }
 
         }
 
         private void ButtonSLogo_Click(object sender, EventArgs e) {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 textBoxLogo.Text = openFileDialog.SafeFileName;
+                textBoxLogo.AutoCompleteCustomSource.Add(openFileDialog.FileName);
+            }
+
         }
     }
 }

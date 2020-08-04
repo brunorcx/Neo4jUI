@@ -331,12 +331,12 @@ namespace neo4jUI {
             return table;
         }
 
-        private static Table TerceiraTabela() {
+        private static Table TerceiraTabela() { //Frente Cartão
             Table table = new Table();
             table.Borders.Width = 0.75;
             table.Borders.Visible = false;
 
-            //Adicionar colunas total = 8,38 cm
+            //Adicionar colunas total = 9,17 cm
             table.AddColumn(Unit.FromCentimeter(0.2));//Coluna 0 Espaço
             table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 1
             table.AddColumn(Unit.FromCentimeter(0.93));//Coluna 2
@@ -377,25 +377,25 @@ namespace neo4jUI {
                 table.Rows[14][7]
             };
             List<Cell> labelCelulas = new List<Cell> {
-                table.Rows[0][5],
-                table.Rows[4][5],
-                table.Rows[4][9],
-                table.Rows[9][1],
-                table.Rows[9][5],
-                table.Rows[9][9],
-                table.Rows[13][1],
-                table.Rows[13][7]
+                table.Rows[0][5],//Nome do Pássaro
+                table.Rows[4][5],//Nascimento
+                table.Rows[4][9],//Anilha
+                table.Rows[9][1],//Sexo
+                table.Rows[9][5],//Nome Popular
+                table.Rows[9][9],//Nome Científico
+                table.Rows[13][1],//Pai
+                table.Rows[13][7]//Mãe
         };
 
             //Inserir Logo
-            Image imagem = Image.FromFile("C:\\Darkb\\Aplicativos\\Scripts\\LogoSemBackground.png");
+            Image imagem = Image.FromFile(listaString[34]);
 
             if (imagem.Width != 112 && imagem.Height != 120) {
                 //imagem = ResizeImage(imagem, 112, 120);
                 imagem = ResizeImageKeepAspectRatio(imagem, 112, 120);
-                imagem.Save("C:\\Darkb\\Aplicativos\\Scripts\\LogoAtual.jpg");
+                imagem.Save(System.Windows.Forms.Application.StartupPath + "\\LogoAtual.jpg");
             }
-            table.Rows[0][0].AddParagraph().AddImage("C:\\Darkb\\Aplicativos\\Scripts\\LogoAtual.jpg");
+            table.Rows[0][0].AddParagraph().AddImage(System.Windows.Forms.Application.StartupPath + "\\LogoAtual.jpg");
             table.Rows[0][0].Format.Alignment = ParagraphAlignment.Center;
             table.Rows[0][0].VerticalAlignment = VerticalAlignment.Center;
 
@@ -414,7 +414,7 @@ namespace neo4jUI {
             }
 
             //Tratar tamanho
-            table.Rows[1][5].MergeRight = 6;//Nome passarinho
+            table.Rows[1][5].MergeRight = 6;//Nome Passarinho
             table.Rows[0][0].MergeDown = 6;//Logo
             table.Rows[0][0].MergeRight = 4;//Logo
             table.Rows[14][1].MergeRight = 4;//Pai
@@ -424,7 +424,7 @@ namespace neo4jUI {
             table.Rows[9][5].MergeRight = 1;//Label Nome Popular
             table.Rows[9][9].MergeRight = 1;//Label Nome Científico
 
-            //Adiciona labels
+            //Adicionar labels
             table.Rows[0][5].AddParagraph("Nome do Pássaro");
             table.Rows[4][5].AddParagraph("Nascimento");
             table.Rows[4][9].AddParagraph("Anilha");
@@ -433,6 +433,25 @@ namespace neo4jUI {
             table.Rows[9][9].AddParagraph("Nome Científico");
             table.Rows[13][1].AddParagraph("Pai");
             table.Rows[13][7].AddParagraph("Mãe");
+
+            //Verificar null
+            if (listaString[31] == null)
+                listaString[31] = "xxxxxxxxxxx";
+            if (listaString[36] == null)
+                listaString[36] = "xxxxxxxxxxx";
+            if (listaString[32] == null)
+                listaString[32] = "xxxxxxxxxxx";
+            if (listaString[33] == null)
+                listaString[33] = "xxxxxxxxxxx";
+            //Adicionar textos dos campos
+            table.Rows[1][5].AddParagraph(listaString[0]).Format.Font.Color = Colors.Black;//Nome do Pássaro
+            table.Rows[5][5].AddParagraph(listaString[31]).Format.Font.Color = Colors.Black;//Nascimento
+            table.Rows[5][9].AddParagraph(listaString[36]).Format.Font.Color = Colors.Black;//Anilha
+            table.Rows[10][1].AddParagraph(listaString[32]).Format.Font.Color = Colors.Black;//Sexo
+            table.Rows[10][5].AddParagraph(listaString[33].ToUpper() == "CURIO" ? "Curió" : listaString[33]).Format.Font.Color = Colors.Black;//Nome Popular
+            table.Rows[10][9].AddParagraph(listaString[33].ToUpper() == "CURIÓ" || listaString[33].ToUpper() == "CURIO" ? "Oryzoborus angolensis" : "Oryzoborus maximiliani").Format.Font.Color = Colors.Black;//Nome Científico
+            table.Rows[14][1].AddParagraph(listaString[1]).Format.Font.Color = Colors.Black;//Pai
+            table.Rows[14][7].AddParagraph(listaString[2]).Format.Font.Color = Colors.Black;//Mãe
 
             return table;
 
