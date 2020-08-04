@@ -199,8 +199,7 @@ namespace neo4jUI {
 
         }
 
-        //TODO: Pegar caminho inteiro das imagens selecionadas openFileDialog.FileName
-        //TODO: Preencher campos na frente do cartão
+        //TODO: Mudar cor das labels na frente do cartão pelo usuário
         //TODO: Menu para atualizar campos de passarinho
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca
         //TODO: Clicar em pesquisar sem sair nomeFilhoF faz com que listnomesF == null

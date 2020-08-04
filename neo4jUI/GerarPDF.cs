@@ -181,12 +181,13 @@ namespace neo4jUI {
             table.Rows[0][9].MergeDown = 16;//Frente documento
             table.Rows[0][9].VerticalAlignment = VerticalAlignment.Top;
             table.Rows[0][9].AddTextFrame().Height = "0.224cm";
-            Image imagem = Image.FromFile("C:\\Darkb\\Aplicativos\\Scripts\\OHR.TahoeBeach_ROW2080292337_1920x1200.jpg");
+            Image imagem = Image.FromFile(listaString[35]);
             if (imagem.Width != 350 && imagem.Height != 257) {
-                imagem = ResizeImage(imagem, 350, 257);
-                imagem.Save("C:\\Darkb\\Aplicativos\\Scripts\\xxx.jpg");
+                //imagem = ResizeImage(imagem, 350, 257);
+                imagem = ResizeImageKeepAspectRatio(imagem, 350, 257);
             }
-            table.Rows[0][9].AddImage("C:\\Darkb\\Aplicativos\\Scripts\\xxx.jpg").WrapFormat.Style = MigraDoc.DocumentObjectModel.Shapes.WrapStyle.Through;
+            imagem.Save(System.Windows.Forms.Application.StartupPath + "\\FundoAtual.jpg");
+            table.Rows[0][9].AddImage(System.Windows.Forms.Application.StartupPath + "\\FundoAtual.jpg").WrapFormat.Style = MigraDoc.DocumentObjectModel.Shapes.WrapStyle.Through;
 
             table.Rows[0][9].Elements.Add(TerceiraTabela());
 
@@ -390,11 +391,11 @@ namespace neo4jUI {
             //Inserir Logo
             Image imagem = Image.FromFile(listaString[34]);
 
-            if (imagem.Width != 112 && imagem.Height != 120) {
+            if (imagem.Width != 112 && imagem.Height != 106) {
                 //imagem = ResizeImage(imagem, 112, 120);
-                imagem = ResizeImageKeepAspectRatio(imagem, 112, 120);
-                imagem.Save(System.Windows.Forms.Application.StartupPath + "\\LogoAtual.jpg");
+                imagem = ResizeImageKeepAspectRatio(imagem, 112, 106);
             }
+            imagem.Save(System.Windows.Forms.Application.StartupPath + "\\LogoAtual.jpg");
             table.Rows[0][0].AddParagraph().AddImage(System.Windows.Forms.Application.StartupPath + "\\LogoAtual.jpg");
             table.Rows[0][0].Format.Alignment = ParagraphAlignment.Center;
             table.Rows[0][0].VerticalAlignment = VerticalAlignment.Center;
@@ -443,15 +444,39 @@ namespace neo4jUI {
                 listaString[32] = "xxxxxxxxxxx";
             if (listaString[33] == null)
                 listaString[33] = "xxxxxxxxxxx";
+
+            //Formatar paragráfos
+            ParagraphFormat paragraphFormat = new ParagraphFormat();
+            paragraphFormat.Font.Color = Colors.Black;
+            paragraphFormat.Font.Size = 20;
+
             //Adicionar textos dos campos
-            table.Rows[1][5].AddParagraph(listaString[0]).Format.Font.Color = Colors.Black;//Nome do Pássaro
-            table.Rows[5][5].AddParagraph(listaString[31]).Format.Font.Color = Colors.Black;//Nascimento
-            table.Rows[5][9].AddParagraph(listaString[36]).Format.Font.Color = Colors.Black;//Anilha
-            table.Rows[10][1].AddParagraph(listaString[32]).Format.Font.Color = Colors.Black;//Sexo
-            table.Rows[10][5].AddParagraph(listaString[33].ToUpper() == "CURIO" ? "Curió" : listaString[33]).Format.Font.Color = Colors.Black;//Nome Popular
-            table.Rows[10][9].AddParagraph(listaString[33].ToUpper() == "CURIÓ" || listaString[33].ToUpper() == "CURIO" ? "Oryzoborus angolensis" : "Oryzoborus maximiliani").Format.Font.Color = Colors.Black;//Nome Científico
-            table.Rows[14][1].AddParagraph(listaString[1]).Format.Font.Color = Colors.Black;//Pai
-            table.Rows[14][7].AddParagraph(listaString[2]).Format.Font.Color = Colors.Black;//Mãe
+            //table.Rows[1][5].AddParagraph(listaString[0]).Format = paragraphFormat.Clone();//Nome do Pássaro
+            var b = table.Rows[1][5].AddParagraph(listaString[0]).Tag = listaString[0];//Nome do Pássaro
+            table.Rows[5][5].AddParagraph(listaString[31]).Tag = listaString[31];//Nascimento
+            table.Rows[5][9].AddParagraph(listaString[36]).Tag = listaString[36];//Anilha
+            table.Rows[10][1].AddParagraph(listaString[32]).Tag = listaString[32];//Sexo
+            table.Rows[10][5].AddParagraph(listaString[33].ToUpper() == "CURIO" ? "Curió" : listaString[33]).Tag = listaString[33];//Nome Popular
+            table.Rows[10][9].AddParagraph(listaString[33].ToUpper() == "CURIÓ" || listaString[33].ToUpper() == "CURIO" ? "Oryzoborus angolensis" : "Oryzoborus maximiliani").Tag = "Oryzoborus maximiliani";//Nome Científico
+            table.Rows[14][1].AddParagraph(listaString[1]).Tag = listaString[1];//Pai
+            table.Rows[14][7].AddParagraph(listaString[2]).Tag = listaString[2];//Mãe
+
+            //Ajustar tamanho texto nas células
+            for (int i = 0; i < celulas.Count; i++) {
+                celulas[i].Format.Font.Size = 20;
+                celulas[i].Format.Font.Color = Colors.Black;
+                var tamanho = TamanhoTexto(celulas[i].Elements.First.Tag.ToString(), celulas[i].Format.Font.Size.Value);
+                var limite = 139.990234375;
+                if (i > 0 && i < 6)
+                    limite = 75;
+                else if (i > 5)
+                    limite = 100;
+
+                while (tamanho > limite) {
+                    celulas[i].Format.Font.Size = celulas[i].Format.Font.Size - 0.5;
+                    tamanho = TamanhoTexto(celulas[i].Elements.First.Tag.ToString(), celulas[i].Format.Font.Size);
+                }
+            }
 
             return table;
 
@@ -606,4 +631,4 @@ namespace neo4jUI {
 
 //Função de resizeImage https://stackoverflow.com/questions/1922040/how-to-resize-an-image-c-sharp
 //Adicionar imagem dinamicamente http://pdfsharp.net/wiki/MigraDoc_FilelessImages.ashx
-//Fuinão ResizeKeepAspectRatio https://alex.domenici.net/archive/resize-and-crop-an-image-keeping-its-aspect-ratio-with-c-sharp
+//Função ResizeKeepAspectRatio https://alex.domenici.net/archive/resize-and-crop-an-image-keeping-its-aspect-ratio-with-c-sharp

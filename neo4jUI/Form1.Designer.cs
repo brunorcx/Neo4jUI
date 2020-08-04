@@ -272,7 +272,7 @@
             this.buttonPesquisar.Name = "buttonPesquisar";
             this.buttonPesquisar.Size = new System.Drawing.Size(139, 38);
             this.buttonPesquisar.TabIndex = 8;
-            this.buttonPesquisar.Text = "Pesquisar";
+            this.buttonPesquisar.Text = "Imprimir";
             this.buttonPesquisar.UseVisualStyleBackColor = false;
             this.buttonPesquisar.Visible = false;
             this.buttonPesquisar.Click += new System.EventHandler(this.Pesquisar_Click);
@@ -491,9 +491,9 @@
             this.labelFundo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelFundo.Location = new System.Drawing.Point(35, 417);
             this.labelFundo.Name = "labelFundo";
-            this.labelFundo.Size = new System.Drawing.Size(139, 20);
+            this.labelFundo.Size = new System.Drawing.Size(204, 20);
             this.labelFundo.TabIndex = 41;
-            this.labelFundo.Text = "Imagem do Fundo";
+            this.labelFundo.Text = "Imagem do Fundo 350x257";
             this.labelFundo.Visible = false;
             // 
             // textBoxFundo
@@ -515,9 +515,9 @@
             this.labelLogo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLogo.Location = new System.Drawing.Point(451, 417);
             this.labelLogo.Name = "labelLogo";
-            this.labelLogo.Size = new System.Drawing.Size(129, 20);
+            this.labelLogo.Size = new System.Drawing.Size(194, 20);
             this.labelLogo.TabIndex = 43;
-            this.labelLogo.Text = "Imagem da Logo";
+            this.labelLogo.Text = "Imagem da Logo 112x106";
             this.labelLogo.Visible = false;
             // 
             // textBoxLogo

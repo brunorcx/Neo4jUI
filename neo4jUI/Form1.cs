@@ -71,7 +71,7 @@ namespace neo4jUI {
         private async void Button_Cadastrar(object sender, EventArgs e) {
             if (radioButtonPassaro.Checked) {
                 if (comboBoxNomeF.Text == String.Empty)
-                    MessageBox.Show("Por favor, preencha todos os campos");
+                    MessageBox.Show("Por favor, preencha o campo nome");
                 else {
                     try {
                         await dbCypher.InserirNoAsync(comboBoxNomeF.Text, textBoxAniF.Text, comboBoxSexo.Text, comboBoxNomePopular.Text, dateTimePickerNascimento.Value.ToString("yyyy-MM-dd"));
@@ -486,8 +486,9 @@ namespace neo4jUI {
         }
 
         private async void Pesquisar_Click(object sender, EventArgs e) {
-            if (comboBoxNomeF.Text == String.Empty || listaNomesFilho == null) { //Segunda comparação está errada as vezes não dá tempo do leave retornar e a lista não é atualizada
-                MessageBox.Show("Por favor, preencha o campo nome do passarinho!");
+            if (comboBoxNomeF.Text == String.Empty || listaNomesFilho == null
+                || textBoxLogo.Text == String.Empty || textBoxFundo.Text == String.Empty) { //Segunda comparação está errada as vezes não dá tempo do leave retornar e a lista não é atualizada
+                MessageBox.Show("Por favor, preencha o campo nome do passarinho, Imagem do Fundo e Imagem da Logo!");
             }
             else {
                 bool comAnilha = true;
@@ -537,7 +538,9 @@ namespace neo4jUI {
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 textBoxFundo.Text = openFileDialog.SafeFileName;
-                textBoxFundo.AutoCompleteCustomSource.Add(openFileDialog.FileName);
+                var autoComplete = new AutoCompleteStringCollection();
+                autoComplete.Add(openFileDialog.FileName);
+                textBoxFundo.AutoCompleteCustomSource = autoComplete;
             }
 
         }
@@ -547,7 +550,9 @@ namespace neo4jUI {
             openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;";
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 textBoxLogo.Text = openFileDialog.SafeFileName;
-                textBoxLogo.AutoCompleteCustomSource.Add(openFileDialog.FileName);
+                var autoComplete = new AutoCompleteStringCollection();
+                autoComplete.Add(openFileDialog.FileName);
+                textBoxLogo.AutoCompleteCustomSource = autoComplete;
             }
 
         }
