@@ -199,7 +199,6 @@ namespace neo4jUI {
 
         }
 
-        //TODO: erro quando incluir pais com anilha do filho
         //TODO: Mudar cor das labels na frente do cartão pelo usuário
         //TODO: Menu para atualizar campos de passarinho
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca

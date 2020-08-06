@@ -699,6 +699,7 @@ namespace neo4jUI {
 //Ícone retirado do sítio https://publicdomainvectors.org/en/free-clipart/Vector-image-of-goldfinch-bird-on-a-branch/28843.html
 //https://stackoverflow.com/questions/32956142/how-to-deploy-application-with-sql-server-database-on-clients
 //https://stackoverflow.com/questions/19490497/deploy-wpf-app-with-sql-database
+//Lembrar de desmarcar Content Files https://docs.devexpress.com/eXpressAppFramework/113235/deployment/deployment-tutorial/setup-project-deployment-of-a-windows-forms-application
 /* Adicionar textBox dinamicamente
 private int m_CurrTexboxYPos = 10;
 private List<TextBox> m_TextBoxList = new List<TextBox>();
