@@ -31,7 +31,27 @@ namespace neo4jUI {
         private string filhoAnterior;
 
         public Form1() {
+            //Comentar Pular dev
+
+            try {
+                Image imagem = Image.FromFile(System.Windows.Forms.Application.StartupPath + "\\Instalado.jpg");
+            }
+            catch (Exception) {
+                InstalarServidor();
+                AtualizarSenha();
+                Image imagem = new Bitmap(200, 200);
+                imagem.Save(System.Windows.Forms.Application.StartupPath + "\\Instalado.jpg");
+            }
+            try {
+                IniciarServidor();
+                System.Threading.Thread.Sleep(1000);
+            }
+            catch (Exception) {
+            }
+
+            //Fim Pular dev
             InitializeComponent();
+
             radioButtonPassaro.Checked = true;
             //Ajustar posições iniciais
             buttonPesquisar.Location = buttonCadastrar.Location;
@@ -57,16 +77,19 @@ namespace neo4jUI {
 
         private async void Form1_Load(object sender, EventArgs e) {
             //dbCypher = new DBconnectDriver("admin", "admin");
+
             dbCypher = new DBconnectDriver("neo4j", "admin");
+            System.Threading.Thread.Sleep(3500);
             try {
                 await dbCypher.CriarUniqueAsync();
             }
             catch (Exception erro) {
-                //Duplicado a criação do constraint para unique da anilhaC
+                //Duplicado a criação do constraint para unique da anilhaC precisa ter esse catch
                 string falhouConexão = "Failed to connect to server 'bolt://localhost:7687/' via IP addresses'[127.0.0.1, ::1]' at port '7687'.";
                 if (erro.InnerException != null)
-                    if (erro.InnerException.Message == falhouConexão)
-                        MessageBox.Show("Não foi possível conectar-se ao banco. Por favor, reinicie a aplicação");
+                    if (erro.InnerException.Message == falhouConexão) {
+                        //MessageBox.Show("Não foi possível conectar-se ao banco. Por favor, reinicie a aplicação");
+                    }
             }
         }
 
@@ -254,36 +277,48 @@ namespace neo4jUI {
         }
 
         private async void ComboBoxNomeF_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Enter && comboBoxNomeF.Text != String.Empty) {
-                var lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
-                listaNomesFilho = dbCypher.ListaFilhos(lista);
-                comboBoxNomeF.DataSource = listaNomesFilho[0];
-                if (lista.Count != 0) {
-                    comboBoxNomeF.SelectedIndex = 0;
-                    ComboBoxNomeF_SelectionChangeCommitted(sender, e);
-                }
-                filhoAnterior = comboBoxNomeF.Text;
-            }
-        }
-
-        private async void ComboBoxNomeF_Leave(object sender, EventArgs e) {
-            if (comboBoxNomeF.Text != filhoAnterior)
-                filhoIndex = -1;
-
-            if (comboBoxNomeF.Text != String.Empty) {
-                List<IRecord> lista;
-                if (filhoIndex < 0) {
-                    lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
+            try {
+                if (e.KeyCode == Keys.Enter && comboBoxNomeF.Text != String.Empty) {
+                    var lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
                     listaNomesFilho = dbCypher.ListaFilhos(lista);
                     comboBoxNomeF.DataSource = listaNomesFilho[0];
                     if (lista.Count != 0) {
-                        filhoIndex = 0;
-                        labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
+                        comboBoxNomeF.SelectedIndex = 0;
+                        ComboBoxNomeF_SelectionChangeCommitted(sender, e);
                     }
+                    filhoAnterior = comboBoxNomeF.Text;
                 }
             }
+            catch (Exception) {
+                System.Windows.Forms.MessageBox.Show("Não foi possível conectar-se com o banco,por favor espere alguns segundos e tente novamente");
+            }
 
-            filhoAnterior = comboBoxNomeF.Text;
+        }
+
+        private async void ComboBoxNomeF_Leave(object sender, EventArgs e) {
+            try {
+                if (comboBoxNomeF.Text != filhoAnterior)
+                    filhoIndex = -1;
+
+                if (comboBoxNomeF.Text != String.Empty) {
+                    List<IRecord> lista;
+                    if (filhoIndex < 0) {
+                        lista = await dbCypher.ProcurarFilhos(comboBoxNomeF.Text);
+                        listaNomesFilho = dbCypher.ListaFilhos(lista);
+                        comboBoxNomeF.DataSource = listaNomesFilho[0];
+                        if (lista.Count != 0) {
+                            filhoIndex = 0;
+                            labelFilho.Text = listaNomesFilho[2][comboBoxNomeF.SelectedIndex];
+                        }
+                    }
+                }
+
+                filhoAnterior = comboBoxNomeF.Text;
+            }
+            catch (Exception) {
+                System.Windows.Forms.MessageBox.Show("Não foi possível conectar-se com o banco,por favor espere alguns segundos e tente novamente");
+            }
+
         }
 
         private void ComboBoxNomeF_SelectionChangeCommitted(object sender, EventArgs e) {
@@ -564,6 +599,90 @@ namespace neo4jUI {
             }
 
         }
+
+        private void IniciarServidor() {
+            //Iniciar servidor
+            string caminho = System.Windows.Forms.Application.StartupPath + "\\Servidor\\neo4j-community-4.1.1\\bin\\neo4j start";
+            string comando = "/C " + caminho;
+            var p = System.Diagnostics.Process.Start("CMD.exe", comando);
+            p.WaitForExit(40000);
+            if (p.HasExited == false)
+                //Process is still running.
+                //Test to see if the process is hung up.
+                if (p.Responding) {
+                    //Process was responding; close the main window.
+                    //p.CloseMainWindow();
+                }
+                else {
+                    //Process was not responding; force the process to close.
+                    p.Kill();
+                    MessageBox.Show("Processo parou de responder, finalizando processo...");
+                }
+        }
+
+        private void FecharServidor() {
+            //Iniciar servidor
+            string caminho = System.Windows.Forms.Application.StartupPath + "\\Servidor\\neo4j-community-4.1.1\\bin\\neo4j stop";
+            string comando = "/C " + caminho;
+            var p = System.Diagnostics.Process.Start("CMD.exe", comando);
+            p.WaitForExit(40000);
+            if (p.HasExited == false)
+                //Process is still running.
+                //Test to see if the process is hung up.
+                if (p.Responding) {
+                    //Process was responding; close the main window.
+                    //p.CloseMainWindow();
+                }
+                else {
+                    //Process was not responding; force the process to close.
+                    p.Kill();
+                    MessageBox.Show("Processo parou de responder, finalizando processo...");
+                }
+        }
+
+        private void InstalarServidor() {
+            //Iniciar servidor
+            string caminho = System.Windows.Forms.Application.StartupPath + "\\Servidor\\neo4j-community-4.1.1\\bin\\neo4j install-service";
+            string comando = "/C " + caminho;
+            var p = System.Diagnostics.Process.Start("CMD.exe", comando);
+            p.WaitForExit(40000);
+            if (p.HasExited == false)
+                //Process is still running.
+                //Test to see if the process is hung up.
+                if (p.Responding) {
+                    //Process was responding; close the main window.
+                    //p.CloseMainWindow();
+                }
+                else {
+                    //Process was not responding; force the process to close.
+                    p.Kill();
+                    MessageBox.Show("Processo parou de responder, finalizando processo...");
+                }
+        }
+
+        private void AtualizarSenha() {
+            //Iniciar servidor
+            string caminho = System.Windows.Forms.Application.StartupPath + "\\Servidor\\neo4j-community-4.1.1\\bin\\neo4j-admin set-initial-password admin";
+            string comando = "/C " + caminho;
+            var p = System.Diagnostics.Process.Start("CMD.exe", comando);
+            p.WaitForExit(40000);
+            if (p.HasExited == false)
+                //Process is still running.
+                //Test to see if the process is hung up.
+                if (p.Responding) {
+                    //Process was responding; close the main window.
+                    //p.CloseMainWindow();
+                }
+                else {
+                    //Process was not responding; force the process to close.
+                    p.Kill();
+                    MessageBox.Show("Processo parou de responder, finalizando processo...");
+                }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+            FecharServidor();
+        }
     }
 }
 
@@ -572,6 +691,7 @@ namespace neo4jUI {
 //neo4j-admin set-initial-password admin
 //neo4j start
 //neo4j stop
+//neo4j uninstall-service //PARA DESINSTALAR O SERVIDOR
 //criar unique CREATE CONSTRAINT ON (p:Passaro) ASSERT p.anilha IS UNIQUE
 //MERGE faz com que cada passáro só tenha um pai e uma mãe
 //Quando já tem um dos pais cadastrados e quer cadastrar o outro acontece duplo relacionamento

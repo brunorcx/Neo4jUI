@@ -31,7 +31,7 @@ namespace neo4jUI {
 
             // Add a section to the document
             Section section = document.AddSection();
-            section.PageSetup.TopMargin = "-0.1cm"; // Diminuir a margem do topo da página
+            section.PageSetup.TopMargin = "-0.3cm"; // Diminuir a margem do topo da página
             section.PageSetup.BottomMargin = "-0.5cm";
             //Inserir Tabela
             SimpleTable(document);

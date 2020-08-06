@@ -405,6 +405,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_288239F2D02C4721BD22DADC91FB1DA5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_288A137DDA534D18B9C3BFF810FFC883"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -2626,19 +2632,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_49627B78E170849533E166321AC07AA9"
+        "OwnerKey" = "8:_03B965D99AB743A883C4D9296A65DFF8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F604C1DED80F4E7D8745CC4324EA56AA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_03B965D99AB743A883C4D9296A65DFF8"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -3331,6 +3331,12 @@
         "OwnerKey" = "8:_078B34F0370DFB7D0A4BF910F531BDF7"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_49627B78E170849533E166321AC07AA9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -3349,6 +3355,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -3365,6 +3387,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -4491,6 +4521,26 @@
             "TargetName" = "8:jersey-media-jaxb-2.30.1.jar"
             "Tag" = "8:"
             "Folder" = "8:_C4C9F73E1DB94AE39C54E275C37CC175"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_288239F2D02C4721BD22DADC91FB1DA5"
+            {
+            "SourcePath" = "8:C:\\Windows\\System32\\cmd.exe"
+            "TargetName" = "8:cmd.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_2FC8C3F260E24356B787EF80FA390553"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -11114,7 +11164,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AvatarSetup"
         "ProductCode" = "8:{34CE8A56-DD2F-495E-8BA1-B17E84BD36A4}"
-        "PackageCode" = "8:{04841D69-B17F-40C0-82AB-62D9A901E30C}"
+        "PackageCode" = "8:{959980A7-1B97-4E0C-9F6A-0D04EA6B7D49}"
         "UpgradeCode" = "8:{8AC6E385-FA9D-4828-9CDE-0AF4908116D6}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"

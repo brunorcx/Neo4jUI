@@ -271,7 +271,7 @@
             this.buttonPesquisar.Location = new System.Drawing.Point(184, 493);
             this.buttonPesquisar.Name = "buttonPesquisar";
             this.buttonPesquisar.Size = new System.Drawing.Size(139, 38);
-            this.buttonPesquisar.TabIndex = 8;
+            this.buttonPesquisar.TabIndex = 5;
             this.buttonPesquisar.Text = "Imprimir";
             this.buttonPesquisar.UseVisualStyleBackColor = false;
             this.buttonPesquisar.Visible = false;
@@ -406,7 +406,7 @@
             this.comboBoxSexo.MaxLength = 10;
             this.comboBoxSexo.Name = "comboBoxSexo";
             this.comboBoxSexo.Size = new System.Drawing.Size(244, 32);
-            this.comboBoxSexo.TabIndex = 33;
+            this.comboBoxSexo.TabIndex = 3;
             // 
             // labelSexo
             // 
@@ -435,7 +435,7 @@
             this.comboBoxNomePopular.MaxLength = 22;
             this.comboBoxNomePopular.Name = "comboBoxNomePopular";
             this.comboBoxNomePopular.Size = new System.Drawing.Size(244, 32);
-            this.comboBoxNomePopular.TabIndex = 35;
+            this.comboBoxNomePopular.TabIndex = 4;
             // 
             // labelNomePopular
             // 
@@ -457,7 +457,7 @@
             this.dateTimePickerNascimento.Location = new System.Drawing.Point(455, 493);
             this.dateTimePickerNascimento.Name = "dateTimePickerNascimento";
             this.dateTimePickerNascimento.Size = new System.Drawing.Size(244, 29);
-            this.dateTimePickerNascimento.TabIndex = 37;
+            this.dateTimePickerNascimento.TabIndex = 5;
             // 
             // labelNascimento
             // 
@@ -506,7 +506,7 @@
             this.textBoxFundo.Name = "textBoxFundo";
             this.textBoxFundo.ReadOnly = true;
             this.textBoxFundo.Size = new System.Drawing.Size(244, 29);
-            this.textBoxFundo.TabIndex = 40;
+            this.textBoxFundo.TabIndex = 4;
             this.textBoxFundo.Visible = false;
             // 
             // labelLogo
@@ -530,7 +530,7 @@
             this.textBoxLogo.Name = "textBoxLogo";
             this.textBoxLogo.ReadOnly = true;
             this.textBoxLogo.Size = new System.Drawing.Size(244, 29);
-            this.textBoxLogo.TabIndex = 42;
+            this.textBoxLogo.TabIndex = 3;
             this.textBoxLogo.Visible = false;
             // 
             // buttonSLogo
@@ -597,6 +597,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Avatar";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
