@@ -183,10 +183,10 @@ namespace neo4jUI {
                                                     "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais, [ID(f)] AS Ids", new { nome });
                 }
                 else
-                    cursor = await session.RunAsync("MATCH (p:Passaro {nome: $nome, anilha:$anilha})" +
+                    cursor = await session.RunAsync("MATCH (f:Passaro {nome: $nome, anilha:$anilha})" +
                                                 "OPTIONAL MATCH (m1:Passaro)-[:MAE]->(f)" +
                                                 "OPTIONAL MATCH (f)<-[:PAI]-(p1:Passaro)" +
-                                                "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais", new { nome, anilha });
+                                                "RETURN f,[f.nome] AS Nomes,[m1.nome] AS Maes,[p1.nome] AS Pais, [ID(f)] AS Ids", new { nome, anilha });
 
                 var lista = await cursor.ToListAsync();
                 resultado = await cursor.ConsumeAsync();
@@ -199,6 +199,7 @@ namespace neo4jUI {
 
         }
 
+        //TODO: erro quando incluir pais com anilha do filho
         //TODO: Mudar cor das labels na frente do cartão pelo usuário
         //TODO: Menu para atualizar campos de passarinho
         //TODO: Pontos que precisam estão marcados com indicadores de bandeira branca

@@ -1,6 +1,7 @@
 ﻿using Neo4j.Driver;
-using Neo4jClient;
-using Neo4jClient.Cypher;
+
+//using Neo4jClient;
+//using Neo4jClient.Cypher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -55,7 +56,8 @@ namespace neo4jUI {
         }
 
         private async void Form1_Load(object sender, EventArgs e) {
-            dbCypher = new DBconnectDriver("admin", "admin");
+            //dbCypher = new DBconnectDriver("admin", "admin");
+            dbCypher = new DBconnectDriver("neo4j", "admin");
             try {
                 await dbCypher.CriarUniqueAsync();
             }
@@ -101,8 +103,11 @@ namespace neo4jUI {
                     listaPaisFilho = dbCypher.ListaPais(lista);
                     if (!cAnilha)
                         textBoxAniF.Text = String.Empty;
-                    if (listaPaisFilho[1][0] != null // Se tem Mãe
-                        && listaPaisFilho[2][0] != null) //Se tem Pai
+
+                    if (lista.Count == 0) //Records
+                        MessageBox.Show("Passarinho não encontrado, por favor cadastre-o primeiro");
+                    else if (listaPaisFilho[1][0] != null // Se tem Mãe
+                         && listaPaisFilho[2][0] != null) //Se tem Pai
                         MessageBox.Show("Este passarinho já possui pais cadastrados!");
                     else {
                         try {
@@ -135,7 +140,10 @@ namespace neo4jUI {
                             /* if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
                                  MessageBox.Show("Este passarinho já possui pais cadastrados!");
                              else */
-                            MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
+                            if (dbCypher.GetResultado().Counters.RelationshipsCreated == 0)
+                                MessageBox.Show("Pais do Passarinho não foram encontrados, por favor cadastre-os primeiro!");
+                            else
+                                MessageBox.Show("Pais do Passarinho atualizados com sucesso!");
                         }
                         catch (Exception) {
                             MessageBox.Show("Pais do passarinho não foram encontrados, por favor cadastre-os primeiro!");
@@ -528,7 +536,7 @@ namespace neo4jUI {
                     familia.AddRange(frenteCartao);
 
                     GerarPDF pdf = new GerarPDF(familia);
-                    pdf.salvarPDF("ArvoreGenealogica");
+                    pdf.salvarPDF("ArvoreGenealogica.pdf");
                 }
             }
         }
@@ -559,12 +567,18 @@ namespace neo4jUI {
     }
 }
 
+//COMANDOS para inicializar neo4j
+//neo4j install-service
+//neo4j-admin set-initial-password admin
+//neo4j start
+//neo4j stop
 //criar unique CREATE CONSTRAINT ON (p:Passaro) ASSERT p.anilha IS UNIQUE
 //MERGE faz com que cada passáro só tenha um pai e uma mãe
 //Quando já tem um dos pais cadastrados e quer cadastrar o outro acontece duplo relacionamento
 //Achar todos os nós a partir de um nó  MATCH(p:Passaro{ anilha: '1'})-[*]-(connected) RETURN p,connected
 //Ícone retirado do sítio https://publicdomainvectors.org/en/free-clipart/Vector-image-of-goldfinch-bird-on-a-branch/28843.html
 //https://stackoverflow.com/questions/32956142/how-to-deploy-application-with-sql-server-database-on-clients
+//https://stackoverflow.com/questions/19490497/deploy-wpf-app-with-sql-database
 /* Adicionar textBox dinamicamente
 private int m_CurrTexboxYPos = 10;
 private List<TextBox> m_TextBoxList = new List<TextBox>();
