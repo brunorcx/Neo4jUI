@@ -3394,6 +3394,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -11164,7 +11172,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AvatarSetup"
         "ProductCode" = "8:{34CE8A56-DD2F-495E-8BA1-B17E84BD36A4}"
-        "PackageCode" = "8:{959980A7-1B97-4E0C-9F6A-0D04EA6B7D49}"
+        "PackageCode" = "8:{7C0C0681-4D5D-425E-BFFD-0857DEBB8E1F}"
         "UpgradeCode" = "8:{8AC6E385-FA9D-4828-9CDE-0AF4908116D6}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -11699,7 +11707,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_03B965D99AB743A883C4D9296A65DFF8"
             {
-            "SourcePath" = "8:..\\neo4jUI\\obj\\Debug\\neo4jUI.exe"
+            "SourcePath" = "8:..\\neo4jUI\\obj\\Release\\neo4jUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FC5F8B3E9DF84AD0ACBE9F771D9D0C66"
@@ -11725,37 +11733,9 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B299C50B8F364FEAA146FB97D2BA945E"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_FC5F8B3E9DF84AD0ACBE9F771D9D0C66"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|Any CPU"
-            "OutputGroupCanonicalName" = "8:SourceFiles"
-            "OutputProjectGuid" = "8:{80DEBE43-7734-4DB9-998C-8A13F191494D}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F604C1DED80F4E7D8745CC4324EA56AA"
             {
-            "SourcePath" = "8:..\\neo4jUI\\obj\\Debug\\neo4jUI.exe"
+            "SourcePath" = "8:..\\neo4jUI\\obj\\Release\\neo4jUI.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FC5F8B3E9DF84AD0ACBE9F771D9D0C66"
