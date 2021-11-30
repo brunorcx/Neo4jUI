@@ -11,7 +11,7 @@ Futuras Funcionalidades
   <img align="center" alt="Csharp" src="https://github.com/brunorcx/neo4jUI/blob/master/SistemaPassarinho.png">
 <div/>
 
-## Cartão Identidade 
+## Cartão Identidade com imagem de fundo escolhida pelo usuário
 <div>
   <img align="center" alt="Csharp" src="https://github.com/brunorcx/neo4jUI/blob/master/CartaoAvatar.png">
 <div/>
