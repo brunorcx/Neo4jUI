@@ -13,6 +13,6 @@ Futuras Funcionalidades
 
 ## Cartão Identidade 
 <div>
-  <img align="center" alt="Csharp" src=" https://github.com/brunorcx/neo4jUI/blob/master/CartaoAvatar.png">
+  <img align="center" alt="Csharp" src="https://github.com/brunorcx/neo4jUI/blob/master/CartaoAvatar.png">
 <div/>
  
