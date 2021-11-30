@@ -8,4 +8,4 @@ Futuras Funcionalidades
 
 
 #Página Inicial
-<img align="center" alt="Csharp" height="30" width="40" src="https://github.com/brunorcx/neo4jUI/blob/master/SistemaPassarinho.png">
+<img align="center" alt="Csharp" src="https://github.com/brunorcx/neo4jUI/blob/master/SistemaPassarinho.png">
