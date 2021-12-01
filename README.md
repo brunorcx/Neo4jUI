@@ -1,4 +1,4 @@
-# Projeto sitema gerador de cartão identidade para passarinhos - Avatar
+# Projeto sistema gerador de cartão identidade para passarinhos - Avatar
 
 Futuras Funcionalidades
 - [ ] Mudar cor das labels na frente do cartão pelo usuário
