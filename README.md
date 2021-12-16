@@ -1,5 +1,7 @@
-# [Português] Projeto sistema gerador de cartão identidade para passarinhos - Avatar
-# [English] Project for a bird registration system
+
+#  Project for a bird registration system
+
+*Read this in other languages: [English](README.md), [Português](README.pt.md)*
 
 Futuras Funcionalidades
 - [ ] Mudar cor das labels na frente do cartão pelo usuário
