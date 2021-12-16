@@ -6,12 +6,12 @@ Futuras Funcionalidades
 - [ ] Criar menu para cadastrar em árvore
 
 
-## Página Inicial
+## Página Inicial | Home Page
 <div>
   <img align="center" alt="Csharp" src="https://github.com/brunorcx/neo4jUI/blob/master/SistemaPassarinho.png">
 <div/>
 
-## Cartão Identidade com imagem de fundo escolhida pelo usuário
+## Cartão Identidade com imagem de fundo escolhida pelo usuário | Identity Card with background image chosen by the user
 <div>
   <img align="center" alt="Csharp" src="https://github.com/brunorcx/neo4jUI/blob/master/CartaoAvatar.png">
 <div/>
