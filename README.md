@@ -1,7 +1,7 @@
 
 #  Project for a bird registration system
 
-*Read this in other languages: [English](README.md), [Português](README.pt.md)*
+*Read this in other languages: [English](README.md), [Portuguese](README.pt.md)*
 
 Futuras Funcionalidades
 - [ ] Mudar cor das labels na frente do cartão pelo usuário
