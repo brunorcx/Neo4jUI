@@ -1,5 +1,5 @@
 
-#  Project for a bird registration system
+#  Sistema gerador de cartão identidade para passarinhos 
 
 *Read this in other languages: [Inglês](README.md), [Português](README.pt.md)*
 
