@@ -1,7 +1,7 @@
 
 #  Sistema gerador de cartão identidade para passarinhos 
 
-*Read this in other languages: [Inglês](README.md), [Português](README.pt.md)*
+*leia este arquivo em outras línguas: [Inglês](README.md), [Português](README.pt.md)*
 
 Futuras Funcionalidades
 - [ ] Mudar cor das labels na frente do cartão pelo usuário
